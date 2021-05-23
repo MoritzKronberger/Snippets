@@ -1,0 +1,17 @@
+# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git
+
+services:
+
+    postgres_db:
+        container_name: "postgres_db_webprog"
+        build:
+            context: ./postgres
+        ports:
+            - 5432:5432
+    
+    adminer:
+        container_name: "adminer_postgres_webprog"
+        build:
+            context: ./adminer
+        ports:
+            - 11000:8080
