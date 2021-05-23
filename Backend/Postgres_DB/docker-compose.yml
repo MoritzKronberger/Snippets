@@ -1,7 +1,8 @@
 # from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git
 
-services:
+version: "3"
 
+services:
     postgres_db:
         container_name: "postgres_db_webprog"
         build:
