@@ -23,20 +23,20 @@ AS VARCHAR (25) CHECK (value !~ '[<>"'';]|--|/\*');
 /* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
 CREATE TABLE account 
 (id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
- username               D_UNTAINTED         UNIQUE NOT NULL,
+ username               D_UNTAINTED         UNIQUE  NOT NULL,
  password               VARCHAR             NOT NULL,
  profile_picture        BYTEA
 );
 
 CREATE TABLE e_language
 (id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
- name                   VARCHAR             UNIQUE NOT NULL 
+ name                   VARCHAR             UNIQUE      NOT NULL 
 );
 
 CREATE TABLE post
 (id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
- creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL DEFAULT CURRENT_TIMESTAMP,
- title                  VARCHAR (30)                      NOT NULL DEFAULT 'A fancy title',
+ creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL    DEFAULT CURRENT_TIMESTAMP,
+ title                  VARCHAR (30)                      NOT NULL    DEFAULT 'A fancy title',
  content                TEXT                              NOT NULL,
  language_id            UUID                              NOT NULL,
  user_id                UUID                              NOT NULL,
@@ -48,6 +48,21 @@ CREATE TABLE post
     FOREIGN KEY (user_id)     REFERENCES account (id)
 
 );
+
+CREATE TABLE comment
+(id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
+ creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ content                TEXT                              NOT NULL,
+ user_id                UUID                              NOT NULL,
+ post_id                UUID                              NOT NULL,
+
+ CONSTRAINT fk_user_id
+    FOREIGN KEY (user_id) REFERENCES account (id),
+
+ CONSTRAINT fk_post_id
+    FOREIGN KEY (post_id) REFERENCES post (id)
+);
+
 
 /* Create Triggers and Functions */
 
@@ -143,5 +158,36 @@ VALUES
                                        )
 );
 
+INSERT INTO comment (content, user_id, post_id)
+VALUES 
+('Nice post!', (SELECT id
+                FROM   account
+                WHERE  username = 'heavyduck567'
+               ),
+               (SELECT id
+                FROM   post
+                WHERE  title = 'My first post'
+               )
+),
+('Nice code!', (SELECT id
+                FROM   account
+                WHERE  username = 'heavyduck567'
+               ),
+               (SELECT id
+                FROM   post
+                WHERE  title = 'A Hello World Post'
+                FETCH FIRST ROW ONLY
+               )
+),
+('Nice post!', (SELECT id
+                FROM   account
+                WHERE  username = 'smallladybug804'
+               ),
+               (SELECT id
+                FROM   post
+                WHERE  title = 'A Hello World Post'
+                FETCH FIRST ROW ONLY
+               )
+);
 
 COMMIT;
