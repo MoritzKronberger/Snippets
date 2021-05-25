@@ -98,6 +98,8 @@ CREATE TABLE user_like
  CONSTRAINT fk_comment_id
     FOREIGN KEY (comment_id) REFERENCES comment (id),
 
+ UNIQUE (user_id, post_id, comment_id),
+
  CONSTRAINT must_have_parent
     CHECK (post_id IS NOT NULL OR comment_id IS NOT NULL),
 
