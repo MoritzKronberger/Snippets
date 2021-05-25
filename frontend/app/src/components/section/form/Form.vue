@@ -2,7 +2,7 @@
     <body>
         <div>
             <Button label="add Post" btn_class="addButton" @click="setActive"/>
-            <section>
+            <section class="content form">
                 <form>
                     <p>Select Language</p>
                     <div>
