@@ -9,9 +9,9 @@
                         <!-- Input For Loop - Language -->
                     </div>
                     <div>
-                        <input class="input" autofocus="autofocus" placeholder="title"/>
-                        <textarea class="input code" placeholder="code input"/>
-                        <input class="input" placeholder="add or create new category"/>
+                        <input v-model="post.title" class="input" autofocus="autofocus" placeholder="title"/>
+                        <textarea v-model="post.content" class="input code" placeholder="code input"/>
+                        <input v-model="post.category" class="input" placeholder="add or create new category"/>
                     </div>
                     <!-- submit new post -->
                     <Button label="submit" btn_class="medium" @click="submitPost"/>
@@ -30,12 +30,15 @@ export default {
   computed:
   { //...mapState({}),
     ...mapGetters(['vis_FormPost']),
-    ...mapFields (['section']),
+    ...mapFields (['section', 'post']),
   },
   methods:
   {
     setActive()
     { this.section = !this.section},
+
+    submitPost()
+    { this.$store.commit('newPost');}
   }
 }
 </script>
