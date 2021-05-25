@@ -30,7 +30,7 @@ CREATE TABLE account
 
 CREATE TABLE e_language
 (id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
- name                   VARCHAR             UNIQUE      NOT NULL 
+ name                   D_UNTAINTED         UNIQUE      NOT NULL 
 );
 
 CREATE TABLE e_category
