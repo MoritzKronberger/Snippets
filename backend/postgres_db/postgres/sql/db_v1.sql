@@ -51,7 +51,20 @@ CREATE TABLE post
 
  CONSTRAINT fk_user_id
     FOREIGN KEY (user_id)     REFERENCES account (id)
+);
 
+CREATE TABLE has_category
+(post_id                UUID                NOT NULL,
+ category_id            UUID                NOT NULL,
+
+ CONSTRAINT pk_has_category
+    PRIMARY KEY (post_id, category_id),
+
+ CONSTRAINT fk_post_id
+    FOREIGN KEY (post_id)     REFERENCES post (id),
+
+ CONSTRAINT fk_category_id
+    FOREIGN KEY (category_id) REFERENCES e_category (id)
 );
 
 CREATE TABLE comment
@@ -196,6 +209,79 @@ VALUES
                                        )
 );
 
+INSERT INTO has_category (post_id, category_id)
+VALUES
+((SELECT id
+  FROM   post
+  WHERE  title = 'My first post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   e_category
+  WHERE  name = 'js'
+ )
+),
+((SELECT id
+  FROM   post
+  WHERE  title = 'My first post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   e_category
+  WHERE  name = 'helloWorld'
+ )
+),
+((SELECT id
+  FROM   post
+  WHERE  title = 'My first post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   e_category
+  WHERE  name = 'web'
+ )
+),
+((SELECT id
+  FROM   post
+  WHERE  title = 'My second post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   e_category
+  WHERE  name = 'python'
+ )
+),
+((SELECT id
+  FROM   post
+  WHERE  title = 'My second post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   e_category
+  WHERE  name = 'helloWorld'
+ )
+),
+((SELECT id
+  FROM   post
+  WHERE  title = 'A Hello World Post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   e_category
+  WHERE  name = 'es6'
+ )
+),
+((SELECT id
+  FROM   post
+  WHERE  title = 'A Hello World Post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   e_category
+  WHERE  name = 'code'
+ )
+);
+
 INSERT INTO comment (content, user_id, post_id)
 VALUES 
 ('Nice post!', (SELECT id
@@ -205,6 +291,7 @@ VALUES
                (SELECT id
                 FROM   post
                 WHERE  title = 'My first post'
+                FETCH FIRST ROW ONLY
                )
 ),
 ('Nice code!', (SELECT id
