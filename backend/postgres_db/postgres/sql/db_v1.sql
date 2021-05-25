@@ -35,7 +35,7 @@ CREATE TABLE e_language
 
 CREATE TABLE e_category
 (id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
- name                   VARCHAR             UNIQUE      NOT NULL 
+ name                   D_UNTAINTED         UNIQUE      NOT NULL 
 );
 
 CREATE TABLE post
