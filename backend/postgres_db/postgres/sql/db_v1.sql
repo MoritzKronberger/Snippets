@@ -28,6 +28,10 @@ CREATE TABLE account
  profile_picture        BYTEA
 );
 
+CREATE TABLE e_language
+(id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
+ name                   VARCHAR             UNIQUE NOT NULL 
+);
 
 /* Create Triggers and Functions */
 
@@ -63,6 +67,21 @@ $_SQL_$
 LANGUAGE SQL
 IMMUTABLE
 RETURNS NULL ON NULL INPUT;
+
+COMMIT;
+
+
+/* Insert Data */
+
+BEGIN;
+
+INSERT INTO e_language (name)
+VALUES
+('javascript'),
+('python'),
+('java'),
+('c#'),
+('c++');
 
 COMMIT;
 
