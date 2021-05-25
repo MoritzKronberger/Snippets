@@ -2,7 +2,7 @@ BEGIN;
 
 /* CLEANUP */
 
-DROP TABLE IF EXISTS account         CASCADE;
+DROP TABLE IF EXISTS account      CASCADE;
 DROP TABLE IF EXISTS post         CASCADE;
 DROP TABLE IF EXISTS comment      CASCADE;
 DROP TABLE IF EXISTS user_like    CASCADE;
@@ -33,6 +33,22 @@ CREATE TABLE e_language
  name                   VARCHAR             UNIQUE NOT NULL 
 );
 
+CREATE TABLE post
+(id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
+ creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ title                  VARCHAR (30)                      NOT NULL DEFAULT 'A fancy title',
+ content                TEXT                              NOT NULL,
+ language_id            UUID                              NOT NULL,
+ user_id                UUID                              NOT NULL,
+
+ CONSTRAINT fk_language_id
+    FOREIGN KEY (language_id) REFERENCES e_language (id),
+
+ CONSTRAINT fk_user_id
+    FOREIGN KEY (user_id)     REFERENCES account (id)
+
+);
+
 /* Create Triggers and Functions */
 
 /* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
@@ -56,6 +72,7 @@ FOR EACH ROW
     EXECUTE PROCEDURE hash_password_function()
 ;
 
+/* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
 CREATE FUNCTION check_password(usrname VARCHAR, pw VARCHAR) RETURNS BOOLEAN AS
 $_SQL_$
     SELECT EXISTS
@@ -95,5 +112,36 @@ VALUES
 ('tinykoala648', 'raistlin'),
 ('heavyduck567', 'santafe'),
 ('smallladybug804', 'aztnm');
+
+INSERT INTO post (title, content, language_id, user_id)
+VALUES 
+('My first post', 'Hello World', (SELECT id
+                                  FROM   e_language
+                                  WHERE  name = 'javascript'
+                                 ),
+                                 (SELECT id
+                                  FROM   account
+                                  WHERE  username = 'tinykoala648'
+                                 )
+),
+('My second post', 'Hello World in Python', (SELECT id
+                                             FROM   e_language
+                                             WHERE  name = 'python'
+                                            ),
+                                            (SELECT id
+                                             FROM   account
+                                             WHERE  username = 'tinykoala648'
+                                            )
+),
+('A Hello World Post', 'Hello World!', (SELECT id
+                                        FROM   e_language
+                                        WHERE  name = 'javascript'
+                                       ),
+                                       (SELECT id
+                                        FROM   account
+                                        WHERE  username = 'smallladybug804'
+                                       )
+);
+
 
 COMMIT;
