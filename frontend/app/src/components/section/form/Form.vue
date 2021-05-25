@@ -43,8 +43,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.input{
-  width: 100%;
+.input
+{ width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   border: 1px solid #ccc;
@@ -52,16 +52,15 @@ export default {
   box-sizing: border-box;
   font-size: 15px;
   &.code 
-  { 
-    height: 300px;
+  { height: 300px;
   } 
 
-  &.languages {
-  width: 20%;
-  border: 0;
-  padding: 0 5%;
-  margin: 0 5px;
-  float: left;
+  &.languages 
+  { width: 20%;
+    border: 0;
+    padding: 0 5%;
+    margin: 0 5px;
+    float: left;
   } 
 }
 </style>

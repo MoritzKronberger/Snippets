@@ -9,7 +9,7 @@ export default createStore({
         title: "",
         content: "",
         category: "",
-        comment: [{ message: "" }],
+        comment: "",
     }],
     posts:[]
   },
@@ -28,8 +28,9 @@ export default createStore({
       ({ id:        state.id +=1,
          lang_id:   "",
          title:     state.post.title,
+         content:   state.post.content,
          category:  state.post.category,
-         commment: [{ message: "example answer" }]
+         comment: [{ message: state.post.comment }]
       })
       console.log(state.posts);
     }

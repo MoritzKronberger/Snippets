@@ -1,13 +1,16 @@
 <template>
-  <Form />
+<Form />
+<Posts />
 </template>
 
 <script>
 import Form from './components/section/form/Form.vue'
+import Posts from './components/section/post/Posts.vue'
 export default {
   name: 'App',
   components: {
     Form,
+    Posts,
   }
 }
 </script>
@@ -29,6 +32,15 @@ html, body
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 2.5%;
+  &.comment
+    { margin-left: 10%;
+    font-size: medium;
+    }
+  &.post
+  { border: 1px solid gray;
+    border-radius: 10px;
+    font-size: medium;
+  }
   &.form
   { border: 2px solid #A0DEE2;
     border-radius: 10px;

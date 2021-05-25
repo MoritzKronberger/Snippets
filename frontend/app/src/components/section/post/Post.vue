@@ -10,7 +10,7 @@
                 <div >
                      <!-- comments section -->   
                 </div>
-                <input class="input" v-model="post.comment.message" type="text">
+                <input class="input" v-model="post.comment" type="text">
                 <Button label="comment" btn_class="small" @click="addComment"/>
             </div>
         </section>
@@ -20,7 +20,7 @@
 <script>
 import { mapState } from 'vuex'
 import { mapFields  } from 'vuex-map-fields'
-import Button from '../button.vue'
+import Button from '../../Button.vue'
 export default {
     name: 'Post',
     data: 
@@ -29,19 +29,19 @@ export default {
              }
     },
     props:{post: Object},
-    components: {Comments, Button, Subcomments},
+    components: {Button},
     computed:
     {   ...mapState({
-        post: 'post_object',
+        post: 'posts',
 
         vis_Comment()
-        {return this.active_id !== true ? 'hidden' : 'content post comment'}
+        {return this.active_id !== true ? 'hidden' : 'content post'}
     }),
-        ...mapFields ([ 'new_comment']),
+        ...mapFields ([ 'post']),
     },
     methods:
-    { addComment() {this.$store.commit('addComment')}
-
+    { addComment() {this.$store.commit('addComment')},
+      setActive() {this.active_id = !this.active_id },
     }
 }
 </script>
