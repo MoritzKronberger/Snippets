@@ -26,5 +26,5 @@ Login:
 Server: PostgresSQL
 User: web
 Password: web
-Database: test_db
+Database: db_v1
 ```
