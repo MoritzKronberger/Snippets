@@ -33,6 +33,11 @@ CREATE TABLE e_language
  name                   VARCHAR             UNIQUE      NOT NULL 
 );
 
+CREATE TABLE e_category
+(id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
+ name                   VARCHAR             UNIQUE      NOT NULL 
+);
+
 CREATE TABLE post
 (id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
  creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL    DEFAULT CURRENT_TIMESTAMP,
@@ -151,6 +156,15 @@ VALUES
 ('tinykoala648', 'raistlin'),
 ('heavyduck567', 'santafe'),
 ('smallladybug804', 'aztnm');
+
+INSERT INTO e_category (name)
+VALUES
+('web'),
+('js'),
+('python'),
+('helloWorld'),
+('code'),
+('es6');
 
 INSERT INTO post (title, content, language_id, user_id)
 VALUES 
