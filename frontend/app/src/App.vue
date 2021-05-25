@@ -37,4 +37,30 @@ html, body
   }
 }
 
+.button 
+{ background-color: #A0DEE2;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 10px;
+
+  &.addButton {
+    font-size: 25px;
+    margin-left: 25%;
+    margin-bottom: 2.5%;
+  }
+
+  &.medium {
+    font-size: 20px;
+  }
+
+  &.small {
+    font-size: 15px;
+  }
+}
+
+
 </style>
