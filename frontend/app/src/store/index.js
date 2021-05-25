@@ -1,12 +1,23 @@
 import { createStore } from 'vuex'
-
+import { getField, updateField } from 'vuex-map-fields'
 export default createStore({
-  state: {
+  state: 
+  { section: false,
   },
-  mutations: {
+
+  getters:
+  { getField,
+    vis_FormPost:
+    state => section => state.section !== section ? 'hidden' : 'content form',
   },
-  actions: {
+  
+  mutations: 
+  { updateField,
   },
-  modules: {
+  actions: 
+  {
+  },
+  modules: 
+  {
   }
 })

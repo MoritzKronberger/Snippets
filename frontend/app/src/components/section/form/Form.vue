@@ -2,7 +2,7 @@
     <body>
         <div>
             <Button label="add Post" btn_class="addButton" @click="setActive"/>
-            <section class="content form">
+            <section :class="vis_FormPost(true)">
                 <form>
                     <p>Select Language</p>
                     <div>
@@ -22,9 +22,21 @@
 </template>
 <script>
 import Button from '../../Button.vue'
+import { mapGetters, mapState } from 'vuex'
+import { mapFields  } from 'vuex-map-fields'
 export default {
   name: 'Form',
-  components: {Button}
+  components: {Button},
+  computed:
+  { //...mapState({}),
+    ...mapGetters(['vis_FormPost']),
+    ...mapFields (['section']),
+  },
+  methods:
+  {
+    setActive()
+    { this.section = !this.section},
+  }
 }
 </script>
 <style lang="scss" scoped>
