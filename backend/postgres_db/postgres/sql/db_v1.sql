@@ -64,6 +64,30 @@ CREATE TABLE comment
 );
 
 
+CREATE TABLE user_like
+(id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
+ creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ user_id                UUID                              NOT NULL,
+ post_id                UUID,
+ comment_id             UUID,
+
+ CONSTRAINT fk_user_id
+    FOREIGN KEY (user_id)    REFERENCES account (id),
+
+ CONSTRAINT fk_post_id
+    FOREIGN KEY (post_id)    REFERENCES post (id),
+
+ CONSTRAINT fk_comment_id
+    FOREIGN KEY (comment_id) REFERENCES comment (id),
+
+ CONSTRAINT must_have_parent
+    CHECK (post_id IS NOT NULL OR comment_id IS NOT NULL),
+
+ CONSTRAINT no_double_parents 
+    CHECK (NOT (post_id IS NOT NULL AND comment_id IS NOT NULL))    
+);
+
+
 /* Create Triggers and Functions */
 
 /* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
@@ -189,5 +213,88 @@ VALUES
                 FETCH FIRST ROW ONLY
                )
 );
+
+/* post-likes */
+INSERT INTO user_like (user_id, post_id, comment_id)
+VALUES 
+((SELECT id
+  FROM   account
+  WHERE  username = 'heavyduck567'
+ ),
+ (SELECT id
+  FROM   post
+  WHERE  title = 'My first post'
+  FETCH FIRST ROW ONLY
+ ), NULL
+),
+((SELECT id
+  FROM   account
+  WHERE  username = 'tinykoala648'
+ ),
+ (SELECT id
+  FROM   post
+  WHERE  title = 'A Hello World Post'
+  FETCH FIRST ROW ONLY
+ ), NULL
+),
+((SELECT id
+  FROM   account
+  WHERE  username = 'tinykoala648'
+ ),
+ (SELECT id
+  FROM   post
+  WHERE  title = 'My first post'
+  FETCH FIRST ROW ONLY
+ ), NULL
+);
+
+/* comment likes */
+INSERT INTO user_like (user_id, post_id, comment_id)
+VALUES 
+((SELECT id
+  FROM   account
+  WHERE  username = 'tinykoala648'
+ ), NULL,
+ (SELECT id
+  FROM   comment
+  WHERE  content = 'Nice post!'
+  FETCH FIRST ROW ONLY
+ )
+),
+((SELECT id
+  FROM   account
+  WHERE  username = 'heavyduck567'
+ ), NULL,
+ (SELECT id
+  FROM   comment
+  WHERE  content = 'Nice code!'
+  FETCH FIRST ROW ONLY
+ )
+);
+
+/* test constraint vioaltions */
+/*
+INSERT INTO user_like (user_id, post_id, comment_id)
+VALUES 
+((SELECT id
+  FROM   account
+  WHERE  username = 'tinykoala648'
+ ), NULL, NULL),
+((SELECT id
+  FROM   account
+  WHERE  username = 'heavyduck567'
+ ),
+ (SELECT id
+  FROM   post
+  WHERE  title = 'My first post'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT id
+  FROM   comment
+  WHERE  content = 'Nice code!'
+  FETCH FIRST ROW ONLY
+ )
+);
+*/
 
 COMMIT;
