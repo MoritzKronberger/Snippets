@@ -28,3 +28,7 @@ User: web
 Password: web
 Database: db_v1
 ```
+
+Or faster:
+
+<http://localhost:11000/?pgsql=PostgreSQL&username=web&db=db_v1&ns=public>
