@@ -2,15 +2,15 @@
     <body>
         <section class="content post">
             <h4>{{post.title}}</h4>
-            <p>{{post.category}}</p>
+            <p>#{{post.category}}</p>
             <p>{{post.content}}</p>  
             <p>{{post.lang_id}}</p>  
-            <Button label="view / collapse" btn_class="addButton" @click="setActive"/>
+            <Button label="view / collapse" btn_class="small" @click="setActive"/>
             <div :class="vis_Comment">
                 <div >
                      <!-- comments section -->   
                 </div>
-                <input class="input" v-model="post.comment" type="text">
+                <input class="input" v-model="new_comment" type="text">
                 <Button label="comment" btn_class="small" @click="addComment"/>
             </div>
         </section>
@@ -25,8 +25,7 @@ export default {
     name: 'Post',
     data: 
     function () 
-    { return { active_id: false 
-             }
+    { return { active_id: false }
     },
     props:{post: Object},
     components: {Button},
@@ -35,9 +34,9 @@ export default {
         post: 'posts',
 
         vis_Comment()
-        {return this.active_id !== true ? 'hidden' : 'content post'}
+        {return this.active_id !== true ? 'hidden' : 'content comment'}
     }),
-        ...mapFields ([ 'post']),
+        ...mapFields ({new_comment: 'post.comment'}),
     },
     methods:
     { addComment() {this.$store.commit('addComment')},

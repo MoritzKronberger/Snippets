@@ -32,7 +32,7 @@ export default createStore({
          category:  state.post.category,
          comment: [{ message: state.post.comment }]
       })
-      console.log(state.posts);
+      state.section = false;
     }
   },
   actions: 
