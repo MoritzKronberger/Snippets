@@ -2,9 +2,11 @@
     <body>
         <section class="content post">
             <h4>{{post.title}}</h4>
+            <p>Date: {{post.date}}</p>
+            <p>Written by: {{post.author}}</p>
+            <p>Language: {{lang[post.lang_id].name}}</p>  
             <p>{{post.category}}</p>
             <p>{{post.content}}</p>  
-            <p>{{lang[post.lang_id].name}}</p>  
             <Button label="view / collapse" btn_class="small" @click="setActive()"/>
 
             <div :class="vis_Comment">

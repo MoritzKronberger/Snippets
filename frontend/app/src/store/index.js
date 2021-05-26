@@ -36,7 +36,9 @@ export default createStore({
          content:   state.post.content,
          category:  state.post.category,
          comment:   [],
-         likes:     0
+         likes:     0,
+         author:    "Martin Kohnle",
+         date:      "DD/MM/YYYY"
       })
       state.section = false;
       state.post.id += 1
