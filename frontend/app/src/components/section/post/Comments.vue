@@ -1,6 +1,11 @@
 <template>
     <body>
-        <p class="content comment">{{comments.message}}</p>
+        <div class="content comment">
+        <p>{{comments.message}}</p>
+        <p>{{comments.likes}}</p>
+        <p>{{comments.author}}</p>
+        <p>{{comments.date}}</p>
+        </div>
     </body>
 </template>
 

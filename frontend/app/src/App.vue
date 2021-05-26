@@ -68,10 +68,12 @@ html, body
 
   &.medium {
     font-size: 20px;
+
   }
 
   &.small {
     font-size: 15px;
+    margin-right: 2%;
   }
 }
 

@@ -13,7 +13,7 @@
                  <div v-for="comments in post.comment" :key="comments.id">
                         <Comments :comments="comments"/>
                  </div>
-            <input class="input" v-model="post.new_comment" type="text">
+            <input class="input" v-model="new_comment" type="text">
             <Button label="comment" btn_class="small" @click="addComment()"/>
             <Button :label="'Likes: ' + post.likes" btn_class="small" @click="addLike()"/>
             </div>
@@ -36,7 +36,7 @@ export default {
       { return this.post.id !== this.active_id ? 'hidden' : ''
       },
       ...mapState({lang: 'lang_object'}),
-      ...mapFields (['post.new_comment','active_id']),
+      ...mapFields ({new_comment: 'comment.new_comment', active_id: 'active_id'}),
     },
     methods:
     { addComment() 
