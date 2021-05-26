@@ -11,7 +11,7 @@
                      <!-- comments section -->   
                 </div>
                 <input class="input" v-model="new_comment" type="text">
-                <Button label="comment" btn_class="small" @click="addComment"/>
+                <Button label="comment" btn_class="small" @click="addComment(post.id)"/>
             </div>
         </section>
     </body>
@@ -31,7 +31,7 @@ export default {
     components: {Button},
     computed:
     {   ...mapState({
-        post: 'posts',
+        posts: 'posts',
 
         vis_Comment()
         {return this.active_id !== true ? 'hidden' : 'content comment'}
@@ -39,7 +39,9 @@ export default {
         ...mapFields ({new_comment: 'post.comment'}),
     },
     methods:
-    { addComment() {this.$store.commit('addComment')},
+    { addComment(post_id) 
+      {   console.log(post_id);
+          this.$store.commit('addComment', post_id) },
       setActive() {this.active_id = !this.active_id },
     }
 }

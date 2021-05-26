@@ -3,14 +3,15 @@ import { getField, updateField } from 'vuex-map-fields'
 export default createStore({
   state: 
   { section: false,
-    id: 0,
+
     post: 
-    [{  lang_id: "",
+    {   id: 0,
+        lang_id: "",
         title: "",
         content: "",
         category: "",
         comment: "",
-    }],
+    },
     posts:[]
   },
 
@@ -22,10 +23,10 @@ export default createStore({
   
   mutations: 
   { updateField,
+
     newPost(state)
-    { 
-      state.posts.push
-      ({ id:        state.id +=1,
+    { state.posts.push
+      ({ id:        state.post.id,
          lang_id:   "",
          title:     state.post.title,
          content:   state.post.content,
@@ -33,7 +34,15 @@ export default createStore({
          comment: [{ message: state.post.comment }]
       })
       state.section = false;
+      state.post.id += 1
+    },
+
+    addComment(state, post_id)
+    { state.posts[post_id].comment
+      .push({message: state.post.comment})
+      console.log(state.posts);
     }
+
   },
   actions: 
   {
