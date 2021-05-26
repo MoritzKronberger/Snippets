@@ -9,9 +9,13 @@ export default createStore({
         title: "",
         content: "",
         category: "",
-        comment: ""
+        comment: "",
     },
-    posts:[]
+    posts:[],
+    lang_object:
+    [ {id:0, name:"Java"},
+      {id:1, name:"Python"},
+      {id:2, name:"C#"} ]
   },
 
   getters:
@@ -26,7 +30,7 @@ export default createStore({
     newPost(state)
     { state.posts.push
       ({ id:        state.post.id,
-         lang_id:   "",
+         lang_id:   state.post.lang_id,
          title:     state.post.title,
          content:   state.post.content,
          category:  state.post.category,

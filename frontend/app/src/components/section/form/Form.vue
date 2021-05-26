@@ -6,7 +6,9 @@
                 <form>
                     <p>Select Language</p>
                     <div>
-                        <!-- Input For Loop - Language -->
+                        <section class="input languages" v-for="langs in langs" :key="langs.id" >
+                            <Languages :languages="langs" @click="addLang(langs.id)" />
+                        </section>
                     </div>
                     <div>
                         <input v-model="post.title" class="input" autofocus="autofocus" placeholder="title"/>
@@ -22,13 +24,14 @@
 </template>
 <script>
 import Button from '../../Button.vue'
+import Languages from './Languages'
 import { mapGetters, mapState } from 'vuex'
 import { mapFields  } from 'vuex-map-fields'
 export default {
   name: 'Form',
-  components: {Button},
+  components: {Button, Languages},
   computed:
-  { //...mapState({}),
+  {  ...mapState({langs: 'lang_object'}),
     ...mapGetters(['vis_FormPost']),
     ...mapFields (['section', 'post']),
   },
@@ -43,24 +46,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.input
-{ width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 15px;
-  &.code 
-  { height: 300px;
-  } 
-
-  &.languages 
-  { width: 20%;
-    border: 0;
-    padding: 0 5%;
-    margin: 0 5px;
-    float: left;
-  } 
-}
 </style>
