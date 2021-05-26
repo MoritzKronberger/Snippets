@@ -33,9 +33,10 @@ html, body
   margin-right: auto;
   margin-bottom: 2.5%;
   &.comment
-    { margin-left: 10%;
+  { margin-left: 0%;
+    width: 50%;
     font-size: medium;
-    }
+  }
   &.post
   { border: 1px solid gray;
     border-radius: 10px;
@@ -74,5 +75,25 @@ html, body
   }
 }
 
+.input
+{ width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 15px;
+  &.code 
+  { height: 300px;
+  } 
+
+  &.languages 
+  { width: 20%;
+    border: 0;
+    padding: 0 5%;
+    margin: 0 5px;
+    float: left;
+  } 
+}
 
 </style>
