@@ -12,6 +12,7 @@
                 </div>
                 <input class="input" v-model="new_comment" type="text">
                 <Button label="comment" btn_class="small" @click="addComment(post.id)"/>
+                <Button :label="'Likes: ' + post.likes" btn_class="small" @click="addLike(post.id)"/>
             </div>
         </section>
     </body>
@@ -21,6 +22,7 @@
 import { mapState } from 'vuex'
 import { mapFields  } from 'vuex-map-fields'
 import Comments from './Comments.vue'
+import Likes from './Likes.vue'
 import Button from '../../Button.vue'
 export default {
     name: 'Post',
@@ -29,7 +31,7 @@ export default {
     { return { active_id: false }
     },
     props:{post: Object},
-    components: {Comments, Button},
+    components: {Comments, Likes, Button},
     computed:
     { ...mapState({
         vis_Comment()
@@ -42,6 +44,8 @@ export default {
       { this.$store.commit('addComment', post_id);
         this.new_comment = '';
       },
+      addLike(post_id)
+      { this.$store.commit('addLike', post_id) },
 
       setActive() 
       {this.active_id = !this.active_id },

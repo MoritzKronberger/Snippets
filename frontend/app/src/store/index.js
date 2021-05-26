@@ -34,7 +34,8 @@ export default createStore({
          title:     state.post.title,
          content:   state.post.content,
          category:  state.post.category,
-         comment:   []
+         comment:   [],
+         likes: 10
       })
       state.section = false;
       state.post.id += 1
@@ -42,11 +43,13 @@ export default createStore({
 
     addComment(state, post_id)
     { state.posts[post_id].comment.push(
-        {message: state.post.comment}
-      )
-      state.post.comment = "";
+        {message: state.post.comment})
+        state.post.comment = "";
     },
 
+    addLike(state, post_id)
+    { state.posts[post_id].likes += 1;
+    }
 
   },
   actions: 
