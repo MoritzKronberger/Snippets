@@ -41,7 +41,11 @@ export default {
     { this.section = !this.section},
 
     submitPost()
-    { this.$store.commit('newPost');}
+    { this.$store.commit('newPost');},
+    
+    addLang(lang_id)
+    { this.post.lang_id = lang_id}
+
   }
 }
 </script>
