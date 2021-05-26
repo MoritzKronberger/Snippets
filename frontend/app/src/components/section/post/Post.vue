@@ -31,9 +31,7 @@ export default {
     props:{post: Object},
     components: {Comments, Button},
     computed:
-    {   ...mapState({
-        posts: 'posts',
-
+    { ...mapState({
         vis_Comment()
         {return this.active_id !== true ? 'hidden' : 'content comment'}
     }),
@@ -41,7 +39,9 @@ export default {
     },
     methods:
     { addComment(post_id) 
-      { this.$store.commit('addComment', post_id) },
+      { this.$store.commit('addComment', post_id);
+        this.new_comment = '';
+      },
 
       setActive() 
       {this.active_id = !this.active_id },
