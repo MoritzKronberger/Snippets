@@ -3,13 +3,14 @@ import { getField, updateField } from 'vuex-map-fields'
 export default createStore({
   state: 
   { section: false,
+    active_id: 0,
     post: 
-    {   id: 0,
-        lang_id: "",
-        title: "",
-        content: "",
+    {   id:       0,
+        lang_id:  "",
+        title:    "",
+        content:  "",
         category: "",
-        comment: "",
+        new_comment:  "",
     },
     posts:[],
     lang_object:
@@ -35,7 +36,7 @@ export default createStore({
          content:   state.post.content,
          category:  state.post.category,
          comment:   [],
-         likes: 10
+         likes:     0
       })
       state.section = false;
       state.post.id += 1
@@ -52,10 +53,10 @@ export default createStore({
     }
 
   },
-  actions: 
+ /* actions: 
   {
   },
   modules: 
   {
-  }
+  }*/
 })

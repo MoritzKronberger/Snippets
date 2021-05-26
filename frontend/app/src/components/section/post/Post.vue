@@ -2,17 +2,18 @@
     <body>
         <section class="content post">
             <h4>{{post.title}}</h4>
-            <p>#{{post.category}}</p>
+            <p>{{post.category}}</p>
             <p>{{post.content}}</p>  
-            <p>{{post.lang_id}}</p>  
-            <Button label="view / collapse" btn_class="small" @click="setActive"/>
+            <p>{{lang[post.lang_id].name}}</p>  
+            <Button label="view / collapse" btn_class="small" @click="setActive()"/>
+
             <div :class="vis_Comment">
                  <div v-for="comments in post.comment" :key="comments.id">
                         <Comments :comments="comments"/>
-                </div>
-                <input class="input" v-model="new_comment" type="text">
-                <Button label="comment" btn_class="small" @click="addComment(post.id)"/>
-                <Button :label="'Likes: ' + post.likes" btn_class="small" @click="addLike(post.id)"/>
+                 </div>
+            <input class="input" v-model="post.new_comment" type="text">
+            <Button label="comment" btn_class="small" @click="addComment()"/>
+            <Button :label="'Likes: ' + post.likes" btn_class="small" @click="addLike()"/>
             </div>
         </section>
     </body>
@@ -26,29 +27,29 @@ import Likes from './Likes.vue'
 import Button from '../../Button.vue'
 export default {
     name: 'Post',
-    data: 
-    function () 
-    { return { active_id: false }
-    },
     props:{post: Object},
     components: {Comments, Likes, Button},
     computed:
-    { ...mapState({
-        vis_Comment()
-        {return this.active_id !== true ? 'hidden' : 'content comment'}
-    }),
-        ...mapFields ({new_comment: 'post.comment'}),
+    { vis_Comment()
+      { return this.post.id !== this.active_id ? 'hidden' : ''
+      },
+      ...mapState({lang: 'lang_object'}),
+      ...mapFields (['post.new_comment','active_id']),
     },
     methods:
-    { addComment(post_id) 
-      { this.$store.commit('addComment', post_id);
+    { addComment() 
+      { this.$store.commit('addComment', this.post.id);
         this.new_comment = '';
       },
-      addLike(post_id)
-      { this.$store.commit('addLike', post_id) },
+     
+     addLike()
+     { this.$store.commit('addLike', this.post.id) },
 
-      setActive() 
-      {this.active_id = !this.active_id },
+     setActive() 
+     { return this.post.id !== this.active_id ? 
+       this.active_id=this.post.id : this.active_id=null
+     },
+
     }
 }
 </script>
