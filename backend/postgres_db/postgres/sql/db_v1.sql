@@ -290,35 +290,11 @@ VALUES
 ('code'),
 ('es6');
 
-INSERT INTO post (title, content, language_id, user_id)
+INSERT INTO v_post (title, content, language, username)
 VALUES 
-('My first post', 'Hello World', (SELECT id
-                                  FROM   e_language
-                                  WHERE  name = 'javascript'
-                                 ),
-                                 (SELECT id
-                                  FROM   account
-                                  WHERE  username = 'tinykoala648'
-                                 )
-),
-('My second post', 'Hello World in Python', (SELECT id
-                                             FROM   e_language
-                                             WHERE  name = 'python'
-                                            ),
-                                            (SELECT id
-                                             FROM   account
-                                             WHERE  username = 'tinykoala648'
-                                            )
-),
-('A Hello World Post', 'Hello World!', (SELECT id
-                                        FROM   e_language
-                                        WHERE  name = 'javascript'
-                                       ),
-                                       (SELECT id
-                                        FROM   account
-                                        WHERE  username = 'smallladybug804'
-                                       )
-);
+('My first post', 'Hello World', 'javascript', 'tinykoala648'),
+('My second post', 'Hello World in Python', 'python', 'tinykoala648'),
+('A Hello World Post', 'Hello World!', 'javascript', 'smallladybug804');
 
 INSERT INTO has_category (post_id, category_id)
 VALUES
@@ -393,32 +369,23 @@ VALUES
  )
 );
 
-INSERT INTO comment (content, user_id, post_id)
+INSERT INTO v_comment (content, username, post_id)
 VALUES 
-('Nice post!', (SELECT id
-                FROM   account
-                WHERE  username = 'heavyduck567'
-               ),
+('Nice post!', 'heavyduck567',
                (SELECT id
                 FROM   post
                 WHERE  title = 'My first post'
                 FETCH FIRST ROW ONLY
                )
 ),
-('Nice code!', (SELECT id
-                FROM   account
-                WHERE  username = 'heavyduck567'
-               ),
+('Nice code!', 'heavyduck567',
                (SELECT id
                 FROM   post
                 WHERE  title = 'A Hello World Post'
                 FETCH FIRST ROW ONLY
                )
 ),
-('Nice post!', (SELECT id
-                FROM   account
-                WHERE  username = 'smallladybug804'
-               ),
+('Nice post!', 'smallladybug804',
                (SELECT id
                 FROM   post
                 WHERE  title = 'A Hello World Post'
