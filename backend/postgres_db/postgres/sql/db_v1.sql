@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS e_language   CASCADE;
 DROP TABLE IF EXISTS e_category   CASCADE;
 DROP TABLE IF EXISTS has_category CASCADE;
 
+DROP VIEW  IF EXISTS v_account    CASCADE;
+DROP VIEW  IF EXISTS v_post      CASCADE;
 
 /* Create Domains */
 
@@ -141,6 +143,43 @@ SET username = NEW.username,
     profile_picture = NEW.profile_picture
 WHERE id = OLD.id;
 
+
+CREATE VIEW v_post (id, creation_time, title, content, language, num_likes, num_comments, username)
+AS
+SELECT p.id, p.creation_time, p.title, p.content, lg.name AS language, COUNT(DISTINCT lk.id) AS num_likes, COUNT(DISTINCT cm.id) AS num_comments, ac.username
+FROM post p
+     JOIN e_language lg ON p.language_id = lg.id
+     JOIN v_account ac ON p.user_id = ac.id
+     LEFT JOIN user_like lk ON p.id = lk.post_id
+     LEFT JOIN comment cm ON p.id = cm.post_id
+GROUP BY p.id, lg.name, ac.username
+; 
+
+DROP RULE IF EXISTS insert_v_post ON v_post CASCADE;
+DROP RULE IF EXISTS delete_v_post ON v_post CASCADE;
+DROP RULE IF EXISTS update_v_post ON v_post CASCADE;
+
+CREATE RULE insert_v_post AS ON INSERT TO v_post
+DO INSTEAD
+INSERT INTO post(title, content, language_id, user_id)
+VALUES (NEW.title,
+        NEW.content,
+        (SELECT id FROM e_language WHERE name = NEW.language),
+        (SELECT id FROM v_account  WHERE username = NEW.username)
+        );
+
+CREATE RULE delete_v_post AS ON DELETE TO v_post
+DO INSTEAD
+DELETE FROM post
+WHERE id = OLD.id;
+
+CREATE RULE update_v_post AS ON UPDATE TO v_post
+DO INSTEAD
+UPDATE post
+SET title = NEW.title,
+    content = NEW.content,
+    language_id = (SELECT id FROM e_language WHERE name = NEW.language)
+WHERE id = OLD.id;
 
 /* Create Triggers and Functions */
 
