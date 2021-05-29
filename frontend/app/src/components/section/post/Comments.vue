@@ -1,10 +1,12 @@
 <template>
     <body>
+        <div class="content comment">
         <p>{{comments.message}}</p>
         <Button :label="'Likes: ' + comments.likes" btn_class="small" @click="addLike()"/>
         <p>{{comments.author}}</p>
         <p>{{comments.date}}</p>
         <hr>
+        </div>
     </body>
 </template>
 
@@ -21,8 +23,8 @@ export default {
     },
     methods:
     { addLike()
-     {return ""}
-
+     { this.$store.commit('addLikeComment', this.comments.id) 
+     },
     }
 }
 </script>

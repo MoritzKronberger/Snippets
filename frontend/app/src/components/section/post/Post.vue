@@ -44,13 +44,14 @@ export default {
         this.new_comment = '';
       },
      
-     addLike()
-     { this.$store.commit('addLike', this.post.id) },
 
      setActive() 
      { return this.post.id !== this.active_id ? 
        this.active_id=this.post.id : this.active_id=null
      },
+
+     addLike()
+     { this.$store.commit('addLike', this.post.id) },
 
     }
 }

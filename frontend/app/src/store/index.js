@@ -5,8 +5,7 @@ export default createStore({
   { section: false,
     active_id: 0,
     post: 
-    {   id:       0,
-        lang_id:  "",
+    {   lang_id:  "",
         title:    "",
         content:  "",
         category: "",
@@ -36,7 +35,7 @@ export default createStore({
 
     newPost(state)
     { state.posts.push
-      ({ id:        state.post.id,
+      ({ id:        state.posts.length,
          lang_id:   state.post.lang_id,
          title:     state.post.title,
          content:   state.post.content,
@@ -47,23 +46,27 @@ export default createStore({
          date:      "DD/MM/YYYY"
       })
       state.section = false;
-      state.post.id += 1
+
     },
 
     addComment(state, post_id)
     { state.posts[post_id].comment.push(
-        { message: state.comment.new_comment,
+        { id:      state.posts[post_id].comment.length,
+          message: state.comment.new_comment,
           author:  "SomeoneElse42",
           date:    "23.05.2021",
           likes:   state.comment.likes,
         })
         state.comment.new_comment = "";
-        
     },
 
     addLike(state, post_id)
     { state.posts[post_id].likes += 1;
-    }
+    },
+
+    addLikeComment(state, com_id)
+    { state.posts[state.active_id].comment[com_id].likes += 1 
+    },
 
   },
  /* actions: 
