@@ -108,6 +108,40 @@ CREATE TABLE user_like
 );
 
 
+/* Create Views */
+/* As in  https://kowa.hs-augsburg.de/beispiele/db/postgresql/olympia/olympia3_create.sql*/
+
+CREATE VIEW v_account (id, username, password, profile_picture)
+AS
+SELECT id, username, NULL, profile_picture
+FROM account
+;
+
+DROP RULE IF EXISTS insert_v_account ON v_account CASCADE;
+DROP RULE IF EXISTS delete_v_account ON v_account CASCADE;
+DROP RULE IF EXISTS update_v_account ON v_account CASCADE;
+
+CREATE RULE insert_v_account AS ON INSERT TO v_account
+DO INSTEAD
+INSERT INTO account(username, password, profile_picture)
+VALUES (NEW.username,
+        NEW.password,
+        NEW.profile_picture
+       );
+
+CREATE RULE delete_v_account AS ON DELETE TO v_account
+DO INSTEAD
+DELETE FROM account
+WHERE id = OLD.id;
+
+CREATE RULE update_v_account AS ON UPDATE TO v_account
+DO INSTEAD
+UPDATE account
+SET username = NEW.username,
+    profile_picture = NEW.profile_picture
+WHERE id = OLD.id;
+
+
 /* Create Triggers and Functions */
 
 /* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
