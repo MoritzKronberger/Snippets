@@ -11,7 +11,9 @@ DROP TABLE IF EXISTS e_category   CASCADE;
 DROP TABLE IF EXISTS has_category CASCADE;
 
 DROP VIEW  IF EXISTS v_account    CASCADE;
-DROP VIEW  IF EXISTS v_post      CASCADE;
+DROP VIEW  IF EXISTS v_post       CASCADE;
+DROP VIEW  IF EXISTS v_comment    CASCADE;
+
 
 /* Create Domains */
 
@@ -180,6 +182,40 @@ SET title = NEW.title,
     content = NEW.content,
     language_id = (SELECT id FROM e_language WHERE name = NEW.language)
 WHERE id = OLD.id;
+
+
+CREATE VIEW v_comment (id, creation_time, content, num_likes, username, post_id)
+AS
+SELECT c.id, c.creation_time, c.content, COUNT(lk.id) AS num_likes, ac.username, c.post_id
+FROM comment c
+     JOIN v_account ac ON c.user_id = ac.id
+     LEFT JOIN user_like lk ON c.id = lk.comment_id
+GROUP BY c.id, ac.username
+;
+
+DROP RULE IF EXISTS insert_v_comment ON v_comment CASCADE;
+DROP RULE IF EXISTS delete_v_comment ON v_comment CASCADE;
+DROP RULE IF EXISTS update_v_comment ON v_comment CASCADE;
+
+CREATE RULE insert_v_comment AS ON INSERT TO v_comment
+DO INSTEAD
+INSERT INTO comment(content, user_id, post_id)
+VALUES (NEW.content,
+        (SELECT id FROM v_account WHERE username = NEW.username),
+        NEW.post_id
+       );
+
+CREATE RULE delete_v_comment AS ON DELETE TO v_comment
+DO INSTEAD
+DELETE FROM comment
+WHERE id = OLD.id;
+
+CREATE RULE update_v_comment AS ON UPDATE TO v_comment
+DO INSTEAD
+UPDATE comment
+SET content = NEW.content
+WHERE id = OLD.id;
+
 
 /* Create Triggers and Functions */
 
