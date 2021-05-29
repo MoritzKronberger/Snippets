@@ -112,8 +112,8 @@ const
     return result.rows[0] ? 200 : 204
   };
 
-export default
-{ getAccounts,
+export { 
+  getAccounts,
   postAccount,
   getAccount,
   putAccount,
