@@ -5,8 +5,9 @@
             <p>Date: {{post.date}}</p>
             <p>Written by: {{post.author}}</p>
             <p>Language: {{lang[post.lang_id].name}}</p>  
-            <p>{{post.category}}</p>
-            <p>{{post.content}}</p>  
+            <pre class="language-js">
+            <code>{{post.content}}</code>
+            </pre>
             <Button label="view / collapse" btn_class="small" @click="setActive()"/>
 
             <div :class="vis_Comment">
@@ -27,6 +28,10 @@ import { mapFields  } from 'vuex-map-fields'
 import Comments from './Comments.vue'
 import Likes from './Likes.vue'
 import Button from '../../Button.vue'
+import VuePrism from 'vue-prism'
+import 'prismjs/themes/prism.css'
+import 'prismjs/components/prism-javascript'
+
 export default {
     name: 'Post',
     props:{post: Object},
@@ -35,6 +40,7 @@ export default {
     { vis_Comment()
       { return this.post.id !== this.active_id ? 'hidden' : ''
       },
+
       ...mapState({lang: 'lang_object'}),
       ...mapFields ({new_comment: 'comment.new_comment', active_id: 'active_id'}),
     },
@@ -53,6 +59,6 @@ export default {
      addLike()
      { this.$store.commit('addLike', this.post.id) },
 
-    }
+    },
 }
 </script>
