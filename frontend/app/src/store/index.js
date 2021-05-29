@@ -47,6 +47,11 @@ export default createStore({
       })
       state.section = false;
 
+      for(let prop in state.post)
+      { state.post[prop] = ''
+      }
+      
+
     },
 
     addComment(state, post_id)
