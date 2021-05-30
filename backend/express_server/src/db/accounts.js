@@ -9,7 +9,7 @@ const
         200,
         (await query
          (`SELECT id, username, profile_picture 
-           FROM   account
+           FROM   v_account
           `
          )
         ).rows
@@ -21,7 +21,7 @@ const
   { const result = 
     await query
     ( `SELECT id, username, profile_picture
-       FROM   account
+       FROM   v_account
        WHERE  username = $1::VARCHAR
       `, 
       [key]
@@ -41,7 +41,7 @@ const
   { const result = 
     await query
     ( `SELECT id, username, profile_picture
-       FROM   account
+       FROM   v_account
        WHERE  $1::UUID = id
       `, 
       [id]
@@ -57,7 +57,7 @@ const
   async ({username, password, profile_picture}) => 
   { const result = 
     await query
-    ( `INSERT INTO account(username, password, profile_picture)
+    ( `INSERT INTO v_account(username, password, profile_picture)
        VALUES($1::VARCHAR, $2::VARCHAR, ??)
        RETURNING id
       `, 
@@ -72,10 +72,9 @@ const
   async (id, {username, password, profile_picture}) => 
   { await query
     ( `UPDATE account
-       SET 
-         username = $2::VARCHAR, 
-         password = COALESCE($3::VARCHAR, password),
-         profile_picture = $4::??
+       SET username = $2::VARCHAR, 
+           password = COALESCE($3::VARCHAR, password),
+           profile_picture = $4::??
        WHERE id = $1::UUID
       `, 
       [id, username, password, profile_picture]
@@ -87,11 +86,10 @@ const
   async (id, {username, password, profile_picture}) => 
   { await query
     ( `UPDATE account
-       SET 
-         username = $2::VARCHAR, 
-         password = COALESCE($3::VARCHAR, password),
-         profile_picture = $4::??
-         WHERE id = $1::UUID
+       SET username = $2::VARCHAR, 
+           password = COALESCE($3::VARCHAR, password),
+           profile_picture = $4::??
+       WHERE id = $1::UUID
       `, 
       [id, username, password, profile_picture]
     );
@@ -103,7 +101,7 @@ const
   { const result = 
     await query
     ( `DELETE 
-       FROM  account
+       FROM  v_account
        WHERE id = $1::UUID
        RETURNING *
       `, 
