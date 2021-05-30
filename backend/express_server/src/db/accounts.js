@@ -58,7 +58,7 @@ const
   { const result = 
     await query
     ( `INSERT INTO v_account(username, password, profile_picture)
-       VALUES($1::VARCHAR, $2::VARCHAR, ??)
+       VALUES($1::VARCHAR, $2::VARCHAR, $3::BYTEA)
        RETURNING id
       `, 
       [username, password, profile_picture]
@@ -73,7 +73,7 @@ const
   { await query
     ( `UPDATE account
        SET username = $2::VARCHAR,
-           profile_picture = $3::??
+           profile_picture = $3::BYTEA
        WHERE id = $1::UUID
       `, 
       [id, username, profile_picture]
@@ -86,7 +86,7 @@ const
   { await query
     ( `UPDATE account
        SET username = $2::VARCHAR,
-           profile_picture = $3::??
+           profile_picture = $3::BYTEA
        WHERE id = $1::UUID
       `, 
       [id, username, profile_picture]
