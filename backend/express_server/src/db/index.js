@@ -6,7 +6,7 @@ const
   { PGHOST     = 'localhost',
     PGUSER     = 'web',
     PGPASSWORD = 'web',
-    PGDATABASE = 'account',
+    PGDATABASE = 'db_v1',
     PGPORT     =  5432, 
   }            = process.env,
   c_pool       = new pg.Pool({"host":     PGHOST,
