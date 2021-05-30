@@ -1,30 +1,31 @@
 <template>
-    <body>
-        <div class="content comment">
-        <p>{{comments.message}}</p>
-        <Button :label="'Likes: ' + comments.likes" btn_class="small" @click="addLike()"/>
-        <p>{{comments.author}}</p>
-        <p>{{comments.date}}</p>
-        <hr>
-        </div>
-    </body>
+  <body>
+    <div class="content comment">
+      <p>{{ comments.message }}</p>
+      <Button
+        :label="'Likes: ' + comments.likes"
+        btn_class="small"
+        @click="addLike()"
+      />
+      <p>{{ comments.author }}</p>
+      <p>{{ comments.date }}</p>
+      <hr />
+    </div>
+  </body>
 </template>
 
 <script>
-import { mapFields  } from 'vuex-map-fields'
-import { mapState } from 'vuex'
-import Button from '../../Button.vue'
+import { mapState } from "vuex";
+import Button from "../../Button.vue";
 export default {
-    name: 'Comments',
-    components: {Button},
-    props:{comments: Object},
-    computed:
-    {   ...mapState({posts: 'post_object'}),  
+  name: "Comments",
+  components: { Button },
+  props: { comments: Object },
+  computed: { ...mapState({ posts: "post_object" }) },
+  methods: {
+    addLike() {
+      this.$store.commit("addLikeComment", this.comments.id);
     },
-    methods:
-    { addLike()
-     { this.$store.commit('addLikeComment', this.comments.id) 
-     },
-    }
-}
+  },
+};
 </script>
