@@ -72,12 +72,11 @@ const
   async (id, {username, password, profile_picture}) => 
   { await query
     ( `UPDATE account
-       SET username = $2::VARCHAR, 
-           password = COALESCE($3::VARCHAR, password),
-           profile_picture = $4::??
+       SET username = $2::VARCHAR,
+           profile_picture = $3::??
        WHERE id = $1::UUID
       `, 
-      [id, username, password, profile_picture]
+      [id, username, profile_picture]
     );
     return 200
   },
@@ -86,12 +85,11 @@ const
   async (id, {username, password, profile_picture}) => 
   { await query
     ( `UPDATE account
-       SET username = $2::VARCHAR, 
-           password = COALESCE($3::VARCHAR, password),
-           profile_picture = $4::??
+       SET username = $2::VARCHAR,
+           profile_picture = $3::??
        WHERE id = $1::UUID
       `, 
-      [id, username, password, profile_picture]
+      [id, username, profile_picture]
     );
     return 200
   },
