@@ -104,10 +104,10 @@ CREATE TABLE user_like
 
  UNIQUE (user_id, post_id, comment_id),
 
- CONSTRAINT must_have_parent
+ CONSTRAINT must_have_subject
     CHECK (post_id IS NOT NULL OR comment_id IS NOT NULL),
 
- CONSTRAINT no_double_parents 
+ CONSTRAINT no_double_subjects 
     CHECK (NOT (post_id IS NOT NULL AND comment_id IS NOT NULL))    
 );
 
