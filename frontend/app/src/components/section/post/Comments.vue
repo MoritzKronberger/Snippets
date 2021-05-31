@@ -17,9 +17,10 @@
 <script>
 import { mapState } from "vuex";
 import Button from "../../Button.vue";
+import Validation from '../form/Validation.vue';
 export default {
   name: "Comments",
-  components: { Button },
+  components: { Button, Validation },
   props: { comments: Object },
   computed: { ...mapState({ posts: "post_object" }) },
   methods: {
