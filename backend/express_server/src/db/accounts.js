@@ -7,7 +7,7 @@ const getAccountsAll = async () => {
       200,
       (
         await query(`SELECT id, username, profile_picture 
-           FROM   v_account
+                     FROM   v_account
           `)
       ).rows,
     ];
@@ -55,8 +55,8 @@ const getAccountsAll = async () => {
   putAccount = async (id, { username, password, profile_picture }) => {
     await query(
       `UPDATE account
-       SET username        = $2::VARCHAR,
-           profile_picture = $3::BYTEA
+       SET   username        = $2::VARCHAR,
+             profile_picture = $3::BYTEA
        WHERE id = $1::UUID
       `,
       [id, username, profile_picture]
@@ -67,8 +67,8 @@ const getAccountsAll = async () => {
   patchAccount = async (id, { username, password, profile_picture }) => {
     await query(
       `UPDATE account
-       SET username        = COALESCE($2::VARCHAR, username),
-           profile_picture = COALSECE($3::BYTEA, profile_picture)
+       SET   username        = COALESCE($2::VARCHAR, username),
+             profile_picture = COALSECE($3::BYTEA, profile_picture)
        WHERE id = $1::UUID
       `,
       [id, username, profile_picture]
