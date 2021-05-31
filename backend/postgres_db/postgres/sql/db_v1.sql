@@ -275,7 +275,7 @@ COMMIT;
 
 BEGIN;
 
-INSERT INTO account (username, password)
+INSERT INTO v_account (username, password)
 VALUES
 ('tinykoala648', 'raistlin'),
 ('heavyduck567', 'santafe'),
@@ -299,7 +299,7 @@ VALUES
 INSERT INTO has_category (post_id, category_id)
 VALUES
 ((SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'My first post'
   FETCH FIRST ROW ONLY
  ),
@@ -309,7 +309,7 @@ VALUES
  )
 ),
 ((SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'My first post'
   FETCH FIRST ROW ONLY
  ),
@@ -319,7 +319,7 @@ VALUES
  )
 ),
 ((SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'My first post'
   FETCH FIRST ROW ONLY
  ),
@@ -329,7 +329,7 @@ VALUES
  )
 ),
 ((SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'My second post'
   FETCH FIRST ROW ONLY
  ),
@@ -339,7 +339,7 @@ VALUES
  )
 ),
 ((SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'My second post'
   FETCH FIRST ROW ONLY
  ),
@@ -349,7 +349,7 @@ VALUES
  )
 ),
 ((SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'A Hello World Post'
   FETCH FIRST ROW ONLY
  ),
@@ -359,7 +359,7 @@ VALUES
  )
 ),
 ((SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'A Hello World Post'
   FETCH FIRST ROW ONLY
  ),
@@ -373,21 +373,21 @@ INSERT INTO v_comment (content, username, post_id)
 VALUES 
 ('Nice post!', 'heavyduck567',
                (SELECT id
-                FROM   post
+                FROM   v_post
                 WHERE  title = 'My first post'
                 FETCH FIRST ROW ONLY
                )
 ),
 ('Nice code!', 'heavyduck567',
                (SELECT id
-                FROM   post
+                FROM   v_post
                 WHERE  title = 'A Hello World Post'
                 FETCH FIRST ROW ONLY
                )
 ),
 ('Nice post!', 'smallladybug804',
                (SELECT id
-                FROM   post
+                FROM   v_post
                 WHERE  title = 'A Hello World Post'
                 FETCH FIRST ROW ONLY
                )
@@ -397,31 +397,31 @@ VALUES
 INSERT INTO user_like (user_id, post_id, comment_id)
 VALUES 
 ((SELECT id
-  FROM   account
+  FROM   v_account
   WHERE  username = 'heavyduck567'
  ),
  (SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'My first post'
   FETCH FIRST ROW ONLY
  ), NULL
 ),
 ((SELECT id
-  FROM   account
+  FROM   v_account
   WHERE  username = 'tinykoala648'
  ),
  (SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'A Hello World Post'
   FETCH FIRST ROW ONLY
  ), NULL
 ),
 ((SELECT id
-  FROM   account
+  FROM   v_account
   WHERE  username = 'tinykoala648'
  ),
  (SELECT id
-  FROM   post
+  FROM   v_post
   WHERE  title = 'My first post'
   FETCH FIRST ROW ONLY
  ), NULL
@@ -431,21 +431,21 @@ VALUES
 INSERT INTO user_like (user_id, post_id, comment_id)
 VALUES 
 ((SELECT id
-  FROM   account
+  FROM   v_account
   WHERE  username = 'tinykoala648'
  ), NULL,
  (SELECT id
-  FROM   comment
+  FROM   v_comment
   WHERE  content = 'Nice post!'
   FETCH FIRST ROW ONLY
  )
 ),
 ((SELECT id
-  FROM   account
+  FROM   v_account
   WHERE  username = 'heavyduck567'
  ), NULL,
  (SELECT id
-  FROM   comment
+  FROM   v_comment
   WHERE  content = 'Nice code!'
   FETCH FIRST ROW ONLY
  )
