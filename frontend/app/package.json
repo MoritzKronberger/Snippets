@@ -9,7 +9,8 @@
   "dependencies": {
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "vuex-map-fields": "^1.4.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
@@ -17,6 +18,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "sass": "^1.26.5",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue-prism": "^1.0.5"
   }
 }
