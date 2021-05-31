@@ -19,6 +19,7 @@ export default {
   display: none;
 }
 
+
 html,
 body {
   height: 100%;
@@ -35,7 +36,7 @@ body {
   margin-bottom: 2.5%;
   &.comment {
     margin-left: 0%;
-    width: 50%;
+    width: 100%;
     font-size: medium;
   }
   &.post {

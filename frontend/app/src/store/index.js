@@ -7,7 +7,7 @@ export default createStore({
     post: { lang_id: "", title: "", content: "", category: "" },
     comment: { new_comment: "", author: "", date: "", likes: 0 },
     posts: [],
-
+    errors: [],
     lang_object: [
       { id: 0, name: "Java" },
       { id: 1, name: "Python" },
@@ -25,42 +25,59 @@ export default createStore({
     updateField,
 
     newPost(state) {
-      state.posts.push({
-        id: state.posts.length,
-        lang_id: state.post.lang_id,
-        title: state.post.title,
-        content: state.post.content,
-        category: state.post.category,
-        comment: [],
-        likes: 0,
-        author: "Martin Kohnle",
-        date: "DD/MM/YYYY",
-      });
-      state.section = false;
+      let valid = true;
+      /*for (let prop in state.post) {
+        if (state.post[prop] === "") {
+          state.errors.push(state.post.prop);
+          valid = false;
+        }
+      }*/
 
-      for (let prop in state.post) {
-        state.post[prop] = "";
+      for (const [key, value] of Object.entries(state.post)) {
+        if (value === "") {
+          state.errors.push(key);
+          valid = false;
+        }
+      }
+
+      if (valid == true) {
+        state.posts.push({
+          id: state.posts.length,
+          lang_id: state.post.lang_id,
+          title: state.post.title,
+          content: state.post.content,
+          category: state.post.category,
+          comment: [],
+          likes: 0,
+          author: "Martin Kohnle",
+          date: "DD/MM/YYYY",
+        });
+
+        state.section = false;
+        for (let prop in state.post) {
+          state.post[prop] = "";
+        }
       }
     },
+  },
 
-    addComment(state, post_id) {
-      state.posts[post_id].comment.push({
-        id: state.posts[post_id].comment.length,
-        message: state.comment.new_comment,
-        author: "SomeoneElse42",
-        date: "23.05.2021",
-        likes: state.comment.likes,
-      });
-      state.comment.new_comment = "";
-    },
+  addComment(state, post_id) {
+    state.posts[post_id].comment.push({
+      id: state.posts[post_id].comment.length,
+      message: state.comment.new_comment,
+      author: "SomeoneElse42",
+      date: "23.05.2021",
+      likes: state.comment.likes,
+    });
+    state.comment.new_comment = "";
+  },
 
-    addLike(state, post_id) {
-      state.posts[post_id].likes += 1;
-    },
+  addLike(state, post_id) {
+    state.posts[post_id].likes += 1;
+  },
 
-    addLikeComment(state, com_id) {
-      state.posts[state.active_id].comment[com_id].likes += 1;
-    },
+  addLikeComment(state, com_id) {
+    state.posts[state.active_id].comment[com_id].likes += 1;
   },
   /* actions: 
   {

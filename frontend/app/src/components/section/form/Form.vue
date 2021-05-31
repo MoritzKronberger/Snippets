@@ -32,7 +32,7 @@
               placeholder="add or create new category"
             />
           </div>
-          <!-- submit new post -->
+          <Validation />
           <Button label="submit" btn_class="medium" @click="submitPost" />
         </form>
       </section>
@@ -42,15 +42,16 @@
 <script>
 import Button from "../../Button.vue";
 import Languages from "./Languages";
+import Validation from "./Validation";
 import { mapGetters, mapState } from "vuex";
 import { mapFields } from "vuex-map-fields";
 export default {
   name: "Form",
-  components: { Button, Languages },
+  components: { Button, Languages, Validation, Validation},
   computed: {
     ...mapState({ langs: "lang_object" }),
     ...mapGetters(["vis_FormPost"]),
-    ...mapFields(["section", "post"]),
+    ...mapFields(["section", "post", "errors"]),
   },
   methods: {
     setActive() {
