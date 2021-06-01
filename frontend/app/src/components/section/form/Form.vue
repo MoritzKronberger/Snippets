@@ -47,7 +47,7 @@ import { mapGetters, mapState } from "vuex";
 import { mapFields } from "vuex-map-fields";
 export default {
   name: "Form",
-  components: { Button, Languages, Validation, Validation},
+  components: { Button, Languages, Validation },
   computed: {
     ...mapState({ langs: "lang_object" }),
     ...mapGetters(["vis_FormPost"]),

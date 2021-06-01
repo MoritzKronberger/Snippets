@@ -1,16 +1,19 @@
 <template>
+  <Search />
   <Form />
   <Posts />
 </template>
 
 <script>
 import Form from "./components/section/form/Form.vue";
+import Search from "./components/section/search/Search.vue";
 import Posts from "./components/section/post/Posts.vue";
 export default {
   name: "App",
   components: {
     Form,
     Posts,
+    Search
   },
 };
 </script>
@@ -29,7 +32,7 @@ body {
 }
 
 .content {
-  padding: 10px;
+  padding: 1%;
   width: 50%;
   margin-left: auto;
   margin-right: auto;
@@ -50,6 +53,13 @@ body {
     margin-bottom: 10%;
     font-size: small;
   }
+}
+
+.header {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 7%;
 }
 
 .button {
