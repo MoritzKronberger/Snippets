@@ -9,6 +9,6 @@ import { mapState } from "vuex";
 export default {
   name: "Likes",
   props: { likes: Object },
-  computed: { ...mapState({ posts: "posts" }) },
+  computed: { ...mapState('post', [{ posts: "posts" }])},
 };
 </script>

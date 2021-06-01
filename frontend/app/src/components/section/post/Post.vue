@@ -50,11 +50,13 @@ export default {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
 
-    ...mapState({ lang: "lang_object" }),
-    ...mapFields({
-      new_comment: "comment.new_comment",
-      active_id: "active_id",
-    }),
+    ...mapState("post", [{ lang: "lang_object" }]),
+    ...mapFields("post", [
+      {
+        new_comment: "comment.new_comment",
+        active_id: "active_id",
+      },
+    ]),
   },
   methods: {
     addComment() {

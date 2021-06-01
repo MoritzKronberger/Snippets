@@ -22,7 +22,7 @@ export default {
   name: "Comments",
   components: { Button, Validation },
   props: { comments: Object },
-  computed: { ...mapState({ posts: "post_object" }) },
+  computed: { ...mapState('post', [{ posts: "post_object" }]) },
   methods: {
     addLike() {
       this.$store.commit("addLikeComment", this.comments.id);

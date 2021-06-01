@@ -49,9 +49,9 @@ export default {
   name: "Form",
   components: { Button, Languages, Validation },
   computed: {
-    ...mapState({ langs: "lang_object" }),
-    ...mapGetters(["vis_FormPost"]),
-    ...mapFields(["section", "post", "errors"]),
+    ...mapState('post', [{langs: "lang_object"}]),
+    ...mapGetters('post', ["vis_FormPost"]),
+    ...mapFields('post'["section", "post", "errors"]),
   },
   methods: {
     setActive() {
