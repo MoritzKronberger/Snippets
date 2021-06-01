@@ -5,11 +5,8 @@
       <p>Date: {{ post.date }}</p>
       <p>Written by: {{ post.author }}</p>
       <p>Language: {{ lang_object[post.lang_id].name }}</p>
-      <pre class="language-js">
-            <code>{{post.content}}</code>
-            </pre>
+      <Prism :prism="post" />
       <Button label="view / collapse" btn_class="small" @click="setActive()" />
-
       <div :class="vis_Comment">
         <div v-for="comments in post.comment" :key="comments.id">
           <Comments :comments="comments" />
@@ -32,19 +29,12 @@ import { mapFields } from "vuex-map-fields";
 import Comments from "./Comments.vue";
 import Likes from "./Likes.vue";
 import Button from "../../Button.vue";
-import VuePrism from "vue-prism";
-import "prismjs/themes/prism.css";
-import "prismjs/components/prism-javascript";
-import "prismjs/plugins/normalize-whitespace/prism-normalize-whitespace";
-
-Prism.plugins.NormalizeWhitespace.setDefaults({
-  "break-lines": 50,
-});
+import Prism from "./Prism.vue";
 
 export default {
   name: "Post",
   props: { post: Object },
-  components: { Comments, Likes, Button },
+  components: { Comments, Likes, Button, Prism },
   computed: {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";

@@ -5,6 +5,7 @@
       <section :class="vis_FormPost(true)">
         <form>
           <p>Select Language</p>
+          <Button label="X" btn_class="small" />
           <div>
             <section
               class="input languages"
