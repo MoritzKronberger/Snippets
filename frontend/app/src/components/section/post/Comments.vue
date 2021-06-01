@@ -25,7 +25,7 @@ export default {
   computed: { ...mapState('post', [{ posts: "post_object" }]) },
   methods: {
     addLike() {
-      this.$store.commit("addLikeComment", this.comments.id);
+      this.$store.commit("post/addLikeComment", this.comments.id);
     },
   },
 };

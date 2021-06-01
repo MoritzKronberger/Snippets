@@ -8,10 +8,10 @@
           <div>
             <section
               class="input languages"
-              v-for="langs in langs"
-              :key="langs.id"
+              v-for="lang in lang_object"
+              :key="lang.id"
             >
-              <Languages :languages="langs" @click="addLang(langs.id)" />
+              <Languages :languages="lang" @click="addLang(lang.id)" />
             </section>
           </div>
           <div>
@@ -49,9 +49,9 @@ export default {
   name: "Form",
   components: { Button, Languages, Validation },
   computed: {
-    ...mapState('post', [{langs: "lang_object"}]),
+    ...mapState('post', ["lang_object"]),
     ...mapGetters('post', ["vis_FormPost"]),
-    ...mapFields('post'["section", "post", "errors"]),
+    ...mapFields('post', ["section", "post", "errors"]),
   },
   methods: {
     setActive() {
@@ -59,7 +59,7 @@ export default {
     },
 
     submitPost() {
-      this.$store.commit("newPost");
+      this.$store.commit("post/newPost");
     },
 
     addLang(lang_id) {

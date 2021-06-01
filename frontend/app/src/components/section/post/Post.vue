@@ -4,7 +4,7 @@
       <h4>{{ post.title }}</h4>
       <p>Date: {{ post.date }}</p>
       <p>Written by: {{ post.author }}</p>
-      <p>Language: {{ lang[post.lang_id].name }}</p>
+      <p>Language: {{ lang_object[post.lang_id].name }}</p>
       <pre class="language-js">
             <code>{{post.content}}</code>
             </pre>
@@ -49,18 +49,17 @@ export default {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
-
-    ...mapState("post", [{ lang: "lang_object" }]),
-    ...mapFields("post", [
-      {
-        new_comment: "comment.new_comment",
-        active_id: "active_id",
-      },
-    ]),
+    ...mapState("post", ["lang_object"]),
+    ...mapFields("post", 
+      [
+         "new_comment",
+         "active_id",
+      ],
+    ),
   },
   methods: {
     addComment() {
-      this.$store.commit("addComment", this.post.id);
+      this.$store.commit("post/addComment", this.post.id);
       this.new_comment = "";
     },
 
@@ -71,7 +70,7 @@ export default {
     },
 
     addLike() {
-      this.$store.commit("addLike", this.post.id);
+      this.$store.commit("post/addLike", this.post.id);
     },
   },
 };

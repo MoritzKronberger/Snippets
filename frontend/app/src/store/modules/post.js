@@ -4,8 +4,9 @@ export default{
   state: {
     section: false,
     active_id: 0,
+    new_comment: "",
     post: { lang_id: "", title: "", content: "", category: "" },
-    comment: { new_comment: "", author: "", date: "", likes: 0 },
+    comment: { author: "", date: "", likes: 0 },
     posts: [],
     errors: [],
     lang_object: [
@@ -55,7 +56,7 @@ export default{
     addComment(state, post_id) {
       state.posts[post_id].comment.push({
         id: state.posts[post_id].comment.length,
-        message: state.comment.new_comment,
+        message: state.new_comment,
         author: "SomeoneElse42",
         date: "23.05.2021",
         likes: state.comment.likes,

@@ -14,7 +14,7 @@ import { mapState } from "vuex";
 export default {
   name: "Validation",
   props: { validation: Object },
-  computed: { ...mapState({ errors: "errors" }) },
+  computed: { ...mapState('post', ["errors"]) },
 };
 </script>
 
