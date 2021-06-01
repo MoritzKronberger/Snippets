@@ -5,7 +5,7 @@
       <p>Date: {{ post.date }}</p>
       <p>Written by: {{ post.author }}</p>
       <p>Language: {{ lang_object[post.lang_id].name }}</p>
-      <Prism :prism="post" />
+      <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Button label="view / collapse" btn_class="small" @click="setActive()" />
       <div :class="vis_Comment">
         <div v-for="comments in post.comment" :key="comments.id">
