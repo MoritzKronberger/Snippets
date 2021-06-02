@@ -1,11 +1,17 @@
 <template>
-  <section class="login">
-    <h1 class="login header">Login</h1>
+  <h1>Login</h1>
+  <section class="content">
     <label for="username">Username:</label>
     <input class="input" v-model="new_comment" type="text" />
     <label for="password">Password:</label>
     <input class="input" v-model="new_comment" type="text" />
     <Button label="Login" btn_class="medium" />
+    <div class="footer">
+      <p>No Account?</p>
+      <router-link to="/register">
+        <Button label="Register here" btn_class="medium" />
+      </router-link>
+    </div>
   </section>
 </template>
 
@@ -16,3 +22,8 @@ export default {
   components: { Button },
 };
 </script>
+<style lang="scss">
+.footer {
+  margin-top: 10%;
+}
+</style>

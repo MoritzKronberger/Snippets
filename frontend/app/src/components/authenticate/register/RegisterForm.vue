@@ -2,8 +2,8 @@
   <router-link to="/login">
     <Button label="go back" btn_class="medium" />
   </router-link>
-  <section class="login">
-    <h1 class="login header">Create Account:</h1>
+  <h1>Create Account</h1>
+  <section class="content">
     <label for="username">Username:</label>
     <input class="input" v-model="new_comment" type="text" />
     <label for="password">Password:</label>
@@ -22,11 +22,4 @@ export default {
 };
 </script>
 <style lang="scss">
-.register {
-  &.header {
-    text-align: center;
-  }
-  width: 50%;
-  margin: auto auto;
-}
 </style>

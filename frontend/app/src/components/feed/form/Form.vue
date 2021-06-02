@@ -1,12 +1,16 @@
 <template>
   <body>
-    <div>
+    <div class="content post">
       <div :class="vis_FormPost(false)">
         <Button label="add Post" btn_class="medium" @click="setActive" />
       </div>
       <section :class="vis_FormPost(true)">
         <form>
-          <Button label="DISCARD" btn_class="small discard" @click="setActive" />
+          <Button
+            label="DISCARD"
+            btn_class="small discard"
+            @click="setActive"
+          />
           <p>Select Language</p>
           <Languages />
           <Input :post="post" />

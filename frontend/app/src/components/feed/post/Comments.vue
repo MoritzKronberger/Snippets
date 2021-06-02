@@ -1,21 +1,20 @@
 <template>
   <body>
-    <div v-for="com in comments.comment" :key="com.id">
-      <div class="content comment">
+    <div class="comment" v-for="com in comments.comment" :key="com.id">
         <p>{{ com.message }}</p>
+        <div class="flex-container">
         <Button
           :label="'Likes: ' + com.likes" btn_class="small" @click="addLike(com.id)"
         />
         <p>{{ com.author }}</p>
         <p>{{ com.date }}</p>
+        </div>
         <hr />
-      </div>
     </div>
   </body>
 </template>
 
 <script>
-import { mapState } from "vuex";
 import Button from "../../Button.vue";
 export default {
   name: "Comments",
@@ -30,3 +29,24 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.comment {
+    padding-left: 2%;
+    padding-top: 2%;
+    margin-left: 0%;
+    width: 100%;
+    font-size: medium;
+    background-color: aliceblue;
+  }
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+ .flex-container > p {
+  margin: 2% 5%;
+  font-size: x-small;
+}
+
+</style>

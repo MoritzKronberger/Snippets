@@ -16,3 +16,11 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.header {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 7%;
+}
+</style>
