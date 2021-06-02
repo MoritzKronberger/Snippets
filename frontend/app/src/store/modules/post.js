@@ -13,13 +13,14 @@ export default{
       { id: 0, name: "Java" },
       { id: 1, name: "Python" },
       { id: 2, name: "C#" },
+      { id: 3, name: "JavaScript"}
     ],
   },
 
   getters: {
     getField,
     vis_FormPost: (state) => (section) =>
-      state.section !== section ? "hidden" : "content form",
+      state.section !== section ? "hidden" : "content",
   },
 
   mutations: {

@@ -1,11 +1,13 @@
 <template>
   <body>
     <div>
-      <Button label="add Post" btn_class="addButton" @click="setActive" />
+      <div :class="vis_FormPost(false)">
+        <Button label="add Post" btn_class="medium" @click="setActive" />
+      </div>
       <section :class="vis_FormPost(true)">
         <form>
           <p>Select Language</p>
-          <Button label="X" btn_class="small" />
+          <Button label="X" btn_class="small" @click="setActive" />
           <div>
             <section
               class="input languages"
@@ -50,9 +52,9 @@ export default {
   name: "Form",
   components: { Button, Languages, Validation },
   computed: {
-    ...mapState('post', ["lang_object"]),
-    ...mapGetters('post', ["vis_FormPost"]),
-    ...mapFields('post', ["section", "post", "errors"]),
+    ...mapState("post", ["lang_object"]),
+    ...mapGetters("post", ["vis_FormPost"]),
+    ...mapFields("post", ["section", "post", "errors"]),
   },
   methods: {
     setActive() {
