@@ -1,15 +1,17 @@
 <template>
   <body>
-    <div class="content comment">
-      <p>{{ comments.message }}</p>
-      <Button
-        :label="'Likes: ' + comments.likes"
-        btn_class="small"
-        @click="addLike()"
-      />
-      <p>{{ comments.author }}</p>
-      <p>{{ comments.date }}</p>
-      <hr />
+    <div v-for="com in comments" :key="com.id">
+      <div class="content comment">
+        <p>{{ com.message }}</p>
+        <Button
+          :label="'Likes: ' + com.likes"
+          btn_class="small"
+          @click="addLike(com.id)"
+        />
+        <p>{{ com.author }}</p>
+        <p>{{ com.date }}</p>
+        <hr />
+      </div>
     </div>
   </body>
 </template>
@@ -24,9 +26,10 @@ export default {
   props: { comments: Object },
   computed: { ...mapState('post', [{ posts: "post_object" }]) },
   methods: {
-    addLike() {
-      this.$store.commit("post/addLikeComment", this.comments.id);
+    addLike(com_id) {
+      this.$store.commit("post/addLikeComment", com_id);
     },
+    
   },
 };
 </script>

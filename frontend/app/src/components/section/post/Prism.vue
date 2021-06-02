@@ -22,6 +22,6 @@ Prism.plugins.NormalizeWhitespace.setDefaults({
 
 export default {
   name: "Prism",
-  props: { prism: String, lang_name: String },
+  props: { prism: Object, lang_name: String },
 };
 </script>

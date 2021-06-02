@@ -5,12 +5,11 @@
       <p>Date: {{ post.date }}</p>
       <p>Written by: {{ post.author }}</p>
       <p>Language: {{ lang_object[post.lang_id].name }}</p>
+
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Button label="view / collapse" btn_class="small" @click="setActive()" />
       <div :class="vis_Comment">
-        <div v-for="comments in post.comment" :key="comments.id">
-          <Comments :comments="comments" />
-        </div>
+        <Comments :comments="post" />
         <input class="input" v-model="new_comment" type="text" />
         <Button label="comment" btn_class="small" @click="addComment()" />
         <Button
@@ -40,12 +39,7 @@ export default {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
     ...mapState("post", ["lang_object"]),
-    ...mapFields("post", 
-      [
-         "new_comment",
-         "active_id",
-      ],
-    ),
+    ...mapFields("post", ["new_comment", "active_id"]),
   },
   methods: {
     addComment() {

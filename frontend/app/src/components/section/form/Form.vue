@@ -6,7 +6,7 @@
       </div>
       <section :class="vis_FormPost(true)">
         <form>
-          <Button label="X" btn_class="small discard" @click="setActive" />
+          <Button label="DISCARD" btn_class="small discard" @click="setActive" />
           <p>Select Language</p>
           <Languages />
           <Input :post="post" />
