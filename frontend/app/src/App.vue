@@ -74,7 +74,7 @@ body {
 
   &.addButton {
     font-size: 25px;
-    margin-left: 25%;
+    margin-left: 50%;
     margin-bottom: 2.5%;
   }
 
@@ -85,6 +85,10 @@ body {
   &.small {
     font-size: 15px;
     margin-right: 2%;
+    &.discard{
+      background-color: orange;
+      float: right;
+    }
   }
 }
 
@@ -101,10 +105,10 @@ body {
   }
 
   &.languages {
-    width: 20%;
+    width: 50%;
+    margin: auto 2%;
     border: 0;
-    padding: 0 5%;
-    margin: 0 5px;
+    padding: 0% 2%;
     float: left;
   }
 }

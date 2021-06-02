@@ -6,9 +6,8 @@
       </div>
       <section :class="vis_FormPost(true)">
         <form>
+          <Button label="X" btn_class="small discard" @click="setActive" />
           <p>Select Language</p>
-          <Button label="X" btn_class="small" @click="setActive" />
-          <div>
             <section
               class="input languages"
               v-for="lang in lang_object"
@@ -16,25 +15,7 @@
             >
               <Languages :languages="lang" @click="addLang(lang.id)" />
             </section>
-          </div>
-          <div>
-            <input
-              v-model="post.title"
-              class="input"
-              autofocus="autofocus"
-              placeholder="title"
-            />
-            <textarea
-              v-model="post.content"
-              class="input code"
-              placeholder="code input"
-            />
-            <input
-              v-model="post.category"
-              class="input"
-              placeholder="add or create new category"
-            />
-          </div>
+          <Input :post="post" />
           <Validation />
           <Button label="submit" btn_class="medium" @click="submitPost" />
         </form>
@@ -46,15 +27,16 @@
 import Button from "../../Button.vue";
 import Languages from "./Languages";
 import Validation from "./Validation";
+import Input from "./Input";
 import { mapGetters, mapState } from "vuex";
 import { mapFields } from "vuex-map-fields";
 export default {
   name: "Form",
-  components: { Button, Languages, Validation },
+  components: { Button, Languages, Validation, Input },
   computed: {
     ...mapState("post", ["lang_object"]),
     ...mapGetters("post", ["vis_FormPost"]),
-    ...mapFields("post", ["section", "post", "errors"]),
+    ...mapFields("post", ["section", "post"]),
   },
   methods: {
     setActive() {
@@ -71,4 +53,19 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+
+
+<style lang="scss" scoped>
+
+.flex-container {
+  display: flex;
+  background-color: DodgerBlue;
+}
+
+.flex-container > section {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+}
+</style>

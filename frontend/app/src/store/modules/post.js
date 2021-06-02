@@ -20,7 +20,7 @@ export default{
   getters: {
     getField,
     vis_FormPost: (state) => (section) =>
-      state.section !== section ? "hidden" : "content",
+      state.section !== section ? "hidden" : "content form",
   },
 
   mutations: {
