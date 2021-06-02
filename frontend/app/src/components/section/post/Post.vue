@@ -8,9 +8,12 @@
 
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Button label="view / collapse" btn_class="small" @click="setActive()" />
+
       <div :class="vis_Comment">
         <Comments :comments="post" />
         <input class="input" v-model="new_comment" type="text" />
+
+        
         <Button label="comment" btn_class="small" @click="addComment()" />
         <Button
           :label="'Likes: ' + post.likes"

@@ -1,22 +1,14 @@
 <template>
-    <router-link to="/">
-        <Button label="Visit Feed" btn_class="medium" />
-    </router-link>
-  <LoginForm />
-  <div class="login">
-    <p>No Account?</p>
-    <router-link to="/register">
-      <Button label="Register here" btn_class="medium" />
-    </router-link>
-  </div>
+  <router-link to="/login"></router-link>
+  <RegisterForm />
 </template>
 
 <script>
 import Button from "../components/Button.vue";
-import LoginForm from "../components/authenticate/login/LoginForm.vue";
+import RegisterForm from "../components/authenticate/register/RegisterForm.vue";
 export default {
-  name: "Login",
-  components: { Button, LoginForm },
+  name: "Register",
+  components: { Button, RegisterForm },
 };
 </script>
 <style lang="scss">
@@ -30,21 +22,6 @@ body {
   font-size: $font-size-base !important;
   font-family: $font-family-sans;
   background-color: white;
-}
-
-.login {
-  &.header {
-    text-align: center;
-  }
-  width: 30%;
-  margin: auto auto;
-}
-
-.header {
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 7%;
 }
 
 .button {
@@ -78,19 +55,12 @@ body {
 }
 
 .input {
-  width: 0%;
+  width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 15px;
-  &.languages {
-    width: 50%;
-    margin: auto 2%;
-    border: 0;
-    padding: 0% 2%;
-    float: left;
-  }
 }
 </style>

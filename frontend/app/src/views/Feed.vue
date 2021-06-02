@@ -1,6 +1,9 @@
 <template>
- <router-link to="/login">Login</router-link>
- <router-view/>
+  <router-link to="/login">
+    <Button label="Login" btn_class="medium" />
+  </router-link>
+  <router-view />
+  <h1>Coding Feed</h1>
   <Search />
   <Form />
   <Posts />
@@ -10,12 +13,14 @@
 import Form from "../components/section/form/Form.vue";
 import Search from "../components/section/search/Search.vue";
 import Posts from "../components/section/post/Posts.vue";
+import Button from "../components/Button.vue";
 export default {
   name: "Feed",
   components: {
     Form,
     Posts,
-    Search
+    Search,
+    Button,
   },
 };
 </script>
@@ -24,6 +29,9 @@ export default {
   display: none;
 }
 
+h1 {
+  text-align: center;
+}
 
 html,
 body {
@@ -87,7 +95,7 @@ body {
   &.small {
     font-size: 15px;
     margin-right: 2%;
-    &.discard{
+    &.discard {
       background-color: orange;
       float: right;
     }

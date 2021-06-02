@@ -1,5 +1,4 @@
 <template>
-  <router-link to="/">Feed</router-link>
   <section class="login">
     <h1 class="login header">Login</h1>
     <label for="username">Username:</label>
