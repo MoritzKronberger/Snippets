@@ -5,6 +5,6 @@ import store from "./store";
 import VuePrism from "vue-prism";
 createApp(App)
   .use(store)
-  .use(router)
   .use(VuePrism)
-  .mount("#app");
+  .use(router)
+  .mount("#app")
