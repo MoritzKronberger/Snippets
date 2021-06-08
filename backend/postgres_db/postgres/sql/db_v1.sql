@@ -112,6 +112,12 @@ CREATE TABLE user_like
 );
 
 
+CREATE TABLE e_sort_by
+(id                    UUID            PRIMARY KEY DEFAULT gen_random_uuid(),
+ sort_by              VARCHAR(20)     UNIQUE  NOT NULL   
+);
+
+
 /* Create Views */
 /* As in  https://kowa.hs-augsburg.de/beispiele/db/postgresql/olympia/olympia3_create.sql*/
 
@@ -267,6 +273,13 @@ VALUES
 ('java'),
 ('c#'),
 ('c++');
+
+INSERT INTO e_sort_by (sort_by)
+VALUES
+('most liked'),
+('newest'),
+('best of today'),
+('best of this week');
 
 COMMIT;
 
