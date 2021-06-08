@@ -1,12 +1,7 @@
 <template>
   <body>
     <div class="content post">
-      <h4>{{ post.title }}</h4>
-      <div class="flex-container">
-        <p>Language: {{ lang_object[post.lang_id].name }}</p>
-        <p>Date: {{ post.date }}</p>
-        <p>Written by: {{ post.author }}</p>       
-      </div>
+      <Description :post="post" />
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Button label="view / collapse" btn_class="small" @click="setActive()" />
 
@@ -27,23 +22,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from "vuex" 
 import { mapFields } from "vuex-map-fields";
 import Comments from "./Comments.vue";
-import Likes from "./Likes.vue";
+import Description from "./Description.vue";
 import Button from "../../Button.vue";
 import Prism from "./Prism.vue";
-import Validation from "../form/Validation.vue"
+import Validation from "../form/Validation.vue";
 export default {
   name: "Post",
   props: { post: Object },
-  components: { Comments, Likes, Button, Prism, Validation },
+  components: { Comments, Button, Description, Prism, Validation },
   computed: {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
-    ...mapState("post", ["lang_object"]),
     ...mapFields("post", ["new_comment", "active_id"]),
+    ...mapState("post", ["lang_object"]),
   },
   methods: {
     addComment() {
@@ -64,14 +59,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.flex-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.flex-container > p {
-  margin-left: 2%;
-  font-size: small;
-  color: grey;
-}
 </style>

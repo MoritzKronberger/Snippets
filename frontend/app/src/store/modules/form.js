@@ -3,7 +3,6 @@ export default {
   namespaced: true,
   state: {
     section: false,
-    active_id: 0,
   },
 
   getters: {

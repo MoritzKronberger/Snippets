@@ -23,7 +23,7 @@
 <script>
 export default {
   name: "Input",
-  props: {post: String},
+  props: {post: Object},
 };
 </script>
 
