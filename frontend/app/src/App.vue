@@ -22,50 +22,42 @@ body {
   height: 100%;
   font-size: $font-size-base !important;
   font-family: $font-family-sans;
-  background-color: white;
+  background-color: white
 }
 
 .content {
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 2.5%;
-  /*&.comment {
-    margin-left: 0%;
-    width: 100%;
-    font-size: medium;
-  }*/
+  &.auth{
+    width: 50%;
+    margin: 0 auto
+  }
+;
   &.post {
     padding: 2%;
     border: 2px solid gray;
     border-radius: 10px;
     font-size: medium;
-    &.form {
-  padding: 2%;
-  border: 2px solid #a0dee2;
-  border-radius: 10px;
-  margin-bottom: 10%;
-  font-size: small;
-}
+  }
+  &.form {
+    width: 50%;
+    margin: 0 auto;
+    padding: 2%;
+    border: 2px solid #a0dee2;
+    border-radius: 10px;
+    font-size: small;
   }
 }
-
-
 
 .button {
   background-color: #a0dee2;
   border: none;
   color: white;
   padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
+  margin-right: 2%;
   cursor: pointer;
   border-radius: 10px;
-
   &.addButton {
     font-size: 25px;
-    margin-left: 50%;
-    margin-bottom: 2.5%;
+    width: 100%;
   }
 
   &.medium {
@@ -74,10 +66,13 @@ body {
 
   &.small {
     font-size: 15px;
-    margin-right: 2%;
+    text-align: center;
     &.discard {
       background-color: orange;
       float: right;
+    }
+    &.likes {
+      font-size: 12px;
     }
   }
 }

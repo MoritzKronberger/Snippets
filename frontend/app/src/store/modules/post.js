@@ -1,5 +1,5 @@
 import { getField, updateField } from "vuex-map-fields";
-export default{
+export default {
   namespaced: true,
   state: {
     section: false,
@@ -13,14 +13,14 @@ export default{
       { id: 0, name: "Java" },
       { id: 1, name: "Python" },
       { id: 2, name: "C#" },
-      { id: 3, name: "JavaScript"}
+      { id: 3, name: "JavaScript" },
     ],
   },
 
   getters: {
     getField,
     vis_FormPost: (state) => (section) =>
-      state.section !== section ? "hidden" : "",
+      state.section !== section ? "hidden" : "content form",
   },
 
   mutations: {
@@ -55,14 +55,19 @@ export default{
     },
 
     addComment(state, post_id) {
-      state.posts[post_id].comment.push({
-        id: state.posts[post_id].comment.length,
-        message: state.new_comment,
-        author: "SomeoneElse42",
-        date: "23.05.2021",
-        likes: state.comment.likes,
-      });
-      state.comment.new_comment = "";
+      state.errors = [];
+      if (state.new_comment !== "") {
+        state.posts[post_id].comment.push({
+          id: state.posts[post_id].comment.length,
+          message: state.new_comment,
+          author: "SomeoneElse42",
+          date: "23.05.2021",
+          likes: state.comment.likes,
+        });
+        state.comment.new_comment = "";
+      } else {
+        state.errors.push("comment");
+      }
     },
 
     addLike(state, post_id) {
@@ -79,4 +84,4 @@ export default{
   modules: 
   {
   }*/
-}
+};

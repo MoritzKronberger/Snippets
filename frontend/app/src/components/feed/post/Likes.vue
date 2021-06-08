@@ -1,6 +1,6 @@
 <template>
   <body>
-    <input class="button small" type="button" :value="'likes:' + posts.likes" />
+    
   </body>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <h1>Login</h1>
-  <section class="content">
+  <section class="content auth">
     <label for="username">Username:</label>
     <input class="input" v-model="new_comment" type="text" />
     <label for="password">Password:</label>

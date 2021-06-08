@@ -3,7 +3,7 @@
     <Button label="go back" btn_class="medium" />
   </router-link>
   <h1>Create Account</h1>
-  <section class="content">
+  <section class="content auth">
     <label for="username">Username:</label>
     <input class="input" v-model="new_comment" type="text" />
     <label for="password">Password:</label>

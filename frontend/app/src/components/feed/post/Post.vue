@@ -1,11 +1,12 @@
 <template>
   <body>
-    <section class="content post">
+    <div class="content post">
       <h4>{{ post.title }}</h4>
-      <p>Date: {{ post.date }}</p>
-      <p>Written by: {{ post.author }}</p>
-      <p>Language: {{ lang_object[post.lang_id].name }}</p>
-
+      <div class="flex-container">
+        <p>Language: {{ lang_object[post.lang_id].name }}</p>
+        <p>Date: {{ post.date }}</p>
+        <p>Written by: {{ post.author }}</p>       
+      </div>
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Button label="view / collapse" btn_class="small" @click="setActive()" />
 
@@ -13,15 +14,15 @@
         <Comments :comments="post" />
         <input class="input" v-model="new_comment" type="text" />
 
-        
-        <Button label="comment" btn_class="small" @click="addComment()" />
+        <Button label="comment" btn_class="" @click="addComment()" />
         <Button
           :label="'Likes: ' + post.likes"
           btn_class="small"
           @click="addLike()"
         />
+        <Validation />
       </div>
-    </section>
+    </div>
   </body>
 </template>
 
@@ -32,11 +33,11 @@ import Comments from "./Comments.vue";
 import Likes from "./Likes.vue";
 import Button from "../../Button.vue";
 import Prism from "./Prism.vue";
-
+import Validation from "../form/Validation.vue"
 export default {
   name: "Post",
   props: { post: Object },
-  components: { Comments, Likes, Button, Prism },
+  components: { Comments, Likes, Button, Prism, Validation },
   computed: {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
@@ -62,3 +63,15 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-container > p {
+  margin-left: 2%;
+  font-size: small;
+  color: grey;
+}
+</style>

@@ -1,7 +1,9 @@
 <template>
   <body>
-    <section v-for="post in posts" :key="post.id">
+    <section class="flex-container">
+    <div v-for="post in posts" :key="post.id">
       <Post :post="post" />
+    </div>
     </section>
   </body>
 </template>
@@ -15,3 +17,16 @@ export default {
   computed: { ...mapState("post", ["posts"]) },
 };
 </script>
+<style lang="scss" scoped>
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.flex-container > div {
+  margin: 0%;
+  margin-top: 5%;
+}
+</style>

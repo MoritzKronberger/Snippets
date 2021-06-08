@@ -4,12 +4,11 @@
         <p>{{ com.message }}</p>
         <div class="flex-container">
         <Button
-          :label="'Likes: ' + com.likes" btn_class="small" @click="addLike(com.id)"
+          :label="'Likes: ' + com.likes" btn_class="small likes" @click="addLike(com.id)"
         />
         <p>{{ com.author }}</p>
         <p>{{ com.date }}</p>
         </div>
-        <hr />
     </div>
   </body>
 </template>
@@ -34,6 +33,7 @@ export default {
     padding-left: 2%;
     padding-top: 2%;
     margin-left: 0%;
+    margin-top: 2%;
     width: 100%;
     font-size: medium;
     background-color: aliceblue;
@@ -50,3 +50,4 @@ export default {
 }
 
 </style>
+

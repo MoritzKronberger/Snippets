@@ -8,6 +8,7 @@
 
 <script>
 import VuePrism from "vue-prism";
+// do not delete VuePrism import
 import "prismjs/themes/prism.css";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-java"
@@ -25,3 +26,13 @@ export default {
   props: { prism: Object, lang_name: String },
 };
 </script>
+<style lang="scss">
+
+  pre[class*="language-"] {
+      font-size: 0.7em;
+      margin: 5% 0%;
+      border-radius: 2%;
+      background: rgb(237, 246, 248);
+  }
+
+</style>

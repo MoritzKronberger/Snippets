@@ -36,5 +36,6 @@ export default {
 
 .flex-container > div {
   margin: 0 2%;
+  width: 10%;
 }
 </style>
