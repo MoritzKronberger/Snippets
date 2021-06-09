@@ -58,7 +58,7 @@ CREATE TABLE post
     FOREIGN KEY (language_id) REFERENCES e_language (id),
 
  CONSTRAINT fk_user_id
-    FOREIGN KEY (user_id)     REFERENCES account (id)
+    FOREIGN KEY (user_id)     REFERENCES account (id) ON DELETE CASCADE
 );
 
 CREATE TABLE has_category
@@ -69,7 +69,7 @@ CREATE TABLE has_category
     PRIMARY KEY (post_id, category_id),
 
  CONSTRAINT fk_post_id
-    FOREIGN KEY (post_id)     REFERENCES post (id),
+    FOREIGN KEY (post_id)     REFERENCES post (id) ON DELETE CASCADE,
 
  CONSTRAINT fk_category_id
     FOREIGN KEY (category_id) REFERENCES e_category (id)
@@ -83,10 +83,10 @@ CREATE TABLE comment
  post_id                UUID                              NOT NULL,
 
  CONSTRAINT fk_user_id
-    FOREIGN KEY (user_id) REFERENCES account (id),
+    FOREIGN KEY (user_id) REFERENCES account (id) ON DELETE CASCADE,
 
  CONSTRAINT fk_post_id
-    FOREIGN KEY (post_id) REFERENCES post (id)
+    FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE
 );
 
 
@@ -98,13 +98,13 @@ CREATE TABLE user_like
  comment_id             UUID,
 
  CONSTRAINT fk_user_id
-    FOREIGN KEY (user_id)    REFERENCES account (id),
+    FOREIGN KEY (user_id)    REFERENCES account (id) ON DELETE CASCADE,
 
  CONSTRAINT fk_post_id
-    FOREIGN KEY (post_id)    REFERENCES post (id),
+    FOREIGN KEY (post_id)    REFERENCES post (id) ON DELETE CASCADE,
 
  CONSTRAINT fk_comment_id
-    FOREIGN KEY (comment_id) REFERENCES comment (id),
+    FOREIGN KEY (comment_id) REFERENCES comment (id) ON DELETE CASCADE,
 
  UNIQUE (user_id, post_id, comment_id),
 
