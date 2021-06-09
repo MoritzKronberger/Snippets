@@ -1,4 +1,4 @@
-/* template from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_express_01a */
+/* template from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01 */
 
 import { query } from "./index.js";
 
@@ -39,53 +39,38 @@ const getAccountsAll = async () => {
     return result.rows.length === 0 ? [404, {}] : [200, result.rows[0]];
   },
 
-  //TODO: check profile picture for accepted content? NOT $3::VARCHAR
-  postAccount = async ({ username, password, profile_picture }) => {
+  //TODO: check profile picture for accepted content
+  postAccount = async (data) => {
     const result = await query(
-      `INSERT INTO v_account(username, password, profile_picture)
-       VALUES($1::VARCHAR, $2::VARCHAR, $3::BYTEA)
-       RETURNING id
-      `,
-      [username, password, profile_picture]
+      `SELECT status, result FROM post_account($1)`,
+      [data]
     );
-    return [201, result.rows[0]?.id];
+    return result.rows[0]
   },
 
   //TODO: check profile_picture for accepted content
-  putAccount = async (id, { username, password, profile_picture }) => {
+  putAccount = async (id, data) => {
     await query(
-      `UPDATE account
-       SET   username        = $2::VARCHAR,
-             profile_picture = $3::BYTEA
-       WHERE id = $1::UUID
-      `,
-      [id, username, profile_picture]
+      `SELECT status, result FROM put_account($1, $2)`,
+      [id, data]
     );
-    return 200;
+    return result.rows[0]
   },
 
-  patchAccount = async (id, { username, password, profile_picture }) => {
+  patchAccount = async (id, data) => {
     await query(
-      `UPDATE account
-       SET   username        = COALESCE($2::VARCHAR, username),
-             profile_picture = COALSECE($3::BYTEA, profile_picture)
-       WHERE id = $1::UUID
-      `,
-      [id, username, profile_picture]
+      `SELECT status, result FROM patch_account($1, $2)`,
+      [id, data]
     );
-    return 200;
+    return result.rows[0]
   },
   
   deleteAccount = async (id) => {
     const result = await query(
-      `DELETE 
-       FROM  v_account
-       WHERE id = $1::UUID
-       RETURNING *
-      `,
+      `SELECT status, result FROM delete_account($1)`,
       [id]
     );
-    return result.rows[0] ? 200 : 204;
+    return result.rows[0]
   };
 
 export {
