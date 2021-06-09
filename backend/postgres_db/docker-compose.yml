@@ -1,4 +1,4 @@
-# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git
+# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
 
 version: "3"
 
@@ -7,6 +7,8 @@ services:
         container_name: "postgres_db_webprog"
         build:
             context: ./postgres
+            args:
+                WEB_DB: ${WEB_DB}
         ports:
             - 5432:5432
     

@@ -1,10 +1,13 @@
-# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git
+# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
 
 FROM postgres:latest AS builder
+
+ARG WEB_DB
 
 ENV POSTGRES_USER       postgres
 ENV POSTGRES_PASSWORD   postgres
 ENV POSTGRES_DB         postgres
+ENV WEB_DB              $WEB_DB
 ENV PGDATA              /var/lib/postgresql/custom
 
 USER postgres
