@@ -106,7 +106,8 @@ CREATE TABLE user_like
  CONSTRAINT fk_comment_id
     FOREIGN KEY (comment_id) REFERENCES comment (id) ON DELETE CASCADE,
 
- UNIQUE (user_id, post_id, comment_id),
+ UNIQUE (user_id, post_id),
+ UNIQUE (user_id, comment_id),
 
  CONSTRAINT must_have_subject
     CHECK (post_id IS NOT NULL OR comment_id IS NOT NULL),
