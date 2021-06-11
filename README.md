@@ -57,6 +57,18 @@ Or faster:
 
 <http://localhost:11000/?pgsql=PostgreSQL&username=web&db=db_v1&ns=public>
 
+## Create dotenv-file
+
+```bash
+node
+> console.log(require('crypto').randomBytes(64).toString('hex'))
+> .exit
+
+echo HOST=http://localhost > .env
+echo PORT=3000 >> .env
+echo TOKEN_SECRET=... >> .enc
+```
+
 ## Start Express-Server
 
 On: <http://localhost:3000>
