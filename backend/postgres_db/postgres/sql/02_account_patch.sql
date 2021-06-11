@@ -33,7 +33,7 @@ $$
             RETURN QUERY
             SELECT 404,
                    JSONB_BUILD_OBJECT
-                   ('id', §1,
+                   ('id', $1,
                     'constraint', 'account_exists',
                     'message',    'The account with the requested id does not exist.'
                    );
