@@ -21,7 +21,7 @@ const getAccountsAll = async () => {
       `,
       [key]
     );
-    return result.rows.length === 0 ? [404, {}] : [200, result.rows[0]];
+    return result.rows.length === 0 ? [404, {}] : [200, result.rows];
   },
 
   getAccounts = async (key) => {

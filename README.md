@@ -66,7 +66,7 @@ node
 
 echo HOST=http://localhost > .env
 echo PORT=3000 >> .env
-echo TOKEN_SECRET=... >> .enc
+echo TOKEN_SECRET=... >> .env
 ```
 
 ## Start Express-Server
