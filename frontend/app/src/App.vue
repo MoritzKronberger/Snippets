@@ -1,6 +1,7 @@
 <template>
   <router-link to="/login"></router-link>
   <router-view />
+  <footer>© Lea Jell, Martin Kohnle, Moritz Kronberger</footer>
 </template>
 
 <script>
@@ -11,6 +12,12 @@ export default {
 <style lang="scss">
 .hidden {
   display: none;
+}
+
+footer{
+  margin-top: 5%;
+  font-size: 10px;
+  text-align: center;
 }
 
 h1 {
