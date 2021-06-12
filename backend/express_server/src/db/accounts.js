@@ -50,7 +50,7 @@ const getAccountsAll = async () => {
 
   //TODO: check profile_picture for accepted content
   putAccount = async (id, data) => {
-    await query(
+    const result = await query(
       `SELECT status, result FROM put_account($1, $2)`,
       [id, data]
     );
@@ -58,7 +58,7 @@ const getAccountsAll = async () => {
   },
 
   patchAccount = async (id, data) => {
-    await query(
+    const result = await query(
       `SELECT status, result FROM patch_account($1, $2)`,
       [id, data]
     );
@@ -74,6 +74,15 @@ const getAccountsAll = async () => {
   };
 
 export {
+  getAccounts,
+  postAccount,
+  getAccount,
+  putAccount,
+  patchAccount,
+  deleteAccount,
+};
+
+export default {
   getAccounts,
   postAccount,
   getAccount,
