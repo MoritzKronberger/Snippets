@@ -20,11 +20,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.flex-container {
-  display: flex;
-  flex-direction: row;
-}
-
 .flex-container > p {
   margin-left: 2%;
   font-size: small;

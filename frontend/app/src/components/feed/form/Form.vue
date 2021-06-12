@@ -37,9 +37,7 @@ export default {
     },
     submitPost() {
       this.$store.commit("post/newPost");
-      return this.errors == 0 
-      ? this.$store.commit("form/setActive")
-      : null
+      return this.errors == 0 ? this.$store.commit("form/setActive") : null;
     },
   },
 };

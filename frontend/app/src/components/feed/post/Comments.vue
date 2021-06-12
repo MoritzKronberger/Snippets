@@ -5,11 +5,14 @@
       <div class="flex-container">
         <Button
           :label="'Likes: ' + com.likes"
-          btn_class="small likes"
+          btn_class="small"
           @click="addLike(com.id)"
         />
-        <p>{{ com.author }}</p>
-        <p>{{ com.date }}</p>
+
+          <p>{{ com.author }}</p>
+          <p>{{ com.date }}</p>
+
+
       </div>
     </div>
   </body>
@@ -31,16 +34,12 @@ export default {
 </script>
 <style lang="scss">
 .comment {
-  padding-left: 2%;
-  padding-top: 2%;
-  margin-left: 0%;
-  margin-top: 2%;
-  width: 100%;
+  padding: 2% 2%;
+  margin-top: 3%;
   font-size: medium;
   background-color: aliceblue;
   border-radius: 2%;
 }
-
 .flex-container > p {
   margin: 1% 2%;
   font-size: x-small;

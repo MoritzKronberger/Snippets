@@ -14,6 +14,10 @@ export default {
   display: none;
 }
 
+.center {
+  text-align: center;
+}
+
 footer{
   margin-top: 5%;
   font-size: 10px;
@@ -67,35 +71,25 @@ body {
   border-radius: 10px;
   &.addButton {
     font-size: 25px;
-    width: 100%;
+    width: 20%;
   }
-  &.view {
-    font-size: 15px;
-    width: 30%;
-    margin-left: 35%;
-  }
-
   &.medium {
     font-size: 20px;
   }
 
   &.small {
-    font-size: 15px;
-    text-align: center;
+    font-size: 14px;
     &.discard {
       background-color: orange;
       float: right;
-    }
-    &.likes {
-      font-size: 12px;
     }
   }
 }
 
 .input {
   width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  padding: 10px;
+  margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;

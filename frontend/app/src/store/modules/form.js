@@ -8,7 +8,7 @@ export default {
   getters: {
     getField,
     vis_Add: (state) => (section) =>
-      state.section !== section ? "hidden" : "header",
+      state.section !== section ? "hidden" : "center",
     vis_Form: (state) => (section) =>
       state.section !== section ? "hidden" : "content form",
   },
