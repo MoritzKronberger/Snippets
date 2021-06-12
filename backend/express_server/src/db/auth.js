@@ -2,7 +2,7 @@
 
 import { query } from "./index.js";
 
-const postLogin = async ({ user, password }) => {
+const postLogin = async ({ username, password }) => {
   const result = (
     await query(
       `SELECT check_password($1::VARCHAR, $2::VARCHAR) AS authorized, 
@@ -10,10 +10,10 @@ const postLogin = async ({ user, password }) => {
         FROM   account
         WHERE  username = $1::VARCHAR
        `,
-      [user, password]
+      [username, password]
     )
   ).rows[0];
-  return result ? [result.authorized ? 200 : 401, result.id] : [401, ""];
+  return result ? { status: result.authorized ? 200 : 401, id: result.id } : { status: 401, id: "" };
 };
 
 export default { postLogin };

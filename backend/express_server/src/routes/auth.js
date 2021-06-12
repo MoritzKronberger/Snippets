@@ -1,6 +1,7 @@
 /* template: https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_express_01 */
 
 import Router from "express-promise-router";
+import express from "express";
 import jwt from "jsonwebtoken";
 import validate from "../schema/validate.js";
 import accountSchema from "../schema/account-schema.js";
@@ -21,8 +22,10 @@ const auth = Router(),
     next();
   };
 
+  auth.use(express.json());
+
 auth.post("/login", isNotAuthorized, async (req, res) => {
-  const [status, id] = await dbAuth.postLogin(req.body);
+  const { status, id } = await dbAuth.postLogin(req.body);
   if (status === 200) {
     const token = jwt.sign({ id }, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRES });
     res
@@ -40,7 +43,7 @@ auth.post("/register", isNotAuthorized, validate({ body: accountSchema }), async
     host = proxy ? proxy : req.headers.host;
     //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
     res
-      .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
+      //.set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
       .status(status)
       .json(result);
     }

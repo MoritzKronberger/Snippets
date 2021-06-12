@@ -4,17 +4,17 @@ import Router from "express-promise-router";
 import validate from "../schema/validate.js";
 import accountSchema from "../schema/account-schema.js";
 import accountsDB from "../db/accounts.js";
-import { isAuthorized, isAdmin } from "../util/auth.js";
+import { isAuthorized } from "../util/auth.js";
 import { refreshToken } from "./auth.js";
 
-const accountRouter = Router();
+const accounts = Router();
 
-accountRouter.get("/", isAuthorized, refreshToken, async (req, res) => {
-  const { status, result } = await accountsDB.getAccounts(req.id);
+accounts.get("/", isAuthorized, refreshToken, async (req, res) => {
+  const { status, result } = await accountsDB.getAccounts();
   res.status(status).json(result);
 });
 
-accountRouter.post("/", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
+accounts.post("/", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
   const { status, result } = await accountsDB.postAccount(req.body),
   proxy = req.headers["x-forwarded-host"],
   host = proxy ? proxy : req.headers.host;
@@ -25,7 +25,7 @@ accountRouter.post("/", isAuthorized, validate({ body: accountSchema }), refresh
     .json(result);
 });
 
-accountRouter.get("/:id", isAuthorized, refreshToken, async (req, res) => {
+accounts.get("/:id", isAuthorized, refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
@@ -39,7 +39,7 @@ accountRouter.get("/:id", isAuthorized, refreshToken, async (req, res) => {
   }
 });
 
-accountRouter.put("/:id", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
+accounts.put("/:id", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
@@ -50,7 +50,7 @@ accountRouter.put("/:id", isAuthorized, validate({ body: accountSchema }), refre
   res.status(status).json(result);
 });
 
-accountRouter.patch("/:id", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
+accounts.patch("/:id", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
@@ -61,7 +61,7 @@ accountRouter.patch("/:id", isAuthorized, validate({ body: accountSchema }), ref
   res.status(status).json(result);
 });
 
-accountRouter.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
+accounts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
