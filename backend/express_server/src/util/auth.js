@@ -31,7 +31,6 @@ function isAuthorized(req, res, next)
 
       req.user    = payload.user;
       req.id      = payload.id;
-      req.isAdmin = payload.isAdmin;
       next();
     }
   )
