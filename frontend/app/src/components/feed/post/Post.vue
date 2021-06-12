@@ -5,7 +5,9 @@
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Button :label="section_state" btn_class="view" @click="setActive()" />
       <div :class="vis_Comment">
-        <Comments :comments="post" />
+        <div :class="setOverFlow">
+          <Comments :comments="post" />
+        </div>
         <input class="input" v-model="new_comment" type="text" />
         <Button label="comment" btn_class="" @click="addComment()" />
         <Button
@@ -40,7 +42,11 @@ export default {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
-    ...mapFields("post", ["new_comment", "active_id"]),
+    setOverFlow() {
+      return this.posts[this.post.id].comment.length > 3 ? "overflow" : "";
+    },
+
+    ...mapFields("post", ["new_comment", "active_id", "posts"]),
     ...mapState("post", ["lang_object"]),
   },
   methods: {
@@ -65,4 +71,12 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.overflow{
+  margin-top: 5%;
+  overflow-y: scroll;
+  height: 300px;
+}
+
+
+</style>
