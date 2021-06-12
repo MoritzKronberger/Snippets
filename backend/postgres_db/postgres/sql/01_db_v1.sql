@@ -30,29 +30,50 @@ AS VARCHAR (25) CHECK (value !~ '[<>"'';]|--|/\*');
 
 /* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
 CREATE TABLE account 
-(id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
- username               D_UNTAINTED         UNIQUE  NOT NULL,
+(id                     UUID                DEFAULT gen_random_uuid(),
+ username               D_UNTAINTED         NOT NULL,
  password               VARCHAR             NOT NULL,
- profile_picture        BYTEA
+ profile_picture        BYTEA,
+
+ CONSTRAINT account_pk
+    PRIMARY KEY (id),
+
+ CONSTRAINT account_unique_username
+    UNIQUE (username)
 );
 
 CREATE TABLE e_language
-(id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
- name                   D_UNTAINTED         UNIQUE      NOT NULL 
+(id                     UUID                DEFAULT gen_random_uuid(),
+ name                   D_UNTAINTED         NOT NULL ,
+
+ CONSTRAINT e_language_pk
+    PRIMARY KEY (id),
+
+ CONSTRAINT e_language_unique_name
+    UNIQUE (name)
 );
 
 CREATE TABLE e_category
-(id                     UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
- name                   D_UNTAINTED         UNIQUE      NOT NULL 
+(id                     UUID                DEFAULT gen_random_uuid(),
+ name                   D_UNTAINTED         NOT NULL, 
+
+ CONSTRAINT e_category_pk
+    PRIMARY KEY (id),
+
+ CONSTRAINT e_category_unique_name
+    UNIQUE (name)
 );
 
 CREATE TABLE post
-(id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
+(id                     UUID                              DEFAULT gen_random_uuid(),
  creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL    DEFAULT CURRENT_TIMESTAMP,
  title                  VARCHAR (30)                      NOT NULL    DEFAULT 'A fancy title',
  content                TEXT                              NOT NULL,
  language_id            UUID                              NOT NULL,
  user_id                UUID                              NOT NULL,
+
+ CONSTRAINT post_pk
+    PRIMARY KEY (id),
 
  CONSTRAINT fk_language_id
     FOREIGN KEY (language_id) REFERENCES e_language (id),
@@ -76,11 +97,14 @@ CREATE TABLE has_category
 );
 
 CREATE TABLE comment
-(id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
+(id                     UUID                              DEFAULT gen_random_uuid(),
  creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL DEFAULT CURRENT_TIMESTAMP,
  content                TEXT                              NOT NULL,
  user_id                UUID                              NOT NULL,
  post_id                UUID                              NOT NULL,
+
+ CONSTRAINT comment_pk
+    PRIMARY KEY (id),
 
  CONSTRAINT fk_user_id
     FOREIGN KEY (user_id) REFERENCES account (id) ON DELETE CASCADE,
@@ -91,11 +115,14 @@ CREATE TABLE comment
 
 
 CREATE TABLE user_like
-(id                     UUID                              PRIMARY KEY DEFAULT gen_random_uuid(),
+(id                     UUID                              DEFAULT gen_random_uuid(),
  creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL DEFAULT CURRENT_TIMESTAMP,
  user_id                UUID                              NOT NULL,
  post_id                UUID,
  comment_id             UUID,
+ 
+ CONSTRAINT user_like_pk
+    PRIMARY KEY (id),
 
  CONSTRAINT fk_user_id
     FOREIGN KEY (user_id)    REFERENCES account (id) ON DELETE CASCADE,
@@ -106,20 +133,29 @@ CREATE TABLE user_like
  CONSTRAINT fk_comment_id
     FOREIGN KEY (comment_id) REFERENCES comment (id) ON DELETE CASCADE,
 
- UNIQUE (user_id, post_id),
- UNIQUE (user_id, comment_id),
+ CONSTRAINT user_like_unique_user_id_post_id
+    UNIQUE (user_id, post_id),
 
- CONSTRAINT must_have_subject
+ CONSTRAINT user_like_unique_user_id_comment_id
+    UNIQUE (user_id, comment_id),
+
+ CONSTRAINT user_like_subject_not_null
     CHECK (post_id IS NOT NULL OR comment_id IS NOT NULL),
 
- CONSTRAINT no_double_subjects 
+ CONSTRAINT user_like_no_double_subjects 
     CHECK (NOT (post_id IS NOT NULL AND comment_id IS NOT NULL))    
 );
 
 
 CREATE TABLE e_sort_by
-(id                    UUID            PRIMARY KEY DEFAULT gen_random_uuid(),
- sort_by              VARCHAR(20)     UNIQUE  NOT NULL   
+(id                   UUID            DEFAULT gen_random_uuid(),
+ sort_by              VARCHAR(20)     UNIQUE  NOT NULL,   
+
+ CONSTRAINT e_sort_by_pk
+    PRIMARY KEY (id),
+
+ CONSTRAINT e_sort_by_unique
+    UNIQUE (sort_by)
 );
 
 
