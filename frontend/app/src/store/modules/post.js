@@ -3,6 +3,7 @@ export default {
   namespaced: true,
   state: {
     section: false,
+    section_state: "collapse",
     active_id: 0,
     new_comment: "",
     post: { lang_id: "", title: "", content: "", category: "" },

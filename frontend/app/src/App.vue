@@ -16,7 +16,7 @@ export default {
 h1 {
   text-align: center;
 }
-
+s
 html,
 body {
   height: 100%;
@@ -33,7 +33,7 @@ body {
 ;
   &.post {
     padding: 2%;
-    border: 2px solid gray;
+    border: 2px solid rgb(224, 224, 224);
     border-radius: 10px;
     font-size: medium;
   }
@@ -59,6 +59,13 @@ body {
     font-size: 25px;
     width: 100%;
   }
+  &.view {
+    font-size: 15px;
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  
 
   &.medium {
     font-size: 20px;

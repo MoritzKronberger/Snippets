@@ -38,15 +38,17 @@ export default {
   width: 100%;
   font-size: medium;
   background-color: aliceblue;
+  border-radius: 2%;
 }
 
 .flex-container {
   display: flex;
   flex-direction: row;
+  
 }
 
 .flex-container > p {
-  margin: 2% 5%;
+  margin: 1% 2%;
   font-size: x-small;
 }
 </style>
