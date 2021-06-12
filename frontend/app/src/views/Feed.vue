@@ -7,6 +7,7 @@
   <Search />
   <Form />
   <Posts />
+
 </template>
 
 <script>

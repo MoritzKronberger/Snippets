@@ -28,7 +28,7 @@ export default {
   components: { Button, Languages, Validation, Input },
   computed: {
     ...mapGetters("form", ["vis_Add", "vis_Form"]),
-    ...mapFields("post", ["post"]),
+    ...mapFields("post", ["post", "errors"]),
     ...mapFields("form", ["section"]),
   },
   methods: {
@@ -37,7 +37,9 @@ export default {
     },
     submitPost() {
       this.$store.commit("post/newPost");
-      this.$store.commit("form/setActive");
+      return this.errors == 0 
+      ? this.$store.commit("form/setActive")
+      : null
     },
   },
 };

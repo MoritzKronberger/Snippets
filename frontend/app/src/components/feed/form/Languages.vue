@@ -29,13 +29,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.flex-container {
-  display: flex;
-  flex-direction: row;
-}
 
 .flex-container > div {
-  margin: 0 2%;
-  width: 10%;
+  margin: 0 1%;
 }
 </style>

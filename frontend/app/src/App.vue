@@ -31,6 +31,11 @@ body {
   background-color: white;
 }
 
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .content {
   &.auth {
     width: 50%;

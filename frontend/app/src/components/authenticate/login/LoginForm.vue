@@ -6,7 +6,7 @@
     <label for="password">Password:</label>
     <input class="input" v-model="new_comment" type="text" />
     <Button label="Login" btn_class="medium" />
-    <div class="footer">
+    <div class="acc">
       <p>No Account?</p>
       <router-link to="/register">
         <Button label="Register here" btn_class="medium" />
@@ -23,7 +23,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.footer {
+.acc {
   margin-top: 10%;
 }
 </style>

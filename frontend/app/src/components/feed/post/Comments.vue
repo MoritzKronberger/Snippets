@@ -41,12 +41,6 @@ export default {
   border-radius: 2%;
 }
 
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  
-}
-
 .flex-container > p {
   margin: 1% 2%;
   font-size: x-small;
