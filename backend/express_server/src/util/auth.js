@@ -29,7 +29,6 @@ function isAuthorized(req, res, next)
       if (err) 
       { return res.status(401).json({message: 'not logged in'}) }
 
-      req.user    = payload.user;
       req.id      = payload.id;
       next();
     }

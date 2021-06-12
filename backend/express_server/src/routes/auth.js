@@ -23,7 +23,6 @@ const auth = Router(),
 
 auth.post("/login", isNotAuthorized, async (req, res) => {
   const [status, id] = await dbAuth.postLogin(req.body);
-
   if (status === 200) {
     const token = jwt.sign({ id }, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRES });
     res
@@ -34,22 +33,18 @@ auth.post("/login", isNotAuthorized, async (req, res) => {
     res.status(status).json({ message: "not logged in" });
   }
 }),
-  // Two phase registering is still missing!
-  auth.post(
-    "/register",
-    isNotAuthorized,
-    validate({ body: accountSchema }),
-    async (req, res) => {
-      const { status, result } = await accountsDB.postAccount(req.body),
-        proxy = req.headers["x-forwarded-host"],
-        host = proxy ? proxy : req.headers.host;
-      //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
-      res
-        .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-        .status(status)
-        .json(result);
+// Two phase registering is still missing!
+auth.post("/register", isNotAuthorized, validate({ body: accountSchema }), async (req, res) => {
+    const { status, result } = await accountsDB.postAccount(req.body),
+    proxy = req.headers["x-forwarded-host"],
+    host = proxy ? proxy : req.headers.host;
+    //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
+    res
+      .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
+      .status(status)
+      .json(result);
     }
-  );
+);
 
 export { auth, refreshToken };
 
