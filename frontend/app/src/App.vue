@@ -1,12 +1,12 @@
 <template>
-<router-link to="/login"></router-link>
- <router-view/>
+  <router-link to="/login"></router-link>
+  <router-view />
 </template>
 
 <script>
 export default {
   name: "App",
-}
+};
 </script>
 <style lang="scss">
 .hidden {
@@ -16,21 +16,19 @@ export default {
 h1 {
   text-align: center;
 }
-s
-html,
+s html,
 body {
   height: 100%;
   font-size: $font-size-base !important;
   font-family: $font-family-sans;
-  background-color: white
+  background-color: white;
 }
 
 .content {
-  &.auth{
+  &.auth {
     width: 50%;
-    margin: 0 auto
+    margin: 0 auto;
   }
-;
   &.post {
     padding: 2%;
     border: 2px solid rgb(224, 224, 224);
@@ -61,11 +59,9 @@ body {
   }
   &.view {
     font-size: 15px;
-    width: 50%;
-    margin-left: 25%;
+    width: 30%;
+    margin-left: 35%;
   }
-
-  
 
   &.medium {
     font-size: 20px;

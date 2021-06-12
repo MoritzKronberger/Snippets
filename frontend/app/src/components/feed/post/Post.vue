@@ -3,12 +3,10 @@
     <div class="content post">
       <Description :post="post" />
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
-      <Button :label="section_state + ' comments'" btn_class="view" @click="setActive()" />
-
+      <Button :label="section_state" btn_class="view" @click="setActive()" />
       <div :class="vis_Comment">
         <Comments :comments="post" />
         <input class="input" v-model="new_comment" type="text" />
-
         <Button label="comment" btn_class="" @click="addComment()" />
         <Button
           :label="'Likes: ' + post.likes"
@@ -22,7 +20,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex" 
+import { mapState } from "vuex";
 import { mapFields } from "vuex-map-fields";
 import Comments from "./Comments.vue";
 import Description from "./Description.vue";
@@ -31,13 +29,18 @@ import Prism from "./Prism.vue";
 import Validation from "../form/Validation.vue";
 export default {
   name: "Post",
+  data: function() {
+    return {
+      section_state: "view",
+    };
+  },
   props: { post: Object },
   components: { Comments, Button, Description, Prism, Validation },
   computed: {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
-    ...mapFields("post", ["new_comment", "active_id", "section_state"]),
+    ...mapFields("post", ["new_comment", "active_id"]),
     ...mapState("post", ["lang_object"]),
   },
   methods: {
@@ -47,13 +50,12 @@ export default {
     },
 
     setActive() {
-      if(this.post.id !== this.active_id)
-      { this.active_id = this.post.id;
-        this.section_state = "collapse"}
-      else
-      {
-        this.active_id = null
-        this.section_state = "view"
+      if (this.post.id !== this.active_id) {
+        this.active_id = this.post.id;
+        this.section_state = "collapse";
+      } else {
+        this.active_id = null;
+        this.section_state = "view";
       }
     },
 
@@ -63,8 +65,4 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-
-
-
-</style>
+<style lang="scss" scoped></style>
