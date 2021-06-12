@@ -56,7 +56,7 @@ SELECT * FROM post;
 SELECT * 
 FROM post_post
      ( '{ "title": "Created via stored function",
-          "content": "This post was created via the stored function!"
+          "content": "This post was created via the stored function!",
           "language_id": "copy_here",
           "user_id": "copy_here"
         }'
