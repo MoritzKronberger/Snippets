@@ -3,46 +3,45 @@ import { query } from "./index.js";
 
 const getPostsAll = async () => {
     const result = await query(``);
-    return [200, result.rows];
+    return { status: 200, result: result.rows };
   },
   getPostSearch = async (key) => {
     const result = await query(``, [key]);
-    return result.rows.length === 0 ? [404, {}] : [200, resuöt.rows];
+    return result.rows.length === 0
+      ? { status: 404, result: {} }
+      : { status: 200, result: result.rows[0] };
   },
   getPosts = async (key) => {
     return key ? getPostSearch(key) : getPostsAll();
   },
+  getPost = async (id) => {
+    const result = await query(``, [id]);
+    return result.rows.length === 0
+      ? { status: 404, result: {} }
+      : { status: 200, result: result.rows[0] };
+  },
   postPost = async (data) => {
-    const result = await query(`SELECT status, result FROM post_post($1, $2)`, [
-      data,
-    ]);
+    const result = await query(``, [data]);
     return result.rows[0];
   },
-  putPost = async (id, data) => {
-    const result = await query(`SELECT status, result FROM put_post($1, $2)`, [
-      id,
-      data,
-    ]);
+  putpost = async (id, data) => {
+    const result = await query(``, [id, data]);
+    return result.rows[0];
+  },
+  patchPost = async (id, data) => {
+    const result = await query(``, [id, data]);
     return result.rows[0];
   },
   deletePost = async (id) => {
-    const result = await query(
-      `SELECT status, result FROM delete_account($1)`,
-      [id]
-    );
+    const result = await query(``, [id]);
     return result.rows[0];
   };
 
 export { 
-    getPosts, 
-    postPost, 
-    putPost, 
-    deletePost 
-};
-
-export default {
-  getPosts,
-  postPost,
-  putPost,
-  deletePost,
+  getPosts, 
+  getPost, 
+  postPost, 
+  putpost, 
+  patchPost, 
+  deletePost 
 };
