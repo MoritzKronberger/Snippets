@@ -16,12 +16,11 @@
     </div>
   </body>
 </template>
-
 <script>
 import { mapState } from "vuex";
 import { mapFields } from "vuex-map-fields";
-import Comments from "./Comments.vue";
 import Description from "./Description.vue";
+import Comments from "./Comments.vue";
 import Button from "../../Button.vue";
 import Prism from "./Prism.vue";
 import Validation from "../form/Validation.vue";
@@ -29,7 +28,7 @@ import Interaction from "./Interaction.vue";
 export default {
   name: "Post",
   props: { post: Object },
-  components: { Comments, Button, Description, Prism, Validation, Interaction },
+  components: { Button, Description, Prism, Validation, Interaction, Comments },
   computed: {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
@@ -37,7 +36,7 @@ export default {
     setOverFlow() {
       return this.posts[this.post.id].comment.length > 3 ? "overflow" : "";
     },
-    ...mapFields("post", ["new_comment", "posts"]),
+    ...mapFields("post", ["new_comment", "posts", "active_id"]),
     ...mapState("post", ["lang_object"]),
   },
   methods: {
@@ -56,5 +55,6 @@ export default {
   margin-top: 5%;
   overflow-y: scroll;
   height: 300px;
+  scrollbar-width: thin; 
 }
 </style>

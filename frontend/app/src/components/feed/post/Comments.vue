@@ -8,11 +8,8 @@
           btn_class="small"
           @click="addLike(com.id)"
         />
-
-          <p>{{ com.author }}</p>
-          <p>{{ com.date }}</p>
-
-
+        <p>{{ com.author }}</p>
+        <p>{{ com.date }}</p>
       </div>
     </div>
   </body>
