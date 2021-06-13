@@ -9,7 +9,7 @@ const getPostsAll = async () => {
     const result = await query(``, [key]);
     return result.rows.length === 0
       ? { status: 404, result: {} }
-      : { status: 200, result: result.rows[0] };
+      : { status: 200, result: result.rows };
   },
   getPosts = async (key) => {
     return key ? getPostSearch(key) : getPostsAll();
@@ -24,7 +24,7 @@ const getPostsAll = async () => {
     const result = await query(``, [data]);
     return result.rows[0];
   },
-  putpost = async (id, data) => {
+  putPost = async (id, data) => {
     const result = await query(``, [id, data]);
     return result.rows[0];
   },
@@ -41,7 +41,16 @@ export {
   getPosts, 
   getPost, 
   postPost, 
-  putpost, 
+  putPost, 
+  patchPost, 
+  deletePost 
+};
+
+export default { 
+  getPosts, 
+  getPost, 
+  postPost, 
+  putPost, 
   patchPost, 
   deletePost 
 };
