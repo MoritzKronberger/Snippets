@@ -16,7 +16,6 @@ import "prismjs/components/prism-csharp"
 import "prismjs/components/prism-python"
 import "prismjs/plugins/normalize-whitespace/prism-normalize-whitespace";
 
-
 Prism.plugins.NormalizeWhitespace.setDefaults({
   "break-lines": 50,
 });

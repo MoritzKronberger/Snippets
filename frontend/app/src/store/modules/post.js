@@ -31,7 +31,6 @@ export default {
           state.errors.push(key);
         }
       }
-
       if (state.errors.length == 0) {
         state.posts.push({
           id: state.posts.length,

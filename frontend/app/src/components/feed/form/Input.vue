@@ -15,7 +15,7 @@
       <input
         v-model="post.category"
         class="input"
-        placeholder="add or create new category"
+        placeholder="#category"
       />
     </div>
   </body>

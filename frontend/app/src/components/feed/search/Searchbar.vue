@@ -1,8 +1,8 @@
 <template>
   <body>
-    <section>
+    <div>
       <input type="text" placeholder="search..." />
-    </section>
+    </div>
   </body>
 </template>
 <script>

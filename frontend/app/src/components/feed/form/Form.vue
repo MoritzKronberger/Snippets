@@ -20,7 +20,6 @@ import Button from "../../Button.vue";
 import Languages from "./Languages";
 import Validation from "./Validation";
 import Input from "./Input";
-
 import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
 export default {
@@ -37,10 +36,9 @@ export default {
     },
     submitPost() {
       this.$store.commit("post/newPost");
-      return this.errors == 0 ? this.$store.commit("form/setActive") : null;
+      return this.errors.length == 0 ? this.$store.commit("form/setActive") : null;
     },
   },
 };
 </script>
-
 <style lang="scss" scoped></style>

@@ -55,6 +55,6 @@ export default {
   margin-top: 5%;
   overflow-y: scroll;
   height: 300px;
-  scrollbar-width: thin; 
+  scrollbar-width: thin;
 }
 </style>

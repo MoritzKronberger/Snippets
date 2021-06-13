@@ -13,13 +13,13 @@ import { mapState } from "vuex";
 export default {
   name: "Validation",
   props: { validation: Object },
-  computed: { ...mapState('post', ["errors"]) },
+  computed: { ...mapState("post", ["errors"]) },
 };
 </script>
 
 <style lang="scss" scoped>
 .valid {
-    font-size: medium;
-    color: red;
+  font-size: medium;
+  color: red;
 }
 </style>

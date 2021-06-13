@@ -1,8 +1,8 @@
 <template>
-  <section class="header">
-  <Searchbar />
-  <Filter />
-  </section>
+  <div class="header">
+    <Searchbar />
+    <Filter />
+  </div>
 </template>
 
 <script>
@@ -19,8 +19,7 @@ export default {
 <style lang="scss">
 .header {
   width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   margin-bottom: 7%;
 }
 </style>

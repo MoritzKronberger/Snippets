@@ -1,10 +1,10 @@
 <template>
   <body>
-    <section class="flex-container">
-    <div v-for="post in posts" :key="post.id">
-      <Post :post="post" />
+    <div class="flex-container">
+      <div v-for="post in posts" :key="post.id">
+        <Post :post="post" />
+      </div>
     </div>
-    </section>
   </body>
 </template>
 

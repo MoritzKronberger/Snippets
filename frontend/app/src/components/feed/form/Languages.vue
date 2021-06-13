@@ -1,10 +1,14 @@
 <template>
   <body>
-    <section class="flex-container">
+    <div class="flex-container">
       <div v-for="lang in lang_object" :key="lang.id">
-      <Button :label="lang.name" btn_class="small" @click="addLang(lang.id)" />
+        <Button
+          :label="lang.name"
+          btn_class="small"
+          @click="addLang(lang.id)"
+        />
       </div>
-    </section>
+    </div>
   </body>
 </template>
 
@@ -29,7 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .flex-container > div {
   margin: 0 1%;
 }

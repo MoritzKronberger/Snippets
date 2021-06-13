@@ -23,7 +23,6 @@ export default {
   props: { comments: Object },
   methods: {
     addLike(com_id) {
-      console.log(com_id);
       this.$store.commit("post/addLikeComment", com_id);
     },
   },
