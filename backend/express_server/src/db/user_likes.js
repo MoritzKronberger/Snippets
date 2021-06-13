@@ -47,10 +47,10 @@ export {
 };
 
 export default { 
-    getLikes, 
-    getLike, 
-    postLike, 
-    putLike, 
-    patchLike, 
-    deleteLike 
-  };
+  getLikes, 
+  getLike, 
+  postLike, 
+  putLike, 
+  patchLike, 
+  deleteLike 
+};
