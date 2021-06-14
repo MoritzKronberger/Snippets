@@ -1,7 +1,7 @@
 import { query } from "./index.js";
 //TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
-// TODO: limit returned rows?
+// TODO: limit für returned rows?
 const getPostsAll = async () => {
     const result = await query(
       `SELECT id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
@@ -9,7 +9,7 @@ const getPostsAll = async () => {
       `);
     return { status: 200, result: result.rows };
   },
-  // TODO: use sort_by values as search-keys?
+  // TODO: sort_by values als search-keys?
   getPostSearch = async (key) => {
     const result = await query(``, [key]);
     return result.rows.length === 0
