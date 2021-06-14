@@ -301,3 +301,26 @@ IMMUTABLE
 RETURNS NULL ON NULL INPUT;
 
 COMMIT;
+
+
+CREATE FUNCTION cleanup_categories_function() RETURNS TRIGGER AS
+$_plpgsql_$
+    BEGIN
+        IF( TG_OP = 'DELETE' AND NOT EXISTS (SELECT * FROM has_category WHERE category_id = OLD.category_id))
+            THEN 
+               DELETE
+               FROM e_category
+               WHERE id = OLD.category_id;
+        END IF;
+
+        RETURN NULL;
+    END;
+$_plpgsql_$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER cleanup_categories_trigger
+AFTER DELETE
+ON has_category
+FOR EACH ROW
+    EXECUTE PROCEDURE cleanup_categories_function()
+;
