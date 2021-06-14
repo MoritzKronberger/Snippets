@@ -1,5 +1,4 @@
-# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git
-
+# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
 #!/usr/bin/env bash
 set -e
 
