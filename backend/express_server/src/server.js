@@ -9,7 +9,7 @@ import * as uuid from "uuid";
 import { auth } from "./routes/auth.js";
 import { accounts } from "./routes/accounts.js";
 import { posts } from "./routes/posts.js";
-import { comments } from "./routes(comments.js";
+import { comments } from "./routes/comments.js";
 
 import { ValidationError } from "express-json-validator-middleware";
 
