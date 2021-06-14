@@ -34,10 +34,10 @@ posts.get("/:id", async (req, res) => {
     }
 });
 
-posts.put("/id", isAuthorized, validate({ body: postSchema}), refreshToken, async (req, res) => {
-    let post = { status, result };
+posts.put("/:id", isAuthorized, validate({ body: postSchema}), refreshToken, async (req, res) => {
+    let post = { status:"", result:"" };
     post = await postsDB.getPost(req.params.id);
-    if (req.id !== result.user_id) {
+    if (req.id !== post.result.user_id) {
         return res.sendStatus(401);
     }
 
@@ -45,18 +45,16 @@ posts.put("/id", isAuthorized, validate({ body: postSchema}), refreshToken, asyn
         req.params.id,
         req.body
     );
-    res.status(status).json(result);
+    res.status(post.status).json(post.result);
 });
 
 posts.patch("/:id", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
     let post = { status:"", result:"" };
-    console.log(post);
     post = await postsDB.getPost(req.params.id);
-    console.log(post);
     if (post.status === 404) {
         return res.sendStatus(post.status)
     }
-    if (req.id !== result.user_id) {
+    if (req.id !== post.result.user_id) {
         return res.sendStatus(401);
     }
 
