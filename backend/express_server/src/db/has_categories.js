@@ -1,6 +1,7 @@
 import { query } from "./index.js";
 //TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
+// has_category get queries nötig?
 const getHasCategoriesAll = async () => {
     const result = await query(``);
     return { status: 200, result: result.rows };
@@ -21,19 +22,27 @@ const getHasCategoriesAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postHasCategory = async (data) => {
-    const result = await query(``, [data]);
+    const result = await query(
+      `SELECT status, result FROM post_has_category($1)`, 
+      [data]
+    );
     return result.rows[0];
   },
+  // has_category put nötig?
   putHasCategory = async (id, data) => {
     const result = await query(``, [id, data]);
     return result.rows[0];
   },
+  // has_category patch nötig?
   patchHasCategory = async (id, data) => {
     const result = await query(``, [id, data]);
     return result.rows[0];
   },
   deleteHasCategory = async (id) => {
-    const result = await query(``, [id]);
+    const result = await query(
+      `SELECT status, result FROM delete_has_category($1)`, 
+      [id]
+    );
     return result.rows[0];
   };
 

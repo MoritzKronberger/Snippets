@@ -30,7 +30,7 @@ SELECT p.id, p.creation_time, p.title, p.content,
 FROM post p
      JOIN e_language l ON p.language_id = l.id
      JOIN account a ON p.user_id = a.id
-     JOIN get_category_join_post ctg ON p.id = ctg.post_id
+     LEFT JOIN get_category_join_post ctg ON p.id = ctg.post_id
      LEFT JOIN user_like lk ON p.id = lk.post_id
      LEFT JOIN comment c ON p.id = c.post_id
 GROUP BY p.id, l.name, a.id
