@@ -14,7 +14,7 @@ const getPostsAll = async () => {
     const result = await query(``, [key]);
     return result.rows.length === 0
       ? { status: 404, result: {} }
-      : { status: 200, result: result.rows[0] };
+      : { status: 200, result: result.rows };
   },
   getPosts = async (key) => {
     return key ? getPostSearch(key) : getPostsAll();
@@ -38,7 +38,7 @@ const getPostsAll = async () => {
     );
     return result.rows[0];
   },
-  putpost = async (id, data) => {
+  putPost = async (id, data) => {
     const result = await query(
       `SELECT status, result FROM put_post($1, $2)`, 
       [id, data]
@@ -63,7 +63,16 @@ export {
   getPosts, 
   getPost, 
   postPost, 
-  putpost, 
+  putPost, 
+  patchPost, 
+  deletePost 
+};
+
+export default { 
+  getPosts, 
+  getPost, 
+  postPost, 
+  putPost, 
   patchPost, 
   deletePost 
 };
