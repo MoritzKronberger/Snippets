@@ -33,39 +33,14 @@ const getLanguagesAll = async () => {
     return result.rows.length === 0
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
-  },
-  // languages sind fix: post, put, patch, delete nötig?
-  postLanguage = async (data) => {
-    const result = await query(``, [data]);
-    return result.rows[0];
-  },
-  putLanguage = async (id, data) => {
-    const result = await query(``, [id, data]);
-    return result.rows[0];
-  },
-  patchLanguage = async (id, data) => {
-    const result = await query(``, [id, data]);
-    return result.rows[0];
-  },
-  deleteLanguage = async (id) => {
-    const result = await query(``, [id]);
-    return result.rows[0];
   };
 
 export {
   getLanguages,
-  getLanguage,
-  postLanguage,
-  putLanguage,
-  patchLanguage,
-  deleteLanguage,
+  getLanguage
 };
 
 export default {
     getLanguages,
-    getLanguage,
-    postLanguage,
-    putLanguage,
-    patchLanguage,
-    deleteLanguage,
+    getLanguage
   };
