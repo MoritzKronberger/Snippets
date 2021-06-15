@@ -1,7 +1,9 @@
 <template>
-  <router-link to="/login"></router-link>
-  <router-view />
-  <footer>© Lea Jell, Martin Kohnle, Moritz Kronberger</footer>
+  <body>
+    <router-link to="/login"></router-link>
+    <router-view />
+    <footer>© Lea Jell, Martin Kohnle, Moritz Kronberger</footer>
+  </body>
 </template>
 
 <script>
@@ -18,7 +20,7 @@ export default {
   text-align: center;
 }
 
-footer{
+footer {
   margin-top: 5%;
   font-size: 10px;
   text-align: center;

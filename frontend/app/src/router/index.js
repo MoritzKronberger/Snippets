@@ -20,6 +20,13 @@ const routes = [
       return import("../views/Register.vue");
     },
   },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: function() {
+      return import("../views/Profile.vue");
+    },
+  },
 ];
 
 const router = createRouter({

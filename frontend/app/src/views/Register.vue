@@ -1,6 +1,10 @@
 <template>
-  <router-link to="/login"></router-link>
-  <RegisterForm />
+  <body>
+    <router-link to="/login">
+      <Button label="go back" btn_class="medium" />
+    </router-link>
+    <RegisterForm />
+  </body>
 </template>
 
 <script>
@@ -11,5 +15,4 @@ export default {
   components: { Button, RegisterForm },
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -1,6 +1,7 @@
 <template>
   <body>
     <div class="content post">
+      <Button label="Edit" btn_class="small discard" />  
       <Description :post="post" />
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Interaction :post="post" />

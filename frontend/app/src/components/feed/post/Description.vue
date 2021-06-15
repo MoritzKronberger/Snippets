@@ -1,5 +1,5 @@
 <template>
-  <body>    
+  <body>
     <h4>{{ post.title }}</h4>
       <div class="flex-container">
         <p>Language: {{ lang_object[post.lang_id].name }}</p>
@@ -11,9 +11,11 @@
 
 <script>
 import { mapState } from "vuex";
+import Button from "../../Button.vue";
 export default {
   name: "Description",
   props: { post: Object },
+  components: { Button },
     computed: {
     ...mapState("post", ["lang_object"]),
   },

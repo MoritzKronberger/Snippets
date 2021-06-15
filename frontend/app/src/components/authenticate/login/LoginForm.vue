@@ -1,18 +1,28 @@
 <template>
-  <h1>Login</h1>
-  <section class="content auth">
-    <label for="username">Username:</label>
-    <input class="input" v-model="new_comment" type="text" />
-    <label for="password">Password:</label>
-    <input class="input" v-model="new_comment" type="text" />
-    <Button label="Login" btn_class="medium" />
-    <div class="acc">
-      <p>No Account?</p>
-      <router-link to="/register">
-        <Button label="Register here" btn_class="medium" />
-      </router-link>
+  <body>
+    <h1>Login</h1>
+    <div class="content auth">
+      <input
+        class="input"
+        v-model="new_comment"
+        type="text"
+        placeholder="Username"
+      />
+      <input
+        class="input"
+        v-model="new_comment"
+        type="text"
+        placeholder="Password"
+      />
+      <Button label="Login" btn_class="medium" />
+      <div class="acc">
+        <p>No Account?</p>
+        <router-link to="/register">
+          <Button label="Register here" btn_class="medium" />
+        </router-link>
+      </div>
     </div>
-  </section>
+  </body>
 </template>
 
 <script>

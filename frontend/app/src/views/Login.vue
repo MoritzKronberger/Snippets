@@ -1,8 +1,10 @@
 <template>
+  <body>
     <router-link to="/">
-        <Button label="Visit Feed" btn_class="medium" />
+      <Button label="Visit Feed" btn_class="medium" />
     </router-link>
-  <LoginForm />
+    <LoginForm />
+  </body>
 </template>
 
 <script>
@@ -13,6 +15,4 @@ export default {
   components: { Button, LoginForm },
 };
 </script>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

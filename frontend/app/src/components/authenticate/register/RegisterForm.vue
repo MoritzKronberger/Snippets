@@ -1,17 +1,14 @@
 <template>
-  <router-link to="/login">
-    <Button label="go back" btn_class="medium" />
-  </router-link>
-  <h1>Create Account</h1>
-  <section class="content auth">
-    <label for="username">Username:</label>
-    <input class="input" v-model="new_comment" type="text" />
-    <label for="password">Password:</label>
-    <input class="input" v-model="new_comment" type="text" />
-    <label for="password">Confirm Password:</label>
-    <input class="input" v-model="new_comment" type="text" />
-    <Button label="Register" btn_class="medium" />
-  </section>
+  <body>
+    <h1>Create Account</h1>
+    <div class="content auth">
+      <input class="input" v-model="new_comment" type="text" placeholder="Username"/>
+      <input class="input" v-model="new_comment" type="text" placeholder="Password"/>
+      <label for="password">Confirm Password:</label>
+      <input class="input" v-model="new_comment" type="text" placeholder="Password"/>
+      <Button label="Register" btn_class="medium" />
+    </div>
+  </body>
 </template>
 
 <script>
@@ -21,5 +18,4 @@ export default {
   components: { Button },
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss"></style>

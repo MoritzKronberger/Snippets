@@ -1,13 +1,17 @@
 <template>
-  <router-link to="/login">
-    <Button label="Login" btn_class="medium" />
-  </router-link>
-  <router-view />
-  <h1>Coding Feed</h1>
-  <Search />
-  <Form />
-  <Posts />
-
+  <body>
+    <router-link to="/login">
+      <Button label="Login" btn_class="medium" />
+    </router-link>
+    <router-link to="/profile">
+      <Button label="Profile" btn_class="medium" />
+    </router-link>
+    <router-view />
+    <h1>Coding Feed</h1>
+    <Search />
+    <Form />
+    <Posts />
+  </body>
 </template>
 
 <script>
@@ -25,5 +29,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss"></style>
