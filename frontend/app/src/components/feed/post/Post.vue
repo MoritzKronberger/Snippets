@@ -1,7 +1,7 @@
 <template>
   <body>
     <div class="content post">
-      <Button label="Edit" btn_class="small discard" />  
+      <Edit :post="post"/>
       <Description :post="post" />
       <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
       <Interaction :post="post" />
@@ -26,10 +26,11 @@ import Button from "../../Button.vue";
 import Prism from "./Prism.vue";
 import Validation from "../form/Validation.vue";
 import Interaction from "./Interaction.vue";
+import Edit from "./Edit.vue"
 export default {
   name: "Post",
   props: { post: Object },
-  components: { Button, Description, Prism, Validation, Interaction, Comments },
+  components: { Button, Description, Prism, Validation, Interaction, Comments, Edit },
   computed: {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";

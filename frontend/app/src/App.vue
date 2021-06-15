@@ -85,6 +85,10 @@ body {
       background-color: orange;
       float: right;
     }
+      &.delete {
+      background-color: red;
+      float: right;
+    }
   }
 }
 
