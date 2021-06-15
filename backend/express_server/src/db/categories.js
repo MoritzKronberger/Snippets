@@ -35,37 +35,16 @@ const getCategoriesAll = async () => {
   postCategory = async (data) => {
     const result = await query(`SELECT status, result FROM post_category($1)`, [data]);
     return result.rows[0];
-  },
-  // putCategory nötig?
-  putCategory = async (id, data) => {
-    const result = await query(``, [id, data]);
-    return result.rows[0];
-  },
-  // patchCategory nötig?
-  patchCategory = async (id, data) => {
-    const result = await query(``, [id, data]);
-    return result.rows[0];
-  },
-  // deleteCategory nötig? (evtl. automatischer Cleanup via trigger?)
-  deleteCategory = async (id) => {
-    const result = await query(``, [id]);
-    return result.rows[0];
   };
 
 export {
   getCategories,
   getCategory,
-  postCategory,
-  putCategory,
-  patchCategory,
-  deleteCategory,
+  postCategory
 };
 
 export default {
   getCategories,
   getCategory,
-  postCategory,
-  putCategory,
-  patchCategory,
-  deleteCategory,
+  postCategory
 };
