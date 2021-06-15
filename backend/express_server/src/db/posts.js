@@ -31,11 +31,10 @@ const getPostsAll = async () => {
   getPosts = async (key) => {
     return key ? getPostSearch(key) : getPostsAll();
   },
-  // TODO: nur post view
   getPost = async (id) => {
     const result = await query(
-      `SELECT id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
-       FROM get_full_post
+      `SELECT id, user_id
+       FROM get_post
        WHERE id = $1::UUID
       `, 
       [id]
