@@ -21,10 +21,10 @@ const getHasCategoriesAll = async () => {
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
   },
-  postHasCategory = async (data) => {
+  postHasCategory = async (p_id, c_id) => {
     const result = await query(
-      `SELECT status, result FROM post_has_category($1)`, 
-      [data]
+      `SELECT status, result FROM post_has_category($1, $2)`, 
+      [p_id, c_id]
     );
     return result.rows[0];
   },
@@ -38,10 +38,10 @@ const getHasCategoriesAll = async () => {
     const result = await query(``, [id, data]);
     return result.rows[0];
   },
-  deleteHasCategory = async (id) => {
+  deleteHasCategory = async (p_id, c_id) => {
     const result = await query(
-      `SELECT status, result FROM delete_has_category($1)`, 
-      [id]
+      `SELECT status, result FROM delete_has_category($1, $2)`, 
+      [p_id, c_id]
     );
     return result.rows[0];
   };
