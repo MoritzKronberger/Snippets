@@ -149,13 +149,17 @@ CREATE TABLE user_like
 
 CREATE TABLE e_sort_by
 (id                   UUID            DEFAULT gen_random_uuid(),
- sort_by              VARCHAR(20)     UNIQUE  NOT NULL,   
+ sort_by              VARCHAR(20)     NOT NULL,   
+ view_name            VARCHAR(50)     NOT NULL,
 
  CONSTRAINT e_sort_by_pk
     PRIMARY KEY (id),
 
- CONSTRAINT e_sort_by_unique
-    UNIQUE (sort_by)
+ CONSTRAINT e_sort_by_unique_sort_by
+    UNIQUE (sort_by),
+
+ CONSTRAINT e_sort_by_unique_view_name
+    UNIQUE (view_name)
 );
 
 
