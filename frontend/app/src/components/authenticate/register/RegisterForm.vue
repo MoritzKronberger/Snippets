@@ -3,6 +3,7 @@
     <h1>Create Account</h1>
     <div class="content auth">
       <input class="input" v-model="new_comment" type="text" placeholder="Username"/>
+      <input class="input" v-model="new_comment" type="text" placeholder="E-Mail"/>
       <input class="input" v-model="new_comment" type="text" placeholder="Password"/>
       <label for="password">Confirm Password:</label>
       <input class="input" v-model="new_comment" type="text" placeholder="Password"/>

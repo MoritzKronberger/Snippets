@@ -12,9 +12,8 @@
         class="input"
         v-model="new_comment"
         type="text"
-        placeholder="New Password"
+        placeholder="New Email"
       />
-      <label for="password">Confirm Password:</label>
       <input
         class="input"
         v-model="new_comment"

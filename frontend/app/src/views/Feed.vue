@@ -1,10 +1,12 @@
 <template>
   <body>
+    <div class="profile">
+      <router-link to="/profile">
+        <Button label="Profile" btn_class="medium" />
+      </router-link>
+    </div>
     <router-link to="/login">
       <Button label="Login" btn_class="medium" />
-    </router-link>
-    <router-link to="/profile">
-      <Button label="Profile" btn_class="medium" />
     </router-link>
     <router-view />
     <h1>Coding Feed</h1>
@@ -29,4 +31,8 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.profile {
+  float: right;
+}
+</style>
