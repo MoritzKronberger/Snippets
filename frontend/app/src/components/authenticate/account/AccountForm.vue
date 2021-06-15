@@ -1,35 +1,16 @@
 <template>
   <body>
     <h1>Profile</h1>
-    <div class="content auth">
-      <input
-        class="input"
-        v-model="new_comment"
-        type="text"
-        placeholder="New Username"
-      />
-      <input
-        class="input"
-        v-model="new_comment"
-        type="text"
-        placeholder="New Email"
-      />
-      <input
-        class="input"
-        v-model="new_comment"
-        type="text"
-        placeholder="New Password"
-      />
-      <Button label="Save Profile" btn_class="medium" />
-    </div>
+      <Form button_name="Save Profile" auth_type="email username_password" /> 
   </body>
 </template>
 <script>
+import Form from "../Form.vue"
 import Button from "../../Button.vue";
 export default {
   name: "Account",
   components: {
-    Button,
+    Button, Form
   },
 };
 </script>

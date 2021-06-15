@@ -1,39 +1,23 @@
 <template>
   <body>
     <h1>Login</h1>
+     <Form button_name="Login Profile" auth_type="username_password" /> 
     <div class="content auth">
-      <input
-        class="input"
-        v-model="new_comment"
-        type="text"
-        placeholder="Username"
-      />
-      <input
-        class="input"
-        v-model="new_comment"
-        type="text"
-        placeholder="Password"
-      />
-      <Button label="Login" btn_class="medium" />
-      <div class="acc">
-        <p>No Account?</p>
-        <router-link to="/register">
-          <Button label="Register here" btn_class="medium" />
-        </router-link>
-      </div>
+      <p>No Account?</p>
+      <router-link to="/register">
+        <Button label="Register here" btn_class="medium" />
+      </router-link>
     </div>
   </body>
 </template>
 
 <script>
+import Form from "../Form.vue"
 import Button from "../../Button.vue";
 export default {
   name: "LoginForm",
-  components: { Button },
+  components: { Button, Form },
 };
 </script>
 <style lang="scss">
-.acc {
-  margin-top: 10%;
-}
 </style>

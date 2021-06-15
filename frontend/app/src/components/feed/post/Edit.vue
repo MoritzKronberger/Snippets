@@ -6,7 +6,6 @@
     </div>
   </body>
 </template>
-
 <script>
 import Button from "../../Button.vue";
 export default {
@@ -20,7 +19,7 @@ export default {
   props: { post: Object },
   computed: {
     visEdit() {
-      return this.edit_state !== true ? "hidden" : "";
+      return this.edit_state !== true ? "hidden" : "";t
     },
   },
   methods: {
