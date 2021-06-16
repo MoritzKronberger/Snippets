@@ -8,12 +8,22 @@ const getCategoriesAll = async () => {
     return { status: 200, result: result.rows };
   },
   getCategorySearch = async (key) => {
-    const result = await query(
+    const c_uuid_regex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+      result = key.match(c_uuid_regex)
+        ? await query(
       `SELECT id, name
        FROM get_category
-       WHERE id = $1::UUID OR name = $1::D_UNTAINTED
+       WHERE id = $1::UUID
       `, 
       [key]
+    )
+    : await query(
+      `SELECT id, name
+       FROM get_category
+       WHERE name = $1::D_UNTAINTED
+       `,
+       [key]
     );
     return result.rows.length === 0
       ? { status: 404, result: {} }

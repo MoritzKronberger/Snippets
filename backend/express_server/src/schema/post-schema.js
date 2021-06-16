@@ -7,7 +7,8 @@ const postSchema = {
     title: { type: ["string", "null"] },
     content: { type: ["string", "null"] },
     language_id: { type: ["string", "null"], format: "uuid" },
-    user_id: { type: "string", format: "uuid" }
+    user_id: { type: "string", format: "uuid" },
+    category: { type: ["string", "null"] }
   },
 };
 

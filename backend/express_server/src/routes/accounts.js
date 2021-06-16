@@ -10,7 +10,7 @@ import { refreshToken } from "./auth.js";
 const accounts = Router();
 
 accounts.get("/", isAuthorized, refreshToken, async (req, res) => {
-  const { status, result } = await accountsDB.getAccounts();
+  const { status, result } = await accountsDB.getAccounts(req.query.search);
   res.status(status).json(result);
 });
 

@@ -7,11 +7,11 @@ import { refreshToken } from "./auth.js";
 
 const hasCategories = Router();
 
-hasCategories.post("/", isAuthorized, validate({ body: hasCategoriesSchema }), refreshToken, async (req, res) => {
+hasCategories.post( "/", isAuthorized, validate({ body: hasCategoriesSchema }), refreshToken, async (req, res) => {
     const { status, result } = await hasCategoriesDB.postHasCategory(
-      req.body.post_id, 
-      req.body.category_id
-    ),
+        req.body.post_id,
+        req.body.category_id
+      ),
       proxy = req.headers["x-forwarded-host"],
       host = proxy ? proxy : req.headers.host;
     res
@@ -23,7 +23,7 @@ hasCategories.post("/", isAuthorized, validate({ body: hasCategoriesSchema }), r
 
 hasCategories.delete("/", isAuthorized, refreshToken, async (req, res) => {
   const { status, result } = await hasCategoriesDB.deleteHasCategory(
-    req.body.post_id, 
+    req.body.post_id,
     req.body.category_id
   );
 
