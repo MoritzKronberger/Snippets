@@ -12,6 +12,7 @@ import { posts } from "./routes/posts.js";
 import { comments } from "./routes/comments.js";
 import { categories } from "./routes/categories.js";
 import { hasCategories } from "./routes/hasCategories.js";
+import { languages } from "./routes/languages.js";
 
 import { ValidationError } from "express-json-validator-middleware";
 
@@ -25,6 +26,7 @@ c_app.use("/v1/posts", posts);
 c_app.use("/v1/comments", comments);
 c_app.use("/v1/categories", categories);
 c_app.use("/v1/has-categories", hasCategories);
+c_app.use("/v1/languages", languages);
 
 c_app.get("/v1/uuid", (req, res) => res.status(200).json(c_uuid()));
 
