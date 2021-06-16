@@ -2,19 +2,28 @@ import { query } from "./index.js";
 //TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
 const getLikesAll = async () => {
-    const result = await query(
-      `SELECT id, user_id, subject_id FROM get_like`);
+    const result = await query(`SELECT id, user_id, subject_id FROM get_like`);
     return { status: 200, result: result.rows };
   },
   // TODO: suche nach user_id AND subject_id? (return true/false?)
   getLikeSearch = async (key) => {
-    const result = await query(
-      `SELECT id, user_id, subject_id
+    const uuid_regex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+      result = key.match(uuid_regex)
+        ? await query(
+            `SELECT id, user_id, subject_id
       FROM get_like
-      WHERE id = $1::UUID OR user_id = $1::UUID OR subject_id = $1::UUID
-      `, 
-      [key]
-    );
+      WHERE id = $1::UUID
+      `,
+            [key]
+          )
+        : await query(
+            `SELECT id, user_id, subject_id
+      FROM get_like
+      WHERE user_id = $1::UUID OR subject_id = $1::UUID
+      `,
+            [key]
+          );
     return result.rows.length === 0
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows };
@@ -27,35 +36,23 @@ const getLikesAll = async () => {
       `SELECT id, user_id, subject_id
        FROM get_like
        WHERE id = $1::UUID
-      `, 
+      `,
       [id]
-      );
+    );
     return result.rows.length === 0
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
   },
   postLike = async (data) => {
-    const result = await query(
-      `SELECT status, result FROM post_like($1)`, 
-      [data]
-    );
-    return result.rows[0];
-  },
-  // putLike nötig?
-  putLike = async (id, data) => {
-    const result = await query(``, [id, data]);
-    return result.rows[0];
-  },
-  // patchLike nötig?
-  patchLike = async (id, data) => {
-    const result = await query(``, [id, data]);
+    const result = await query(`SELECT status, result FROM post_like($1)`, [
+      data,
+    ]);
     return result.rows[0];
   },
   deleteLike = async (id) => {
-    const result = await query(
-      `SELECT status, result FROM delete_like($1)`, 
-      [id]
-    );
+    const result = await query(`SELECT status, result FROM delete_like($1)`, [
+      id,
+    ]);
     return result.rows[0];
   };
 
@@ -63,16 +60,12 @@ export {
   getLikes, 
   getLike, 
   postLike, 
-  putLike, 
-  patchLike, 
   deleteLike 
 };
 
-export default { 
-  getLikes, 
-  getLike, 
-  postLike, 
-  putLike, 
-  patchLike, 
-  deleteLike 
+export default {
+  getLikes,
+  getLike,
+  postLike,
+  deleteLike,
 };
