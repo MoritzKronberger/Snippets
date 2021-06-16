@@ -12,7 +12,7 @@ const getLanguagesAll = async () => {
         ? await query(
             `SELECT id, name 
              FROM get_language
-             WHERE id = $1:UUID
+             WHERE id = $1::UUID
             `,
             [key]
           )
@@ -34,7 +34,7 @@ const getLanguagesAll = async () => {
     const result = await query(
       `SELECT id, name 
        FROM get_language
-       WHERE id = $1:UUID
+       WHERE id = $1::UUID
       `,
       [id]
     );
