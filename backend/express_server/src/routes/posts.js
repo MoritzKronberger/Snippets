@@ -95,14 +95,14 @@ posts.patch( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken,
 );
 
 posts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
-  let post = { status, result };
+  let post = { status:"", result:"" };
   post = await postsDB.getPost(req.params.id);
-  if (req.id !== result.user_id) {
+  if (req.id !== post.result.user_id) {
     return res.sendStatus(401);
   }
 
   post = await postsDB.deletePost(req.params.id, req.body);
-  res.status(status).json(result);
+  res.status(post.status).json(post.result);
 });
 
 export { posts, postSchema };

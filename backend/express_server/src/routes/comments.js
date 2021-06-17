@@ -8,7 +8,7 @@ import { refreshToken } from "./auth.js";
 const comments = Router();
 
 comments.get("/", async (req, res) => {
-    const { status, result } = await commentsDB.getComments();
+    const { status, result } = await commentsDB.getComments(req.query.search);
     res.status(status).json(result);
 });
 
@@ -63,6 +63,7 @@ comments.patch("/:id", isAuthorized, validate({ body: commentSchema }), refreshT
 });
 
 comments.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
+    //TODO: user des posts kann diesen ebenfalls löschen
     let comment = { status:"", result:"" };
     comment = await commentsDB.getComment(req.params.id);
     if (req.id !== comment.result.user_id) {

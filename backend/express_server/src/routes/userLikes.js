@@ -12,8 +12,9 @@ userLikes.get("/", async (req, res) => {
   res.status(status).json(result);
 });
 
-userLikes.post( "/", isAuthorized, validate({ body: userLikeSchema }), refreshToken, async (req, res) => {
-  const { status, result } = await userLikesDB.postLike(req.body),
+userLikes.post("/", isAuthorized, validate({ body: userLikeSchema }), refreshToken, async (req, res) => {
+  const json = { user_id: req.id, post_id: req.body.post_id, comment_id: req.body.comment_id, subject_id: req.body.subject_id };
+  const { status, result } = await userLikesDB.postLike(json),
     proxy = req.header["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
   res
