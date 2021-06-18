@@ -23,7 +23,6 @@ export default {
 
   mutations: {
     updateField,
-
     newPost(state) {
       state.errors = [];
       for (const [key, value] of Object.entries(state.post)) {

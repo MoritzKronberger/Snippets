@@ -1,11 +1,9 @@
 <template>
-  <body>
-    <div class="valid">
-      <ul>
-        <li v-for="error in errors" :key="error">{{ error }} required</li>
-      </ul>
-    </div>
-  </body>
+  <div class="valid">
+    <ul>
+      <li v-for="error in errors" :key="error">{{ error }} required</li>
+    </ul>
+  </div>
 </template>
 
 <script>

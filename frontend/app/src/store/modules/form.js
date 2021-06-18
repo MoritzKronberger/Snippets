@@ -3,7 +3,11 @@ export default {
   namespaced: true,
   state: {
     section: false,
+    errors: [],
   },
+
+
+
 
   getters: {
     getField,
@@ -19,4 +23,15 @@ export default {
       state.section = !state.section;
     },
   },
+
+    validator(state)
+    {
+      state.errors = [];
+      for (const [key, value] of Object.entries(state.post)) {
+        if (value === "") {
+          state.errors.push(key);
+        }
+      }
+    }
+
 };
