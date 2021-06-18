@@ -25,17 +25,18 @@
           placeholder="Password"
         />
       </div>
-
       <Button :label="button_name" btn_class="medium" @click="_click" />
+      <Validation />
     </div>
   </body>
 </template>
 <script>
 import Button from "../Button.vue";
 import { mapFields } from "vuex-map-fields";
+import Validation from "../feed/form/Validation.vue"
 export default {
   name: "Form",
-  components: { Button },
+  components: { Button, Validation },
   props: { button_name: String, auth_type: String },
   computed: {
   ...mapFields("auth", ["user"]),

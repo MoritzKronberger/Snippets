@@ -26,7 +26,7 @@ export default {
     newPost(state) {
       state.errors = [];
       for (const [key, value] of Object.entries(state.post)) {
-        if (value === "") {
+        if (value === "" && key != "category") {
           state.errors.push(key);
         }
       }

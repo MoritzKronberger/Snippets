@@ -2,7 +2,7 @@ import { getField, updateField } from "vuex-map-fields";
 export default {
   namespaced: true,
   state: {
-    user: [{ username: null }, { password: null }, { password_confirm: null }],
+    user: { username: null, password: null, password_confirm: null },
   },
 
   getters: {

@@ -27,7 +27,7 @@ export default {
   components: { Button, Languages, Validation, Input },
   computed: {
     ...mapGetters("form", ["vis_Add", "vis_Form"]),
-    ...mapFields("post", ["post", "errors"]),
+    ...mapFields("post", ["post"]),
     ...mapFields("form", ["section"]),
   },
   methods: {

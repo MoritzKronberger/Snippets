@@ -12,7 +12,7 @@
         <input class="input" v-model="new_comment" type="text" />
         <Button label="comment" btn_class="small likes" @click="addComment()" />
         <Button label="Like" btn_class="small" @click="addLike()" />
-        <Validation />
+        <Validation file="post"/>
       </div>
     </div>
   </body>
