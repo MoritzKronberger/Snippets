@@ -48,7 +48,7 @@ body {
     margin: 0 auto;
   }
   &.post {
-    padding: 2%;
+    padding: 5% 2%;
     border: 2px solid rgb(224, 224, 224);
     border-radius: 10px;
     font-size: medium;
@@ -81,6 +81,7 @@ body {
 
   &.small {
     font-size: 14px;
+    float: left;
     &.discard {
       background-color: orange;
       float: right;

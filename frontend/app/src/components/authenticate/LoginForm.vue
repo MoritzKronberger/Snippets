@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <div>
     <h1>Login</h1>
     <div class="content auth">
       <Form auth_type="username_password" :auth="user" />
@@ -9,7 +9,7 @@
         <Button label="Register here" btn_class="medium" />
       </router-link>
     </div>
-  </body>
+  </div>
 </template>
 <script>
 import { mapFields } from "vuex-map-fields";

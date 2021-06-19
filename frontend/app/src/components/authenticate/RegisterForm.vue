@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <div>
     <h1>Create Account</h1>
     <div class="content auth">
       <Form
@@ -14,7 +14,7 @@
         btn_class="medium"
       />
     </div>
-  </body>
+  </div>
 </template>
 <script>
 import { mapFields } from "vuex-map-fields";

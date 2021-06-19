@@ -1,5 +1,4 @@
 <template>
-  <body>
     <div>
       <input
         v-model="post.title"
@@ -18,7 +17,6 @@
         placeholder="#category"
       />
     </div>
-  </body>
 </template>
 <script>
 export default {

@@ -1,10 +1,10 @@
 <template>
-  <body>
+  <div>
     <router-link to="/login">
       <Button label="go back" btn_class="medium" />
     </router-link>
     <RegisterForm />
-  </body>
+  </div>
 </template>
 
 <script>

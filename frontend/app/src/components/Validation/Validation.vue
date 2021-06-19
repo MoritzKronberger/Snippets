@@ -1,16 +1,14 @@
 <template>
-  <body>
-    <div class="valid">
-      <ul>
-        <li v-for="error in error" :key="error">{{ error }}</li>
-      </ul>
-    </div>
-  </body>
+  <div class="valid">
+    <ul>
+      <li v-for="error in error" :key="error">{{ error }}</li>
+    </ul>
+  </div>
 </template>
 <script>
 export default {
   name: "Validation",
-  props: { error: Object, },
+  props: { error: Object },
 };
 </script>
 

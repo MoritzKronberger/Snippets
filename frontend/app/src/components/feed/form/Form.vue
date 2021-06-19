@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <div>
     <div :class="vis_Add(false)">
       <Button label="add Post" btn_class="addButton" @click="setActive" />
     </div>
@@ -12,7 +12,7 @@
         <Validation :object="post" button_name="Submit" @click="submitPost"/>
       </form>
     </div>
-  </body>
+  </div>
 </template>
 <script>
 import Button from "../../Button.vue";

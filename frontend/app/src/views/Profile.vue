@@ -1,10 +1,10 @@
 <template>
-  <body>
+  <div>
     <router-link to="/">
       <Button label="Feed" btn_class="medium" />
     </router-link>
     <Account />
-  </body>
+  </div>
 </template>
 <script>
 import Button from "../components/Button.vue";

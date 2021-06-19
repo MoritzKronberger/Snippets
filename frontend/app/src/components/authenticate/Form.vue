@@ -1,5 +1,4 @@
 <template>
-  <body>
     <div>
       <div v-if="auth_type.includes('username_password')">
         <input
@@ -24,7 +23,6 @@
         />
       </div>
     </div>
-  </body>
 </template>
 <script>
 import { mapFields } from "vuex-map-fields";

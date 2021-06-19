@@ -1,12 +1,12 @@
 <template>
-  <body>
+  <div>
     <h4>{{ post.title }}</h4>
       <div class="flex-container">
         <p>Language: {{ lang_object[post.lang_id].name }}</p>
         <p>Date: {{ post.date }}</p>
         <p>Written by: {{ post.author }}</p>
       </div>
-  </body>
+  </div>
 </template>
 
 <script>

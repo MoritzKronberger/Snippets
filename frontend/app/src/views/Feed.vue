@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <div>
     <div class="profile">
       <router-link to="/profile">
         <Button label="Profile" btn_class="medium" />
@@ -13,7 +13,7 @@
     <Search />
     <Form />
     <Posts />
-  </body>
+  </div>
 </template>
 
 <script>

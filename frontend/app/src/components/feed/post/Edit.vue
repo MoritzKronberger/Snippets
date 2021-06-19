@@ -1,10 +1,10 @@
 <template>
-  <body>
+  <div>
     <Button label="Edit" btn_class="small discard" @click="edit()" />
     <div :class="visEdit">
       <Button label="Delete" btn_class="small delete" @click="addLike()" />
     </div>
-  </body>
+  </div>
 </template>
 <script>
 import Button from "../../Button.vue";

@@ -1,8 +1,8 @@
 <template>
-  <body>
+  <div>
     <Button :label="button_name" :btn_class="btn_class" @click="_click" />
     <Validation :error="errors" />
-  </body>
+  </div>
 </template>
 <script>
 import Button from "../Button.vue";

@@ -1,5 +1,4 @@
 <template>
-  <body>
     <div class="content post">
       <Edit :post="post" />
       <Description :post="post" />
@@ -10,16 +9,15 @@
           <Comments :comments="post" />
         </div>
         <input class="input" v-model="add_comment.comment" type="text" />
-        <Validation
-          :object="add_comment"
-          button_name="comment"
-          btn_class="small"
-          @click="addComment"
-        />
-        <Button label="Like" btn_class="small" @click="addLike" />
+      <Validation
+        :object="add_comment"
+        button_name="comment"
+        btn_class="small"
+        @click="addComment"
+      />
+      <Button label="Like" btn_class="small" @click="addLike" />
       </div>
     </div>
-  </body>
 </template>
 <script>
 import { mapState } from "vuex";

@@ -1,5 +1,4 @@
 <template>
-  <body>
     <div class="flex-container">
       <div v-for="lang in lang_object" :key="lang.id">
         <Button
@@ -9,7 +8,6 @@
         />
       </div>
     </div>
-  </body>
 </template>
 
 <script>
