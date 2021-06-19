@@ -44,7 +44,7 @@ body {
 
 .content {
   &.auth {
-    width: 50%;
+    width: 30%;
     margin: 0 auto;
   }
   &.post {

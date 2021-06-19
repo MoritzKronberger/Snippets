@@ -22,18 +22,23 @@ export default {
   },
   methods: {
     _click() {
+      switch (this.button_name) {
+        case "Register":
+          this.object.password != this.password_confirm
+            ? this.errors.push(
+                "Password not confirmed correctly! Please try again."
+              )
+            : null;
+
+        case "Submit": //Form Post
+          this.object.category = "Default";
+      }
+
       this.errors = [];
       for (const [key, value] of Object.entries(this.object)) {
         if (value === null) {
           this.errors.push(key + " required");
         }
-      }
-
-      if (
-        this.button_name == "Register" &&
-        this.object.password != this.object.password_confirm
-      ) {
-        this.errors.push("Password not confirmed correctly! Please try again.");
       }
 
       this.errors.length != 0 ? null : this.$emit("click");
