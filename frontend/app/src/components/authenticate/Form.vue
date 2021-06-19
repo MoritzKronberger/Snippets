@@ -25,13 +25,9 @@
     </div>
 </template>
 <script>
-import { mapFields } from "vuex-map-fields";
 export default {
   name: "Form",
   props: { auth_type: String, auth: Object },
-    computed: {
-    ...mapFields("auth", ["user"]),
-  },
 };
 </script>
 <style lang="scss"></style>

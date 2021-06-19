@@ -6,7 +6,6 @@
 </template>
 <script>
 import Button from "../Button.vue";
-import { mapFields } from "vuex-map-fields";
 import Validation from "./Validation.vue";
 export default {
   name: "Form",
@@ -16,9 +15,6 @@ export default {
     return {
       errors: [],
     };
-  },
-  computed: {
-    ...mapFields("auth", ["user"]),
   },
   methods: {
     _click() {
@@ -43,10 +39,11 @@ export default {
         }
       }
 
+
       this.errors.length != 0 ? null : this.$emit("click");
-      for (let prop in this.object) {
+      /*for (let prop in this.object) {
         this.object[prop] = null;
-      }
+      }*/
     },
   },
   emits: ["click"],
