@@ -31,7 +31,10 @@ export default {
             : null;
 
         case "Submit": //Form Post
-          this.object.category = "Default";
+          this.object.category == null ?
+          this.object.category = "Default":
+          this.object.category;
+          console.log(this.object.category)
       }
 
       this.errors = [];
