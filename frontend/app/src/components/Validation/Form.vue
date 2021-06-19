@@ -1,6 +1,6 @@
 <template>
   <body>
-    <Button :label="button_name" btn_class="medium" @click="_click" />
+    <Button :label="button_name" :btn_class="btn_class" @click="_click" />
     <Validation :error="errors" />
   </body>
 </template>
@@ -11,10 +11,9 @@ import Validation from "./Validation.vue";
 export default {
   name: "Form",
   components: { Button, Validation },
-  props: { button_name: String, object: Object },
+  props: { button_name: String, object: Object, btn_class: String },
   data: function() {
     return {
-      state: 0,
       errors: [],
     };
   },
@@ -23,7 +22,6 @@ export default {
   },
   methods: {
     _click() {
-      console.log(this.object)
       this.errors = [];
       for (const [key, value] of Object.entries(this.object)) {
         if (value === null) {

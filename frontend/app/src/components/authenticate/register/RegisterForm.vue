@@ -2,12 +2,16 @@
   <body>
     <h1>Create Account</h1>
     <div class="content auth">
-    <Form
-      button_name="Confirm"
-      auth_type="username_password confirm_password"
-      @click="Register"
-    />
-    <Validation :object="user" button_name="Register" @click="Register" />
+      <Form
+        button_name="Confirm"
+        auth_type="username_password confirm_password"
+      />
+      <Validation
+        :object="new_user"
+        button_name="Register"
+        @click="Register"
+        btn_class="medium"
+      />
     </div>
   </body>
 </template>
@@ -20,7 +24,7 @@ export default {
   name: "Register",
   components: { Button, Form, Validation },
   computed: {
-    ...mapFields("auth", ["user"]),
+    ...mapFields("auth", ["new_user"]),
   },
   methods: {
     Register() {

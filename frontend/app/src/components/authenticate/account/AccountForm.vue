@@ -1,17 +1,30 @@
 <template>
   <body>
     <h1>Profile</h1>
+    <div class="content auth">
       <Form button_name="Save Profile" auth_type="email username_password" /> 
+      <Validation :object="user" button_name="Save Profile" @click="Save" btn_class="medium"/>
+    </div>
   </body>
 </template>
 <script>
+import { mapFields } from "vuex-map-fields";
 import Form from "../Form.vue"
 import Button from "../../Button.vue";
+import Validation from "../../Validation/Form.vue"
 export default {
   name: "Account",
   components: {
-    Button, Form
+    Button, Form, Validation
   },
+    computed: {
+    ...mapFields("auth", ["user"]),
+  },
+  methods: {
+       Save() {
+      this.$store.commit("auth/userProfile");
+    },
+  }
 };
 </script>
 <style lang="scss"></style>
