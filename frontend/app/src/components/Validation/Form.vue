@@ -25,9 +25,17 @@ export default {
       this.errors = [];
       for (const [key, value] of Object.entries(this.object)) {
         if (value === null) {
-          this.errors.push(key);
+          this.errors.push(key + " required");
         }
       }
+
+      if (
+        this.button_name == "Register" &&
+        this.object.password != this.object.password_confirm
+      ) {
+        this.errors.push("Password not confirmed correctly! Please try again.");
+      }
+
       this.errors.length != 0 ? null : this.$emit("click");
       for (let prop in this.object) {
         this.object[prop] = null;

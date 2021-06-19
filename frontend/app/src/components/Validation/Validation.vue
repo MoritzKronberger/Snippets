@@ -2,7 +2,7 @@
   <body>
     <div class="valid">
       <ul>
-        <li v-for="error in error" :key="error">{{ error }} required</li>
+        <li v-for="error in error" :key="error">{{ error }}</li>
       </ul>
     </div>
   </body>
