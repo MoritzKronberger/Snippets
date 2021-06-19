@@ -4,13 +4,13 @@
       <div v-if="auth_type.includes('username_password')">
         <input
           class="input"
-          v-model="user.username"
+          v-model="auth.username"
           type="text"
           placeholder="Username"
         />
         <input
           class="input"
-          v-model="user.password"
+          v-model="auth.password"
           type="text"
           placeholder="Password"
         />
@@ -18,7 +18,7 @@
       <div v-if="auth_type.includes('confirm_password')">
         <input
           class="input"
-          v-model="user.password_confirm"
+          v-model="auth.password_confirm"
           type="text"
           placeholder="Confirm Password"
         />
@@ -30,7 +30,7 @@
 import { mapFields } from "vuex-map-fields";
 export default {
   name: "Form",
-  props: { auth_type: String },
+  props: { auth_type: String, auth: Object },
     computed: {
     ...mapFields("auth", ["user"]),
   },

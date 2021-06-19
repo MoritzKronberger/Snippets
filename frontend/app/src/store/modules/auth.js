@@ -3,7 +3,7 @@ export default {
   namespaced: true,
   state: {
     user: { username: null, password: null },
-    new_user: { username: null, password: null , password_confirm: null },
+    new_user: { username: null, password: null, password_confirm: null },
   },
 
   getters: {

@@ -2,7 +2,7 @@
   <body>
     <h1>Profile</h1>
     <div class="content auth">
-      <Form button_name="Save Profile" auth_type="email username_password" /> 
+      <Form button_name="Save Profile" auth_type="username_password" :auth="user"/> 
       <Validation :object="user" button_name="Save Profile" @click="Save" btn_class="medium"/>
     </div>
   </body>

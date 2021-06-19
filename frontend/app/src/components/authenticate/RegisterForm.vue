@@ -5,6 +5,7 @@
       <Form
         button_name="Confirm"
         auth_type="username_password confirm_password"
+        :auth="new_user" 
       />
       <Validation
         :object="new_user"
