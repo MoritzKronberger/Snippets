@@ -9,7 +9,7 @@
 
 <script>
 import Button from "../components/Button.vue";
-import LoginForm from "../components/authenticate/login/LoginForm.vue";
+import LoginForm from "../components/authenticate/LoginForm.vue";
 export default {
   name: "Login",
   components: { Button, LoginForm },

@@ -9,7 +9,7 @@
 
 <script>
 import Button from "../components/Button.vue";
-import RegisterForm from "../components/authenticate/register/RegisterForm.vue";
+import RegisterForm from "../components/authenticate/RegisterForm.vue";
 export default {
   name: "Register",
   components: { Button, RegisterForm },

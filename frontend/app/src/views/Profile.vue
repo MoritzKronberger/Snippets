@@ -8,7 +8,7 @@
 </template>
 <script>
 import Button from "../components/Button.vue";
-import Account from "../components/authenticate/account/AccountForm.vue";
+import Account from "../components/authenticate/ProfileForm.vue";
 export default {
   name: "Feed",
   components: {

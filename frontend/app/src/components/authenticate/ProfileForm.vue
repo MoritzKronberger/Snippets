@@ -9,11 +9,11 @@
 </template>
 <script>
 import { mapFields } from "vuex-map-fields";
-import Form from "../Form.vue"
-import Button from "../../Button.vue";
-import Validation from "../../Validation/Form.vue"
+import Form from "./Form.vue"
+import Button from "../Button.vue";
+import Validation from "../validation/Form.vue"
 export default {
-  name: "Account",
+  name: "Profile",
   components: {
     Button, Form, Validation
   },

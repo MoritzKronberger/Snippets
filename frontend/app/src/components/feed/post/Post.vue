@@ -28,7 +28,7 @@ import Description from "./Description.vue";
 import Comments from "./Comments.vue";
 import Button from "../../Button.vue";
 import Prism from "./Prism.vue";
-import Validation from "../../Validation/Form.vue";
+import Validation from "../../validation/Form.vue";
 import Interaction from "./Interaction.vue";
 import Edit from "./Edit.vue";
 export default {

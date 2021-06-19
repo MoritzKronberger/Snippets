@@ -17,9 +17,9 @@
 </template>
 <script>
 import { mapFields } from "vuex-map-fields";
-import Button from "../../Button.vue";
-import Form from "../Form.vue";
-import Validation from "../../Validation/Form.vue";
+import Button from "../Button.vue";
+import Form from "./Form.vue";
+import Validation from "../validation/Form.vue";
 export default {
   name: "Register",
   components: { Button, Form, Validation },
