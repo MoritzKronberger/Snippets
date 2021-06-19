@@ -2,7 +2,7 @@
   <div>
     <Button label="Edit" btn_class="small discard" @click="edit()" />
     <div :class="visEdit">
-      <Button label="Delete" btn_class="small delete" @click="addLike()" />
+      <Button label="Delete" btn_class="small delete" @click="deletePost()" />
     </div>
   </div>
 </template>
@@ -19,12 +19,15 @@ export default {
   props: { post: Object },
   computed: {
     visEdit() {
-      return this.edit_state !== true ? "hidden" : "";t
+      return this.edit_state !== true ? "hidden" : "";
     },
   },
   methods: {
     edit() {
       this.edit_state = !this.edit_state;
+    },
+    deletePost() {
+      this.$store.commit("post/deletePost", this.post.id);
     },
   },
 };

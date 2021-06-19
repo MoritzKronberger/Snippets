@@ -55,6 +55,12 @@ export default {
     addLikeComment(state, com_id) {
       state.posts[state.active_id].comment[com_id].likes += 1;
     },
+
+    deletePost(state, post_id)
+    {
+      console.log("Delete Post: " + state.posts[post_id].id)
+    }
+
   },
   /* actions: 
   {
