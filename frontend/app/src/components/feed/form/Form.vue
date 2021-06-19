@@ -9,8 +9,7 @@
         <p>Select Language</p>
         <Languages />
         <Input :post="post" />
-        <Validation />
-        <Button label="submit" btn_class="medium" @click="submitPost" />
+        <Validation :object="post" button_name="Submit" @click="submitPost"/>
       </form>
     </div>
   </body>
@@ -18,7 +17,7 @@
 <script>
 import Button from "../../Button.vue";
 import Languages from "./Languages";
-import Validation from "./Validation";
+import Validation from "../../Validation/Form.vue";
 import Input from "./Input";
 import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
@@ -36,7 +35,7 @@ export default {
     },
     submitPost() {
       this.$store.commit("post/newPost");
-      return this.errors.length == 0 ? this.$store.commit("form/setActive") : null;
+      this.$store.commit("form/setActive");
     },
   },
 };

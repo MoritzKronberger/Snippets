@@ -1,12 +1,9 @@
 <template>
   <body>
     <h1>Login</h1>
-    <Form
-      button_name="Login Profile"
-      auth_type="username_password"
-      @click="Login"
-    />
     <div class="content auth">
+      <Form auth_type="username_password" />
+      <Validation :object="user" button_name="Login" @click="Login" />
       <p>No Account?</p>
       <router-link to="/register">
         <Button label="Register here" btn_class="medium" />
@@ -14,16 +11,20 @@
     </div>
   </body>
 </template>
-
 <script>
+import { mapFields } from "vuex-map-fields";
 import Form from "../Form.vue";
 import Button from "../../Button.vue";
+import Validation from "../../Validation/Form.vue";
 export default {
   name: "LoginForm",
-  components: { Button, Form },
+  components: { Button, Form, Validation },
+  computed: {
+    ...mapFields("auth", ["user"]),
+  },
   methods: {
     Login() {
-      this.$store.commit("auth/userLogin")
+      this.$store.commit("auth/userLogin");
     },
   },
 };

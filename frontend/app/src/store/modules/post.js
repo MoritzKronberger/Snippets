@@ -4,9 +4,9 @@ export default {
   state: {
     section: false,
     active_id: null,
-    new_comment: "",
-    post: { lang_id: "", title: "", content: "", category: "" },
-    comment: { author: "", date: "", likes: 0 },
+    new_comment: null,
+    post: { lang_id: null, title: null, content: null, category: null },
+    comment: { author: null, date: null, likes: 0 },
     posts: [],
     errors: [],
     lang_object: [
@@ -24,13 +24,6 @@ export default {
   mutations: {
     updateField,
     newPost(state) {
-      state.errors = [];
-      for (const [key, value] of Object.entries(state.post)) {
-        if (value === "" && key != "category") {
-          state.errors.push(key);
-        }
-      }
-      if (state.errors.length == 0) {
         state.posts.push({
           id: state.posts.length,
           lang_id: state.post.lang_id,
@@ -47,7 +40,7 @@ export default {
         for (let prop in state.post) {
           state.post[prop] = "";
         }
-      }
+      
     },
 
     addComment(state, post_id) {
