@@ -24,17 +24,21 @@ export default {
   mutations: {
     updateField,
     newPost(state) {
+
+      const arr_category = state.post.category.split(" ");
+
       state.posts.push({
         id: state.posts.length,
         lang_id: state.post.lang_id,
         title: state.post.title,
         content: state.post.content,
-        category: state.post.category,
+        category: arr_category,
         comment: [],
         likes: 0,
         author: "Martin Kohnle",
         date: "DD/MM/YYYY",
       });
+      console.log(state.posts);
       state.section = false;
     },
 
@@ -67,3 +71,4 @@ export default {
   {
   }*/
 };
+

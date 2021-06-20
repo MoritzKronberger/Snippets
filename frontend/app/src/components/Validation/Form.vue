@@ -18,28 +18,40 @@ export default {
   },
   methods: {
     _click() {
+      let key;
+      const obj = {};
+      for (key in this.object) {
+        obj[key] = this.object[key];
+      }
       this.errors = [];
+
       switch (this.button_name) {
         case "Register":
-          this.object.password != this.object.password_confirm
+          obj.password != obj.password_confirm
             ? this.errors.push(
                 "Password not confirmed correctly! Please try again"
               )
             : null;
 
-        case "Submit": //Form Post
-          delete this.object.category
+        case "Submit":
+          delete obj.category;
       }
-      
-      for (const [key, value] of Object.entries(this.object)) {
+
+      for (const [key, value] of Object.entries(obj)) {
         if (value === null) {
           this.errors.push(key + " required");
         }
       }
 
-      this.errors.length != 0 ? null : this.$emit("click");
-      for (let prop in this.object) {
-        this.object[prop] = null;
+      if (this.errors.length != 0) {
+        for (let prop in obj) {
+          obj[prop] = null;
+        }
+      } else {
+        this.$emit("click");
+        for (let prop in this.object) {
+          this.object[prop] = null;
+        }
       }
     },
   },
