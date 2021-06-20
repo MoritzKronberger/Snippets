@@ -28,9 +28,7 @@ export default {
             : null;
 
         case "Submit": //Form Post
-          this.object.category == null
-            ? (this.object.category = "Default")
-            : this.object.category;
+          delete this.object.category
       }
       
       for (const [key, value] of Object.entries(this.object)) {
@@ -39,11 +37,10 @@ export default {
         }
       }
 
-
       this.errors.length != 0 ? null : this.$emit("click");
-      /*for (let prop in this.object) {
+      for (let prop in this.object) {
         this.object[prop] = null;
-      }*/
+      }
     },
   },
   emits: ["click"],

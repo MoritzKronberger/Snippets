@@ -5,7 +5,7 @@ export default {
     section: false,
     active_id: null,
     post: { lang_id: null, title: null, content: null, category: null },
-    add_comment: {comment: null},
+    add_comment: { comment: null },
     comment: { author: null, date: null, likes: 0 },
     posts: [],
 
@@ -56,11 +56,9 @@ export default {
       state.posts[state.active_id].comment[com_id].likes += 1;
     },
 
-    deletePost(state, post_id)
-    {
-      console.log("Delete Post: " + state.posts[post_id].id)
-    }
-
+    deletePost(state, post_id) {
+      console.log("Delete Post: " + state.posts[post_id].id);
+    },
   },
   /* actions: 
   {
