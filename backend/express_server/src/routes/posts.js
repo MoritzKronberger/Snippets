@@ -14,6 +14,11 @@ posts.get("/", async (req, res) => {
   res.status(status).json(result);
 });
 
+posts.get("/search/", async (req, res) => {
+  const { status, result } = await postsDB.getPostSearch(req.body);
+  res.status(status).json(result);
+});
+
 //TODO: add categories
 posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
     //add a new post
