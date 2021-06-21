@@ -14,11 +14,11 @@ VALUES
 ('c++');
 
 /* feed sorting */
-INSERT INTO e_sort_by (sort_by)
+INSERT INTO e_sort_by (sort_by, view_name)
 VALUES
-('most liked'),
-('newest'),
-('best of today'),
-('best of this week');
+('most liked', 'get_post_by_likes'),
+('newest', 'get_post_by_newest'),
+('best of today', 'get_post_by_likes_today'),
+('best of this week', 'get_post_by_likes_week');
 
 COMMIT;

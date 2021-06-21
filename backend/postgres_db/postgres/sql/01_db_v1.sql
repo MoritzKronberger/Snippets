@@ -56,6 +56,7 @@ CREATE TABLE e_language
 CREATE TABLE e_category
 (id                     UUID                DEFAULT gen_random_uuid(),
  name                   D_UNTAINTED         NOT NULL, 
+ trigram_category       TEXT,
 
  CONSTRAINT e_category_pk
     PRIMARY KEY (id),
@@ -149,13 +150,17 @@ CREATE TABLE user_like
 
 CREATE TABLE e_sort_by
 (id                   UUID            DEFAULT gen_random_uuid(),
- sort_by              VARCHAR(20)     UNIQUE  NOT NULL,   
+ sort_by              VARCHAR(20)     NOT NULL,   
+ view_name            VARCHAR(50)     NOT NULL,
 
  CONSTRAINT e_sort_by_pk
     PRIMARY KEY (id),
 
- CONSTRAINT e_sort_by_unique
-    UNIQUE (sort_by)
+ CONSTRAINT e_sort_by_unique_sort_by
+    UNIQUE (sort_by),
+
+ CONSTRAINT e_sort_by_unique_view_name
+    UNIQUE (view_name)
 );
 
 
@@ -301,3 +306,26 @@ IMMUTABLE
 RETURNS NULL ON NULL INPUT;
 
 COMMIT;
+
+
+CREATE FUNCTION cleanup_categories_function() RETURNS TRIGGER AS
+$_plpgsql_$
+    BEGIN
+        IF( TG_OP = 'DELETE' AND NOT EXISTS (SELECT * FROM has_category WHERE category_id = OLD.category_id))
+            THEN 
+               DELETE
+               FROM e_category
+               WHERE id = OLD.category_id;
+        END IF;
+
+        RETURN NULL;
+    END;
+$_plpgsql_$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER cleanup_categories_trigger
+AFTER DELETE
+ON has_category
+FOR EACH ROW
+    EXECUTE PROCEDURE cleanup_categories_function()
+;
