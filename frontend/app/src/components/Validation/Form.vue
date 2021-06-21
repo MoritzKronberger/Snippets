@@ -6,7 +6,7 @@
 </template>
 <script>
 import Button from "../Button.vue";
-import Validation from "./Validation.vue";
+import Validation from "./Valid.vue";
 export default {
   name: "Form",
   components: { Button, Validation },
