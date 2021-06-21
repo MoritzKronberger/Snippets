@@ -56,6 +56,7 @@ CREATE TABLE e_language
 CREATE TABLE e_category
 (id                     UUID                DEFAULT gen_random_uuid(),
  name                   D_UNTAINTED         NOT NULL, 
+ trigram_category       TEXT,
 
  CONSTRAINT e_category_pk
     PRIMARY KEY (id),
