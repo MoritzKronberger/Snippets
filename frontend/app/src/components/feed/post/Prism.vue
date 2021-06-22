@@ -1,9 +1,7 @@
 <template>
-  <body>
     <pre :class="'language-' + lang_name">
         <code>{{prism.content}}</code>
     </pre>
-  </body>
 </template>
 
 <script>
@@ -28,8 +26,8 @@ export default {
 <style lang="scss">
 
   pre[class*="language-"] {
-      font-size: 0.7em;
-      margin: 5% 0%;
+      font-size: 1em;
+      margin: 1% 0%;
       border-radius: 2%;
       background: rgb(237, 246, 248);
   }

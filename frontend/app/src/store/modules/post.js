@@ -4,11 +4,11 @@ export default {
   state: {
     section: false,
     active_id: null,
-    new_comment: "",
-    post: { lang_id: "", title: "", content: "", category: "" },
-    comment: { author: "", date: "", likes: 0 },
+    post: { lang_id: null, title: null, content: null, category: null },
+    add_comment: { comment: null },
+    comment: { author: null, date: null, likes: 0 },
     posts: [],
-    errors: [],
+
     lang_object: [
       { id: 0, name: "Java" },
       { id: 1, name: "Python" },
@@ -23,48 +23,33 @@ export default {
 
   mutations: {
     updateField,
-
     newPost(state) {
-      state.errors = [];
-      for (const [key, value] of Object.entries(state.post)) {
-        if (value === "") {
-          state.errors.push(key);
-        }
-      }
-      if (state.errors.length == 0) {
-        state.posts.push({
-          id: state.posts.length,
-          lang_id: state.post.lang_id,
-          title: state.post.title,
-          content: state.post.content,
-          category: state.post.category,
-          comment: [],
-          likes: 0,
-          author: "Martin Kohnle",
-          date: "DD/MM/YYYY",
-        });
 
-        state.section = false;
-        for (let prop in state.post) {
-          state.post[prop] = "";
-        }
-      }
+      const arr_category = state.post.category.split(" ");
+
+      state.posts.push({
+        id: state.posts.length,
+        lang_id: state.post.lang_id,
+        title: state.post.title,
+        content: state.post.content,
+        category: arr_category,
+        comment: [],
+        likes: 0,
+        author: "Martin Kohnle",
+        date: "DD/MM/YYYY",
+      });
+      console.log(state.posts);
+      state.section = false;
     },
 
     addComment(state, post_id) {
-      state.errors = [];
-      if (state.new_comment !== "") {
-        state.posts[post_id].comment.push({
-          id: state.posts[post_id].comment.length,
-          message: state.new_comment,
-          author: "SomeoneElse42",
-          date: "23.05.2021",
-          likes: state.comment.likes,
-        });
-        state.comment.new_comment = "";
-      } else {
-        state.errors.push("comment");
-      }
+      state.posts[post_id].comment.push({
+        id: state.posts[post_id].comment.length,
+        message: state.add_comment.comment,
+        author: "SomeoneElse42",
+        date: "23.05.2021",
+        likes: state.comment.likes,
+      });
     },
 
     addLike(state, post_id) {
@@ -74,6 +59,10 @@ export default {
     addLikeComment(state, com_id) {
       state.posts[state.active_id].comment[com_id].likes += 1;
     },
+
+    deletePost(state, post_id) {
+      console.log("Delete Post: " + state.posts[post_id].id);
+    },
   },
   /* actions: 
   {
@@ -82,3 +71,4 @@ export default {
   {
   }*/
 };
+

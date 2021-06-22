@@ -1,11 +1,11 @@
 <template>
-  <body>
+  <div>
     <div class="flex-container">
       <p>Likes: {{ post.likes }}</p>
       <p>Comments: {{ post.comment.length }}</p>
       <Button :label="section_state" btn_class="small" @click="setActive()" />
     </div>
-  </body>
+  </div>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -21,7 +21,7 @@ export default {
   props: { post: Object },
   components: { Button },
   computed: {
-    ...mapState("post", ["posts", "post"]),
+    ...mapState("post", ["posts"]),
     ...mapFields("post", ["active_id"]),
   },
   methods: {

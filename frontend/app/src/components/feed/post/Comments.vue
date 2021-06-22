@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <div>
     <div class="comment" v-for="com in comments.comment" :key="com.id">
       <p>{{ com.message }}</p>
       <div class="flex-container">
@@ -12,9 +12,8 @@
         <p>{{ com.date }}</p>
       </div>
     </div>
-  </body>
+  </div>
 </template>
-
 <script>
 import Button from "../../Button.vue";
 export default {

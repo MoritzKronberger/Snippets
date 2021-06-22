@@ -1,9 +1,7 @@
 <template>
-  <body>
     <div>
       <input type="text" placeholder="search..." />
     </div>
-  </body>
 </template>
 <script>
 export default {

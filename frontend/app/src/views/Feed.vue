@@ -1,13 +1,19 @@
 <template>
-  <router-link to="/login">
-    <Button label="Login" btn_class="medium" />
-  </router-link>
-  <router-view />
-  <h1>Coding Feed</h1>
-  <Search />
-  <Form />
-  <Posts />
-
+  <div>
+    <div class="profile">
+      <router-link to="/profile">
+        <Button label="Profile" btn_class="medium" />
+      </router-link>
+    </div>
+    <router-link to="/login">
+      <Button label="Login" btn_class="medium" />
+    </router-link>
+    <router-view />
+    <h1>Coding Feed</h1>
+    <Search />
+    <Form />
+    <Posts />
+  </div>
 </template>
 
 <script>
@@ -26,4 +32,7 @@ export default {
 };
 </script>
 <style lang="scss">
+.profile {
+  float: right;
+}
 </style>

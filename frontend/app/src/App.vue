@@ -1,7 +1,9 @@
 <template>
-  <router-link to="/login"></router-link>
-  <router-view />
-  <footer>© Lea Jell, Martin Kohnle, Moritz Kronberger</footer>
+  <body>
+    <router-link to="/login"></router-link>
+    <router-view />
+    <footer>© Lea Jell, Martin Kohnle, Moritz Kronberger</footer>
+  </body>
 </template>
 
 <script>
@@ -18,7 +20,7 @@ export default {
   text-align: center;
 }
 
-footer{
+footer {
   margin-top: 5%;
   font-size: 10px;
   text-align: center;
@@ -42,11 +44,11 @@ body {
 
 .content {
   &.auth {
-    width: 50%;
+    width: 30%;
     margin: 0 auto;
   }
   &.post {
-    padding: 2%;
+    padding: 5% 2%;
     border: 2px solid rgb(224, 224, 224);
     border-radius: 10px;
     font-size: medium;
@@ -79,8 +81,13 @@ body {
 
   &.small {
     font-size: 14px;
+    float: left;
     &.discard {
       background-color: orange;
+      float: right;
+    }
+      &.delete {
+      background-color: red;
       float: right;
     }
   }
