@@ -5,7 +5,7 @@
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS post_category (data JSONB);
+DROP FUNCTION IF EXISTS post_category (_data JSONB);
 
 /* Function */
 CREATE FUNCTION post_category (_data JSONB)
