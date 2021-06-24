@@ -22,7 +22,7 @@ $$
              username = json_attr_value_not_null_d_untainted($2, ''username'', a.username),
              password = json_attr_value_not_null            ($2, ''password'', a.password)::VARCHAR
           WHERE a.id = $1',
-          _id => _id, _data => _data, _constraint => 'account exists'
+          _id => _id, _data => _data, _constraint => 'account_exists'
         );
     END;
 $$
