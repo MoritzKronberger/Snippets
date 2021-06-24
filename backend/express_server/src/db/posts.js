@@ -1,5 +1,4 @@
 import { query } from "./index.js";
-//TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
 // TODO: limit für returned rows?
 const getPostsAll = async () => {

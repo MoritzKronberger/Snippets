@@ -1,7 +1,11 @@
 { "paths":
     { "register": "/api/register",
       "login":    "/api/login",
+<<<<<<< HEAD
       "accounts": "/api/accounts",
       "posts": "/api/posts"
+=======
+      "accounts": "/api/accounts"
+>>>>>>> experimentalBranchLea
     }
 }

@@ -39,10 +39,13 @@ export async function postJson(token, url, data) {
   return await json("post", token, url, data);
 }
 
+<<<<<<< HEAD
 export async function putJson(token, url, data) {
   return await json("put", token, url, data);
 }
 
+=======
+>>>>>>> experimentalBranchLea
 export async function patchJson(token, url, data) {
   return await json("patch", token, url, data);
 }
