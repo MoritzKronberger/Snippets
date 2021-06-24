@@ -45,27 +45,27 @@ const getPostsAll = async () => {
   },
   postPost = async (data) => {
     const result = await query(
-      `SELECT status, result FROM post_post($1)`, 
+      `SELECT result FROM post_post($1)`, 
       [data]
     );
     return result.rows[0];
   },
   putPost = async (id, data) => {
     const result = await query(
-      `SELECT status, result FROM put_post($1, $2)`, 
+      `SELECT result FROM put_post($1, $2)`, 
       [id, data]
     );
     return result.rows[0];
   },
   patchPost = async (id, data) => {
     const result = await query(
-      `SELECT status, result FROM patch_post($1, $2)`, 
+      `SELECT result FROM patch_post($1, $2)`, 
       [id, data]
     );
     return result.rows[0];
   },
   deletePost = async (id) => {
-    const result = await query(`SELECT status, result FROM delete_post($1)`, 
+    const result = await query(`SELECT result FROM delete_post($1)`, 
     [id]
   );
     return result.rows[0];
