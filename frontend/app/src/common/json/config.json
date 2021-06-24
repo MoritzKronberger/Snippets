@@ -1,0 +1,6 @@
+{ "paths":
+    { "register": "/api/register",
+      "login":    "/api/login",
+      "accounts": "/api/accounts"
+    }
+}
