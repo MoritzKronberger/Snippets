@@ -5,43 +5,24 @@
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS post_comment (data JSONB);
+DROP FUNCTION IF EXISTS post_comment (_data JSONB);
 
 /* Function */
-CREATE FUNCTION post_comment (data JSONB)
-    RETURNS TABLE (status INTEGER, result JSONB)
+CREATE FUNCTION post_comment (_data JSONB)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
-    DECLARE
-        _id      UUID;
-        _state   TEXT;
-        _cname   TEXT;
-        _message TEXT;
     BEGIN
-        INSERT INTO comment (content, user_id, post_id)
-        VALUES (($1->>'content')::TEXT,
-                ($1->>'user_id')::UUID,
-                ($1->>'post_id')::UUID
-               )
-        RETURNING id INTO _id;
-
         RETURN QUERY
-        SELECT 201, JSONB_BUILD_OBJECT('id', _id);
-
-        EXCEPTION WHEN OTHERS THEN
-            GET STACKED DIAGNOSTICS 
-                _state   := RETURNED_SQLSTATE,
-                _cname   := CONSTRAINT_NAME,
-                _message := MESSAGE_TEXT;
-            RETURN QUERY
-            SELECT 400, 
-                 JSONB_BUILD_OBJECT
-                 ('state',      _state,
-                  'constraint', _cname, 
-                  'message',    _message,
-                  'data',       $1
-                 );
+        SELECT rest_helper
+        ('INSERT INTO comment (content, user_id, post_id)
+          VALUES (($2->>''content'')::TEXT,
+                  ($2->>''user_id'')::UUID,
+                  ($2->>''post_id'')::UUID
+                 )',
+         _data => _data, _http_status => 201
+        );
     END;
 $$
 ;
