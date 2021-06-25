@@ -241,7 +241,51 @@ export default {
       save_action_info(state, res);
     },
 
-    
+    async getComments({ state }) {
+      const res = await getJson(state.token, `${paths.comments}`);
+      save_action_info(state, res);
+      state.comments = res.status === 200 ? res.data : [];
+    },
+
+    async getComment({ state }) {
+      const res = await getJson(state.token, `${paths.comments}`);
+      save_action_info(state, res);
+      if (res.status === 200) {
+        const data = res.data;
+        state.comment = data.comment;
+      }
+    },
+
+    async postComment({ state }) {
+      const data = {
+        content: state.comment.content,
+        post_id: state.post.id,
+        user_id: state.id,
+      }
+      const res = await postJson(state.token, `${paths.comments}`);
+      save_action_info(state, res);
+      state.comments = res.status === 200 ? res.data : [];
+    },
+
+    async deleteComment({ state }) {
+
+    },
+
+    async postLike({ state }) {
+      
+    },
+
+    async deleteLike({ state }) {
+
+    },
+
+    async postLikeComment({ state }) {
+      
+    },
+
+    async deleteLikeComment({ state }) {
+
+    },
 
   },
   /* modules: 
