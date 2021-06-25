@@ -40,24 +40,26 @@ const
       section: false,
       active_id: null,
 
+      //post info
       post: post_empty(),
       posts: [],
+      languages: languages(),
 
+      //comment info
       comment: comment_empty(),
       comments: [],
 
-      languages: languages(),
-
-      /*add_comment: { comment: null },
-      comment: { 
-        author: null, 
-        date: null, 
-        likes: 0 
-      },*/
+      //session info
+      token: null,
+      id: null,
+      success: null,
+      //TODO: add constraints
+      //constraint: constraints[null],
     }
   },
 
   save_action_info = (state, res) => {
+    state.token = res.token;
     state.success = res.status < 300;
     //TODO: add constraints here ?
     //state.constraint = constraints[res.data.constraint || null];
@@ -101,13 +103,31 @@ export default {
 
     isNotAuthorized: state => !state.token,
     isAuthorized:    state => !!state.token, // bug: Token muss gültig sein
+
+
   },
 
   mutations: {
     updateField,
 
-    resetAccount(state)
-    { state.account = c_account_empty() },
+    resetPosts(state) { 
+      state.post = post_empty();
+    },
+
+    resetComments(state) {
+      state.comment = comment_empty();
+    },
+
+    authorizationUser(state , payload) {
+      state.token = payload.token;
+      state.id = payload.id;
+    },
+
+    deleteAuthorizationUser(state) {
+      state.token = null;
+      state.id = null;
+    },
+
 
     /* newPost(state) {
 
@@ -152,6 +172,22 @@ export default {
   },
   actions: 
   {
+    authorizationUser({ state, commit }, payload) {
+      commit("authorizationUser", payload);
+    },
+
+    deleteAuthorizationUser({ state, commit }) {
+      commit("deleteAuthorizationUser");
+    },
+
+    async postPost({ state, post }) {
+      const data = {
+
+      }
+      const res = await postJson(state.token, `${paths.posts}`, data);
+      save_action_info(state, res);
+    },
+
     async getPost({ state, post }) {
       const res = await getJson(state.token, `${paths.posts}/${post.id}`);
       save_action_info(state, res);
@@ -205,19 +241,7 @@ export default {
       save_action_info(state, res);
     },
 
-    /*async getComments()
-    async getComment()
-
-    async postComment(state, post_id) {
-    },
-
-    addLike(state, post_id) {
-      state.posts[post_id].likes += 1;
-    },
-
-    addLikeComment(state, com_id) {
-      state.posts[state.active_id].comment[com_id].likes += 1;
-    },*/
+    
 
   },
   /* modules: 

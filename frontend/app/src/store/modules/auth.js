@@ -28,7 +28,6 @@ const account_empty = () => {
       // session info
       token: null,
       id: null,
-      isAdmin: false,
       success: null, // value is null when CUD command starts, and true/false after login has been finished
       //constraint: constraints[null],
     };
@@ -113,6 +112,7 @@ export default {
         state.id = payload.id;
         state.password = null; // Don't store the password.
         dispatch("getProfile");
+        dispatch("post/authorizationUser", { token: token, id: payload.id} , {root:true});
       } else {
         Object.assign(state, state_default());
       }
@@ -122,6 +122,7 @@ export default {
 
     logout({ state }) {
       Object.assign(state, state_default());
+      dispatch("post/deleteAuthorizationUser", {root:true});
       state.success = true;
     },
 
