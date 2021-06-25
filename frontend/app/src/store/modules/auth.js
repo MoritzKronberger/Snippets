@@ -6,7 +6,6 @@ import {
   postJson,
   getJson,
   patchJson,
-  putJson,
   deleteJson,
 } from "/js/service/rest";
 import jwt_decode from "jwt-decode";
@@ -21,6 +20,10 @@ const account_empty = () => {
     return {
       user: { username: null, password: null },
       new_user: { username: null, password: null, password_confirm: null },
+
+
+      account:      account_empty(),
+      accounts:     [],
 
       // session info
       token: null,
@@ -66,10 +69,6 @@ export default {
       console.log(state.user.username);
       console.log(state.user.password);
     },*/
-
-    resetAccount(state) {
-      state.account = account_empty();
-    },
 
     resetAccount(state) {
       state.account = account_empty();

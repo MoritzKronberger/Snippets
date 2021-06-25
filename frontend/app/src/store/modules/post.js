@@ -1,4 +1,4 @@
-import { getField, updateField, __esModule } from "vuex-map-fields";
+import { getField, updateField } from "vuex-map-fields";
 import { paths } from "/json/config.json";
 import {
   postJson,
@@ -11,7 +11,7 @@ import jwt_decode from "jwt-decode";
 const 
   post_empty = () => {
     return {
-    id: null,
+     id: null,
      creation_time: null,
      title: null,
      content: null,
@@ -25,14 +25,13 @@ const
     }
   },
 
-  languages = () => {
+  comment_empty = () => {
     return {
-      lang_object: [
-        { id: 0, name: "Java" },
-        { id: 1, name: "Python" },
-        { id: 2, name: "C#" },
-        { id: 3, name: "JavaScript" },
-      ],
+      id: null,
+      creation_time: null,
+      content: null,
+      user_id: null,
+      post_id: null,
     }
   },
 
@@ -41,15 +40,20 @@ const
       section: false,
       active_id: null,
 
-      post = post_empty(),
-      posts = [],
-      add_comment: { comment: null },
+      post: post_empty(),
+      posts: [],
+
+      comment: comment_empty(),
+      comments: [],
+
+      languages: languages(),
+
+      /*add_comment: { comment: null },
       comment: { 
         author: null, 
         date: null, 
         likes: 0 
-      },
-      posts: [],
+      },*/
     }
   },
 
@@ -58,6 +62,34 @@ const
     //TODO: add constraints here ?
     //state.constraint = constraints[res.data.constraint || null];
   };
+
+  //TODO: not static, get languages over backend!
+let languages = () => {
+  return {
+    lang_object: [
+      {
+          id: "278649c2-729d-4150-ba7e-7edd84e8c413",
+          name: "javascript"
+      },
+      {
+          id: "2009870f-3b0e-4989-ae4d-1c577110197b",
+          name: "python"
+      },
+      {
+          id: "4a113645-b11c-4235-9854-ac6b3bc5c1bf",
+          name: "java"
+      },
+      {
+          id: "3003d110-4ee0-4353-ba68-4d3eb0ef1197",
+          name: "c#"
+      },
+      {
+          id: "43a322dd-305d-4d6a-bdf0-897ae33ee075",
+          name: "c++"
+      }
+    ]
+  }
+};
 
 
 export default {
@@ -143,7 +175,49 @@ export default {
       const res = await getJson(state.token, `${paths.posts}`);
       save_action_info(state,res);
       state.posts = res.status === 200 ? res.data : [];
-    }
+    },
+
+    async patchPost({ state }) {
+      const res = await patchJson(state.token, `${paths.posts}/${state.post.id}`, {
+        title: state.post.title ? state.post.title.trim() : null,
+        content: state.post.content ? state.post.content.trim() : null,
+        language_id: state.post.language ? state.post.language : null,
+        categories: state.post.categories ? state.post.categories : null,
+      });
+      save_action_info(state, res);
+    },
+
+    async deletePost({ state }) {
+      const res = await deleteJson(state.token, `${paths.posts}${state.post.id}`);
+      save_action_info(state, res);
+    },
+
+    async searchPost({ state }) {
+      //TODO: implement data after Moritz implemented getPostSearch
+      let data = {};
+      const res = await getJson(state.token, `${paths.posts}/search/`, data);
+      save_action_info(state, res);
+    },
+
+    //TODO: implement with id?
+    async getLanguage({ state }) {
+      const res = await getJson(state.token, `${paths.languages}`);
+      save_action_info(state, res);
+    },
+
+    /*async getComments()
+    async getComment()
+
+    async postComment(state, post_id) {
+    },
+
+    addLike(state, post_id) {
+      state.posts[post_id].likes += 1;
+    },
+
+    addLikeComment(state, com_id) {
+      state.posts[state.active_id].comment[com_id].likes += 1;
+    },*/
 
   },
   /* modules: 
