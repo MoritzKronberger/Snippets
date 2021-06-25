@@ -35,6 +35,16 @@ const
     }
   },
 
+  like_empty = () => {
+    return {
+      id: null,
+      user_id: null,
+      post_id: null,
+      comment_id: null,
+      subject_id: null
+    }
+  },
+
   state_default = () => {
     return {
       section: false,
@@ -48,6 +58,10 @@ const
       //comment info
       comment: comment_empty(),
       comments: [],
+
+      //like info
+      like: like_empty(),
+      likes: [],
 
       //session info
       token: null,
@@ -273,22 +287,24 @@ export default {
     },
 
     async postLike({ state }) {
-      const res = await postJson(state.token, `${paths.userLikes}/${state.post.id}`);
+      const data = { user_id: state.id, post_id: state.post.id };
+      const res = await postJson(state.token, `${paths.userLikes}`, data);
       save_action_info(state, res);
     },
 
     async deleteLike({ state }) {
-      const res = await deleteJson(state.token, `${paths.userLikes}/${state.post.id}`);
+      const res = await deleteJson(state.token, `${paths.userLikes}/${state.like.id}`);
       save_action_info(state, res);
     },
 
     async postLikeComment({ state }) {
-      const res = await postJson(state.token, `${paths.userLikes}/${state.comment.id}`);
+      const data = { user_id: state.id, comment_id: state.comment.id };
+      const res = await postJson(state.token, `${paths.userLikes}`, data);
       save_action_info(state, res);
     },
 
     async deleteLikeComment({ state }) {
-      const res = await deleteJson(state.token, `${paths.userLikes}/${state.comment.id}`);
+      const res = await deleteJson(state.token, `${paths.userLikes}/${state.like.id}`);
       save_action_info(state, res);
     },
 
