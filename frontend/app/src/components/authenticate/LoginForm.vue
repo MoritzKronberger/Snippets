@@ -35,8 +35,7 @@ export default {
   ...mapActions('auth', ['login']),
    },
  
-   watch:
-   { success(p_new)
+   watch: { success(p_new)
      {  if (p_new === true)
         { router.push('/') }
      }
