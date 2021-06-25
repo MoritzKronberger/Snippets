@@ -268,23 +268,28 @@ export default {
     },
 
     async deleteComment({ state }) {
-
+      const res = await deleteJson(state.token, `${paths.comments}/${state.comment.id}`);
+      save_action_info(state, res);
     },
 
     async postLike({ state }) {
-      
+      const res = await postJson(state.token, `${paths.userLikes}/${state.post.id}`);
+      save_action_info(state, res);
     },
 
     async deleteLike({ state }) {
-
+      const res = await deleteJson(state.token, `${paths.userLikes}/${state.post.id}`);
+      save_action_info(state, res);
     },
 
     async postLikeComment({ state }) {
-      
+      const res = await postJson(state.token, `${paths.userLikes}/${state.comment.id}`);
+      save_action_info(state, res);
     },
 
     async deleteLikeComment({ state }) {
-
+      const res = await deleteJson(state.token, `${paths.userLikes}/${state.comment.id}`);
+      save_action_info(state, res);
     },
 
   },
