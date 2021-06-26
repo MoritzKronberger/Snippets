@@ -25,14 +25,14 @@ export default {
     updateField,
     newPost(state) {
 
-      const arr_category = state.post.category.split(" ");
+      //const arr_category = state.post.category.split(" ");
 
       state.posts.push({
         id: state.posts.length,
-        lang_id: state.post.lang_id,
-        title: state.post.title,
-        content: state.post.content,
-        category: arr_category,
+        lang_id:  state.post.lang_id,
+        title:    state.post.title,
+        content:  state.post.content,
+        category: state.post.category,
         comment: [],
         likes: 0,
         author: "Martin Kohnle",
