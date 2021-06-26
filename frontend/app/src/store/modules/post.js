@@ -142,6 +142,11 @@ export default {
       state.id = null;
     },
 
+    setPosts(state, payload) {
+      state.posts = payload;
+      console.log(state.posts);
+    },
+
 
     /* newPost(state) {
 
@@ -221,10 +226,13 @@ export default {
       }
     },
 
-    async getPosts({ state }) {
+    async getPosts({ state, commit }) {
+      console.log("getposts");
       const res = await getJson(state.token, `${paths.posts}`);
-      save_action_info(state,res);
-      state.posts = res.status === 200 ? res.data : [];
+      save_action_info(state, res);
+      console.log(res.data);
+      res.status === 200 ? commit("setPosts", res.data) : commit("setPosts", []);
+      console.log(state.posts);
     },
 
     async patchPost({ state }) {

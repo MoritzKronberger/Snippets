@@ -113,6 +113,7 @@ export default {
         state.password = null; // Don't store the password.
         dispatch("getProfile");
         dispatch("post/authorizationUser", { token: token, id: payload.id} , {root:true});
+        dispatch("post/getPosts", null , {root:true});
       } else {
         Object.assign(state, state_default());
       }
