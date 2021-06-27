@@ -25,6 +25,15 @@ const
     }
   },
 
+  input_post_empty = () => {
+    return {
+      language: null, 
+      content: null, 
+      title: null, 
+      categories: null,
+    }
+  },
+
   comment_empty = () => {
     return {
       id: null,
@@ -51,9 +60,12 @@ const
       active_id: null,
 
       //post info
+      input_post: input_post_empty(),
       post: post_empty(),
       posts: [],
-      languages: languages(),
+
+      language: null,
+      languages: null,
 
       //comment info
       comment: comment_empty(),
@@ -78,34 +90,6 @@ const
     //TODO: add constraints here ?
     //state.constraint = constraints[res.data.constraint || null];
   };
-
-  //TODO: not static, get languages over backend!
-let languages = () => {
-  return {
-    lang_object: [
-      {
-          id: "278649c2-729d-4150-ba7e-7edd84e8c413",
-          name: "javascript"
-      },
-      {
-          id: "2009870f-3b0e-4989-ae4d-1c577110197b",
-          name: "python"
-      },
-      {
-          id: "4a113645-b11c-4235-9854-ac6b3bc5c1bf",
-          name: "java"
-      },
-      {
-          id: "3003d110-4ee0-4353-ba68-4d3eb0ef1197",
-          name: "c#"
-      },
-      {
-          id: "43a322dd-305d-4d6a-bdf0-897ae33ee075",
-          name: "c++"
-      }
-    ]
-  }
-};
 
 
 export default {
@@ -189,6 +173,7 @@ export default {
       console.log("Delete Post: " + state.posts[post_id].id);
     }, */
   },
+
   actions: 
   {
     authorizationUser({ state, commit }, payload) {
@@ -201,7 +186,10 @@ export default {
 
     async postPost({ state, post }) {
       const data = {
-
+        language: input_post.language, 
+        content: input_post.content, 
+        title: input_post.title, 
+        categories: input_post.categories,
       }
       const res = await postJson(state.token, `${paths.posts}`, data);
       save_action_info(state, res);
@@ -227,21 +215,19 @@ export default {
     },
 
     async getPosts({ state, commit }) {
-      console.log("getposts");
       const res = await getJson(state.token, `${paths.posts}`);
       save_action_info(state, res);
-      console.log(res.data);
       res.status === 200 ? commit("setPosts", res.data) : commit("setPosts", []);
-      console.log(state.posts);
     },
 
     async patchPost({ state }) {
-      const res = await patchJson(state.token, `${paths.posts}/${state.post.id}`, {
+      const data = {
         title: state.post.title ? state.post.title.trim() : null,
         content: state.post.content ? state.post.content.trim() : null,
         language_id: state.post.language ? state.post.language : null,
         categories: state.post.categories ? state.post.categories : null,
-      });
+      }
+      const res = await patchJson(state.token, `${paths.posts}/${state.post.id}`, data);
       save_action_info(state, res);
     },
 
@@ -258,9 +244,21 @@ export default {
     },
 
     //TODO: implement with id?
-    async getLanguage({ state }) {
+    async getLanguages({ state }) {
       const res = await getJson(state.token, `${paths.languages}`);
       save_action_info(state, res);
+      if (res.status === 200) {
+        state.languages = res.data;
+      };
+    },
+
+    async getLanguage({ state }) {
+      console.log("getlang");
+      const res = await getJson(state.token, `${paths.languages}/${state.language.id}`);
+      save_action_info(state, res);
+      if (res.status === 200) {
+        state.language = res.data;
+      };
     },
 
     async getComments({ state }) {
@@ -284,7 +282,7 @@ export default {
         post_id: state.post.id,
         user_id: state.id,
       }
-      const res = await postJson(state.token, `${paths.comments}`);
+      const res = await postJson(state.token, `${paths.comments}`, data);
       save_action_info(state, res);
       state.comments = res.status === 200 ? res.data : [];
     },

@@ -29,6 +29,10 @@ export default {
     Search,
     Button,
   },
+  beforeMount: function() {
+    console.log("beforeMount");
+    this.$store.dispatch("post/getLanguages", null, {root: true});
+  }
 };
 </script>
 <style lang="scss">
