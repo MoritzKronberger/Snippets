@@ -46,7 +46,6 @@ export default {
             obj.category.split(" ").forEach((element) => {
               element.length > 10 ? arr_category.push(element) : null;
             });
-            console.log("test");
             if (arr_category.length > 0) {
               console.log(arr_category);
               this.errors.push(arr_category + " only 10 characters allowed.");
