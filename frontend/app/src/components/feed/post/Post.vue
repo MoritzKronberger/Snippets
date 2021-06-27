@@ -2,13 +2,13 @@
     <div class="content post">
       <Edit :post="post" />
       <Description :post="post" />
-      <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
+      <Prism :prism="post" :lang_name="post.language" />
       <Interaction :post="post" />
       <div :class="vis_Comment">
         <div :class="setOverFlow">
           <Comments :comments="post" />
         </div>
-        <input class="input" v-model="add_comment.comment" type="text" />
+        <input class="input" v-model="comment.content" type="text" />
       <Validation
         :object="add_comment"
         button_name="comment"
@@ -46,9 +46,9 @@ export default {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
     setOverFlow() {
-      return this.posts[this.post.id].comment.length > 3 ? "overflow" : "";
+      //return this.posts[this.post.id].comment.length > 3 ? "overflow" : "";
     },
-    ...mapFields("post", ["new_comment", "posts", "active_id", "add_comment"]),
+    ...mapFields("post", [ "posts", "active_id", "comment"]),
     ...mapState("post", ["lang_object"]),
   },
   methods: {

@@ -9,14 +9,6 @@ import {
 import jwt_decode from "jwt-decode";
 
 const 
-post_form = () => {
-  return {
-   title: null,
-   content: null,
-   language: null,  
-   categories: null,
-  }
-},
   post_empty = () => {
     return {
      id: null,

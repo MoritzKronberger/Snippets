@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="flex-container">
-      <p>Likes: {{ post.likes }}</p>
-      <p>Comments: {{ post.comment.length }}</p>
+      <p>Likes: {{ post.num_likes }}</p>
+      <p>Comments: {{ post.num_comments }}</p>
       <Button :label="section_state" btn_class="small" @click="setActive()" />
     </div>
   </div>
