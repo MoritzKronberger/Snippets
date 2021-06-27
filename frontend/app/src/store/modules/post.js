@@ -33,6 +33,15 @@ post_form = () => {
     }
   },
 
+  input_post_empty = () => {
+    return {
+      language: null, 
+      content: null, 
+      title: null, 
+      categories: null,
+    }
+  },
+
   comment_empty = () => {
     return {
       id: null,
@@ -59,9 +68,13 @@ post_form = () => {
       active_id: null,
 
       //post info
-      post: post_form(),
+      input_post: input_post_empty(),
+      post: post_empty(),
       posts: [],
-      languages: languages(),
+
+      //language info: language.id and language.username
+      language: null,
+      languages: null,
 
       //comment info
       comment: comment_empty(),
@@ -86,34 +99,6 @@ post_form = () => {
     //TODO: add constraints here ?
     //state.constraint = constraints[res.data.constraint || null];
   };
-
-  //TODO: not static, get languages over backend!
-let languages = () => {
-  return {
-    lang_object: [
-      {
-          id: "278649c2-729d-4150-ba7e-7edd84e8c413",
-          name: "javascript"
-      },
-      {
-          id: "2009870f-3b0e-4989-ae4d-1c577110197b",
-          name: "python"
-      },
-      {
-          id: "4a113645-b11c-4235-9854-ac6b3bc5c1bf",
-          name: "java"
-      },
-      {
-          id: "3003d110-4ee0-4353-ba68-4d3eb0ef1197",
-          name: "c#"
-      },
-      {
-          id: "43a322dd-305d-4d6a-bdf0-897ae33ee075",
-          name: "c++"
-      }
-    ]
-  }
-};
 
 
 export default {
@@ -154,49 +139,8 @@ export default {
       state.posts = payload;
       console.log(state.posts);
     },
-
-
-    /* newPost(state) {
-
-      //const arr_category = state.post.category.split(" ");
-
-      state.posts.push({
-        id: state.posts.length,
-        lang_id:  state.post.lang_id,
-        title:    state.post.title,
-        content:  state.post.content,
-        category: state.post.category,
-        comment: [],
-        likes: 0,
-        author: "Martin Kohnle",
-        date: "DD/MM/YYYY",
-      });
-      console.log(state.posts);
-      state.section = false;
-    },
-
-    addComment(state, post_id) {
-      state.posts[post_id].comment.push({
-        id: state.posts[post_id].comment.length,
-        message: state.add_comment.comment,
-        author: "SomeoneElse42",
-        date: "23.05.2021",
-        likes: state.comment.likes,
-      });
-    },
-
-    addLike(state, post_id) {
-      state.posts[post_id].likes += 1;
-    },
-
-    addLikeComment(state, com_id) {
-      state.posts[state.active_id].comment[com_id].likes += 1;
-    },
-
-    deletePost(state, post_id) {
-      console.log("Delete Post: " + state.posts[post_id].id);
-    }, */
   },
+
   actions: 
   {
     authorizationUser({ state, commit }, payload) {
@@ -209,7 +153,10 @@ export default {
 
     async postPost({ state, post }) {
       const data = {
-
+        language: input_post.language, 
+        content: input_post.content, 
+        title: input_post.title, 
+        categories: input_post.categories,
       }
       const res = await postJson(state.token, `${paths.posts}`, data);
       save_action_info(state, res);
@@ -235,21 +182,19 @@ export default {
     },
 
     async getPosts({ state, commit }) {
-      console.log("getposts");
       const res = await getJson(state.token, `${paths.posts}`);
       save_action_info(state, res);
-      console.log(res.data);
       res.status === 200 ? commit("setPosts", res.data) : commit("setPosts", []);
-      console.log(state.posts);
     },
 
     async patchPost({ state }) {
-      const res = await patchJson(state.token, `${paths.posts}/${state.post.id}`, {
+      const data = {
         title: state.post.title ? state.post.title.trim() : null,
         content: state.post.content ? state.post.content.trim() : null,
         language_id: state.post.language ? state.post.language : null,
         categories: state.post.categories ? state.post.categories : null,
-      });
+      }
+      const res = await patchJson(state.token, `${paths.posts}/${state.post.id}`, data);
       save_action_info(state, res);
     },
 
@@ -265,10 +210,21 @@ export default {
       save_action_info(state, res);
     },
 
-    //TODO: implement with id?
-    async getLanguage({ state }) {
+    async getLanguages({ state }) {
       const res = await getJson(state.token, `${paths.languages}`);
       save_action_info(state, res);
+      if (res.status === 200) {
+        state.languages = res.data;
+      };
+    },
+
+    async getLanguage({ state }) {
+      console.log("getlang");
+      const res = await getJson(state.token, `${paths.languages}/${state.language.id}`);
+      save_action_info(state, res);
+      if (res.status === 200) {
+        state.language = res.data;
+      };
     },
 
     async getComments({ state }) {
@@ -278,7 +234,7 @@ export default {
     },
 
     async getComment({ state }) {
-      const res = await getJson(state.token, `${paths.comments}`);
+      const res = await getJson(state.token, `${paths.comments}/${comment.id}`);
       save_action_info(state, res);
       if (res.status === 200) {
         const data = res.data;
@@ -292,7 +248,7 @@ export default {
         post_id: state.post.id,
         user_id: state.id,
       }
-      const res = await postJson(state.token, `${paths.comments}`);
+      const res = await postJson(state.token, `${paths.comments}`, data);
       save_action_info(state, res);
       state.comments = res.status === 200 ? res.data : [];
     },
@@ -302,24 +258,24 @@ export default {
       save_action_info(state, res);
     },
 
-    async postLike({ state }) {
+    async postPostLike({ state }) {
       const data = { user_id: state.id, post_id: state.post.id };
       const res = await postJson(state.token, `${paths.userLikes}`, data);
       save_action_info(state, res);
     },
 
-    async deleteLike({ state }) {
+    async deletePostLike({ state }) {
       const res = await deleteJson(state.token, `${paths.userLikes}/${state.like.id}`);
       save_action_info(state, res);
     },
 
-    async postLikeComment({ state }) {
+    async postCommentLike({ state }) {
       const data = { user_id: state.id, comment_id: state.comment.id };
       const res = await postJson(state.token, `${paths.userLikes}`, data);
       save_action_info(state, res);
     },
 
-    async deleteLikeComment({ state }) {
+    async deleteCommentLike({ state }) {
       const res = await deleteJson(state.token, `${paths.userLikes}/${state.like.id}`);
       save_action_info(state, res);
     },
