@@ -1,5 +1,4 @@
 import { query } from "./index.js";
-//TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
 // TODO: limit für returned rows?
 const getPostsAll = async () => {
@@ -10,7 +9,7 @@ const getPostsAll = async () => {
     return { status: 200, result: result.rows };
   },
   // TODO: weniger hacky implementieren?
-  getPostSearch = async (key) => {
+  getPostSorted = async (key) => {
     const view = await query(
       `SELECT view_name
        FROM get_sort_by_view_name
@@ -29,7 +28,7 @@ const getPostsAll = async () => {
       : { status: 200, result: result.rows };
   },
   getPosts = async (key) => {
-    return key ? getPostSearch(key) : getPostsAll();
+    return key ? getPostSorted(key) : getPostsAll();
   },
   getPost = async (id) => {
     const result = await query(
@@ -42,6 +41,14 @@ const getPostsAll = async () => {
     return result.rows.length === 0
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
+  },
+  getPostSearch = async (data) => {
+    const result = await query(
+      `
+      `, 
+      [data]
+    );
+    return result.rows;
   },
   postPost = async (data) => {
     const result = await query(
@@ -74,6 +81,7 @@ const getPostsAll = async () => {
 export { 
   getPosts, 
   getPost, 
+  getPostSearch,
   postPost, 
   putPost, 
   patchPost, 
@@ -83,6 +91,7 @@ export {
 export default { 
   getPosts, 
   getPost, 
+  getPostSearch,
   postPost, 
   putPost, 
   patchPost, 
