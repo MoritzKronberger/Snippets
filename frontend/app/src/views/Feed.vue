@@ -30,8 +30,8 @@ export default {
     Button,
   },
   beforeMount: function() {
-    console.log("beforeMount");
     this.$store.dispatch("post/getLanguages", null, {root: true});
+    this.$store.dispatch("post/getPosts", null, {root: true});
   }
 };
 </script>
