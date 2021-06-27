@@ -9,6 +9,14 @@ import {
 import jwt_decode from "jwt-decode";
 
 const 
+post_form = () => {
+  return {
+   title: null,
+   content: null,
+   language: null,  
+   categories: null,
+  }
+},
   post_empty = () => {
     return {
      id: null,
@@ -51,7 +59,7 @@ const
       active_id: null,
 
       //post info
-      post: post_empty(),
+      post: post_form(),
       posts: [],
       languages: languages(),
 

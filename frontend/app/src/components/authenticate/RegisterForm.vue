@@ -22,7 +22,7 @@ import { mapActions, mapState } from 'vuex';
 import router  from '/router';
 import Button from "../Button.vue";
 import Form from "./Form.vue";
-import Validation from "../validation/Form.vue";
+import Validation from "../validation/Form.vue"
 
 export default {
   name: "Register",

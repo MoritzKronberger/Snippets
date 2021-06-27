@@ -17,7 +17,7 @@
 <script>
 import Button from "../../Button.vue";
 import Languages from "./Languages";
-import Validation from "../../validation/Form.vue";
+import Validation from "../../validation/Form.vue"
 import Input from "./Input";
 import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
