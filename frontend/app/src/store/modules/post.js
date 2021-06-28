@@ -1,39 +1,31 @@
 import { getField, updateField } from "vuex-map-fields";
 import { paths } from "/json/config.json";
-import {
-  postJson,
-  getJson,
-  patchJson,
-  deleteJson,
-} from "/js/service/rest";
+import { postJson, getJson, patchJson, deleteJson } from "/js/service/rest";
 import jwt_decode from "jwt-decode";
 
-const 
-  post_empty = () => {
+const post_empty = () => {
     return {
-     id: null,
-     creation_time: null,
-     title: null,
-     content: null,
-     language: null, 
-     user_id: null, 
-     username: null, 
-     profile_picture: null, 
-     num_likes: null, 
-     num_comments: null, 
-     categories: null,
-    }
+      id: null,
+      creation_time: null,
+      title: null,
+      content: null,
+      language: null,
+      user_id: null,
+      username: null,
+      profile_picture: null,
+      num_likes: null,
+      num_comments: null,
+      categories: null,
+    };
   },
-
   input_post_empty = () => {
     return {
-      language: null, 
-      content: null, 
-      title: null, 
+      language: null,
+      content: null,
+      title: null,
       categories: null,
-    }
+    };
   },
-
   comment_empty = () => {
     return {
       id: null,
@@ -41,19 +33,17 @@ const
       content: null,
       user_id: null,
       post_id: null,
-    }
+    };
   },
-
   like_empty = () => {
     return {
       id: null,
       user_id: null,
       post_id: null,
       comment_id: null,
-      subject_id: null
-    }
+      subject_id: null,
+    };
   },
-
   state_default = () => {
     return {
       section: false,
@@ -82,16 +72,14 @@ const
       success: null,
       //TODO: add constraints
       //constraint: constraints[null],
-    }
+    };
   },
-
   save_action_info = (state, res) => {
     state.token = res.token;
     state.success = res.status < 300;
     //TODO: add constraints here ?
     //state.constraint = constraints[res.data.constraint || null];
   };
-
 
 export default {
   namespaced: true,
@@ -100,16 +88,14 @@ export default {
   getters: {
     getField,
 
-    isNotAuthorized: state => !state.token,
-    isAuthorized:    state => !!state.token, // bug: Token muss gültig sein
-
-
+    isNotAuthorized: (state) => !state.token,
+    isAuthorized: (state) => !!state.token, // bug: Token muss gültig sein
   },
 
   mutations: {
     updateField,
 
-    resetPosts(state) { 
+    resetPosts(state) {
       state.post = post_empty();
     },
 
@@ -117,7 +103,7 @@ export default {
       state.comment = comment_empty();
     },
 
-    authorizationUser(state , payload) {
+    authorizationUser(state, payload) {
       state.token = payload.token;
       state.id = payload.id;
     },
@@ -131,10 +117,21 @@ export default {
       state.posts = payload;
       console.log(state.posts);
     },
+
+    setLanguages(state, payload) {
+      state.languages = payload;
+      console.log(state.languages);
+    },
+
+    inputToPost(state) {
+      for (let prop in state.input_post) {
+        state.post[prop] = state.input_post[prop];
+      }
+      console.log(state.post);
+    },
   },
 
-  actions: 
-  {
+  actions: {
     authorizationUser({ state, commit }, payload) {
       commit("authorizationUser", payload);
     },
@@ -145,11 +142,11 @@ export default {
 
     async postPost({ state, post }) {
       const data = {
-        language: input_post.language, 
-        content: input_post.content, 
-        title: input_post.title, 
+        language: input_post.language,
+        content: input_post.content,
+        title: input_post.title,
         categories: input_post.categories,
-      }
+      };
       const res = await postJson(state.token, `${paths.posts}`, data);
       save_action_info(state, res);
     },
@@ -176,7 +173,9 @@ export default {
     async getPosts({ state, commit }) {
       const res = await getJson(state.token, `${paths.posts}`);
       save_action_info(state, res);
-      res.status === 200 ? commit("setPosts", res.data) : commit("setPosts", []);
+      res.status === 200
+        ? commit("setPosts", res.data)
+        : commit("setPosts", []);
     },
 
     async patchPost({ state }) {
@@ -185,13 +184,20 @@ export default {
         content: state.post.content ? state.post.content.trim() : null,
         language_id: state.post.language ? state.post.language : null,
         categories: state.post.categories ? state.post.categories : null,
-      }
-      const res = await patchJson(state.token, `${paths.posts}/${state.post.id}`, data);
+      };
+      const res = await patchJson(
+        state.token,
+        `${paths.posts}/${state.post.id}`,
+        data
+      );
       save_action_info(state, res);
     },
 
     async deletePost({ state }) {
-      const res = await deleteJson(state.token, `${paths.posts}${state.post.id}`);
+      const res = await deleteJson(
+        state.token,
+        `${paths.posts}${state.post.id}`
+      );
       save_action_info(state, res);
     },
 
@@ -202,21 +208,25 @@ export default {
       save_action_info(state, res);
     },
 
-    async getLanguages({ state }) {
+    async getLanguages({ state, commit }) {
       const res = await getJson(state.token, `${paths.languages}`);
       save_action_info(state, res);
       if (res.status === 200) {
         state.languages = res.data;
-      };
+        commit("setPosts", res.data);
+      }
     },
 
     async getLanguage({ state }) {
       console.log("getlang");
-      const res = await getJson(state.token, `${paths.languages}/${state.language.id}`);
+      const res = await getJson(
+        state.token,
+        `${paths.languages}/${state.language.id}`
+      );
       save_action_info(state, res);
       if (res.status === 200) {
         state.language = res.data;
-      };
+      }
     },
 
     async getComments({ state }) {
@@ -239,14 +249,17 @@ export default {
         content: state.comment.content,
         post_id: state.post.id,
         user_id: state.id,
-      }
+      };
       const res = await postJson(state.token, `${paths.comments}`, data);
       save_action_info(state, res);
       state.comments = res.status === 200 ? res.data : [];
     },
 
     async deleteComment({ state }) {
-      const res = await deleteJson(state.token, `${paths.comments}/${state.comment.id}`);
+      const res = await deleteJson(
+        state.token,
+        `${paths.comments}/${state.comment.id}`
+      );
       save_action_info(state, res);
     },
 
@@ -257,7 +270,10 @@ export default {
     },
 
     async deletePostLike({ state }) {
-      const res = await deleteJson(state.token, `${paths.userLikes}/${state.like.id}`);
+      const res = await deleteJson(
+        state.token,
+        `${paths.userLikes}/${state.like.id}`
+      );
       save_action_info(state, res);
     },
 
@@ -268,13 +284,14 @@ export default {
     },
 
     async deleteCommentLike({ state }) {
-      const res = await deleteJson(state.token, `${paths.userLikes}/${state.like.id}`);
+      const res = await deleteJson(
+        state.token,
+        `${paths.userLikes}/${state.like.id}`
+      );
       save_action_info(state, res);
     },
-
   },
   /* modules: 
   {
   }*/
 };
-

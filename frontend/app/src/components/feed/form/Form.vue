@@ -8,8 +8,12 @@
         <Button label="DISCARD" btn_class="small discard" @click="setActive" />
         <p>Select Language</p>
         <Languages />
-        <Input :post="post" />
-        <Validation :object="post" button_name="Submit" @click="submitPost"/>
+        <Input :post="input_post" />
+        <Validation
+          :object="input_post"
+          button_name="Submit"
+          @click="submitPost"
+        />
       </form>
     </div>
   </div>
@@ -17,7 +21,7 @@
 <script>
 import Button from "../../Button.vue";
 import Languages from "./Languages";
-import Validation from "../../validation/Form.vue"
+import Validation from "../../validation/Form.vue";
 import Input from "./Input";
 import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
@@ -26,7 +30,7 @@ export default {
   components: { Button, Languages, Validation, Input },
   computed: {
     ...mapGetters("form", ["vis_Add", "vis_Form"]),
-    ...mapFields("post", ["post"]),
+    ...mapFields("post", ["input_post"]),
     ...mapFields("form", ["section"]),
   },
   methods: {
@@ -34,8 +38,8 @@ export default {
       this.$store.commit("form/setActive");
     },
     submitPost() {
-      this.$store.commit("post/newPost");
-      this.$store.commit("form/setActive");
+      this.$store.commit("post/inputToPost");
+      this.setActive();
     },
   },
 };

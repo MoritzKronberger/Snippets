@@ -46,17 +46,17 @@ export default {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
     setOverFlow() {
-      //return this.posts[this.post.id].comment.length > 3 ? "overflow" : "";
+      return this.post.num_comments > 3 ? "overflow" : "";
     },
-    ...mapFields("post", [ "posts", "active_id", "comment"]),
-    ...mapState("post", ["lang_object"]),
+    ...mapFields("post", ["active_id", "comment"]),
+    //...mapState("post", ["lang_object"]),
   },
   methods: {
     addComment() {
-      this.$store.commit("post/addComment", this.post.id);
+      //this.$store.commit("post/addComment", this.post.id);
     },
     addLike() {
-      this.$store.commit("post/addLike", this.post.id);
+      //this.$store.commit("post/addLike", this.post.id);
     },
   },
 };

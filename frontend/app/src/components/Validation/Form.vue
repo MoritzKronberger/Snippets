@@ -42,16 +42,16 @@ export default {
 
         case "Submit":
           const arr_category = [];
-          if (obj.category !== null) {
-            obj.category.split(" ").forEach((element) => {
+          if (obj.categories !== null) {
+            obj.categories.split(" ").forEach((element) => {
               element.length > 10 ? arr_category.push(element) : null;
             });
             if (arr_category.length > 0) {
-              console.log(arr_category);
+              //console.log(arr_category);
               this.errors.push(arr_category + " only 10 characters allowed.");
             }
           }
-          delete obj.category;
+          delete obj.categories;
           this.valid_length = { title: 40, content: 400 };
           break;
 

@@ -12,7 +12,7 @@
         placeholder="code input"
       />
       <input
-        v-model="post.category"
+        v-model="post.categories"
         class="input"
         placeholder="#category"
       />
@@ -24,6 +24,3 @@ export default {
   props: {post: Object},
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
