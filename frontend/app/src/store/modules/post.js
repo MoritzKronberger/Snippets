@@ -16,6 +16,7 @@ const post_empty = () => {
       num_likes: null,
       num_comments: null,
       categories: null,
+      comments: []
     };
   },
   input_post_empty = () => {
@@ -115,12 +116,12 @@ export default {
 
     setPosts(state, payload) {
       state.posts = payload;
-      console.log(state.posts);
+      console.log("posts:", state.posts);
     },
 
     setLanguages(state, payload) {
       state.languages = payload;
-      console.log(state.languages);
+      console.log("languages:", state.languages);
     },
 
     inputToPost(state) {
@@ -213,7 +214,7 @@ export default {
       save_action_info(state, res);
       if (res.status === 200) {
         state.languages = res.data;
-        commit("setPosts", res.data);
+        commit("setLanguages", res.data);
       }
     },
 
@@ -230,9 +231,23 @@ export default {
     },
 
     async getComments({ state }) {
+      console.log("getComments");
       const res = await getJson(state.token, `${paths.comments}`);
       save_action_info(state, res);
       state.comments = res.status === 200 ? res.data : [];
+
+      state.posts.forEach( function (p) {
+        let commentArray = [];
+        res.data.forEach( function (c) {
+          if (c.post_id == p.id) {
+            console.log("success:", c.post_id, p.id);
+            commentArray.push(c); 
+          }
+        });
+        p.comments = commentArray;
+      });
+      console.log("showpost comments", state.posts);
+      state.posts.forEach( (obj) => console.log("com:", obj.id, obj.comments));
     },
 
     async getComment({ state }) {

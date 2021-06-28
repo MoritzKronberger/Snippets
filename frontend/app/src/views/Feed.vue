@@ -32,6 +32,7 @@ export default {
   beforeMount: function() {
     this.$store.dispatch("post/getLanguages", null, {root: true});
     this.$store.dispatch("post/getPosts", null, {root: true});
+    this.$store.dispatch("post/getComments", null, {root: true});
   }
 };
 </script>
