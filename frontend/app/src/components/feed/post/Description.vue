@@ -2,9 +2,9 @@
   <div>
     <h4>{{ post.title }}</h4>
       <div class="flex-container">
-        <p>Language: {{ }}</p>
-        <p>Date: {{ post.date }}</p>
-        <p>Written by: {{ post.author }}</p>
+        <p>Language: {{ post.language }}</p>
+        <p>Date: {{ post.creation_time }}</p>
+        <p>Written by: {{ post.username }}</p>
       </div>
   </div>
 </template>

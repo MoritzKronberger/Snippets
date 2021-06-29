@@ -90,7 +90,7 @@ export default {
     getField,
 
     isNotAuthorized: (state) => !state.token,
-    isAuthorized: (state) => !!state.token, // bug: Token muss gültig sein
+    isAuthorized: (state) => !!state.token // bug: Token muss gültig sein
   },
 
   mutations: {
@@ -120,12 +120,6 @@ export default {
 
     setLanguages(state, payload) {
       state.languages = payload;
-    },
-
-    inputToPost(state) {
-      for (let prop in state.input_post) {
-        state.post[prop] = state.input_post[prop];
-      }
     },
   },
 
@@ -234,7 +228,6 @@ export default {
       const res = await getJson(state.token, `${paths.comments}`);
       save_action_info(state, res);
       state.comments = res.status === 200 ? res.data : [];
-
       state.posts.forEach( function (p) {
         let commentArray = [];
         res.data.forEach( function (c) {
