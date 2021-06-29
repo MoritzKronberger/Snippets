@@ -38,7 +38,7 @@ export default {
       this.$store.commit("form/setActive");
     },
     submitPost() {
-      this.$store.commit("post/inputToPost");
+      this.$store.dispatch("post/postPost");
       this.setActive();
     },
   },

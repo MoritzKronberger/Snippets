@@ -1,26 +1,28 @@
 <template>
-    <div class="content post">
-      <Edit :post="post" />
-      <Description :post="post" />
-      <Prism :prism="post" :lang_name="post.language" />
-      <Interaction :post="post" />
-      <div :class="vis_Comment">
-        <div :class="setOverFlow">
-          <Comments :comments="post" />
-        </div>
-        <input class="input" v-model="comment.content" type="text" />
-      <Validation
-        :object="add_comment"
-        button_name="comment"
-        btn_class="small"
-        @click="addComment"
-      />
-      <Button label="Like" btn_class="small" @click="addLike" />
+  <div class="content post">
+    <Edit :post="post" />
+    <Description :post="post" />
+    <Prism :prism="post" :lang_name="post.language" />
+    <Interaction :post="post" />
+    <div :class="vis_Comment">
+      <div :class="setOverFlow">
+        <Comments :comments="post" />
+      </div>
+       <div>
+      <input class="input" v-model="comment.content" type="text" />
+        <Validation
+          :object="add_comment"
+          button_name="comment"
+          btn_class="small"
+          @click="addComment"
+        />
+        <Button label="Like" btn_class="small" @click="addLike" />
       </div>
     </div>
+  </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
 import Description from "./Description.vue";
 import Comments from "./Comments.vue";
@@ -49,7 +51,7 @@ export default {
       return this.post.num_comments > 3 ? "overflow" : "";
     },
     ...mapFields("post", ["active_id", "comment"]),
-    //...mapState("post", ["lang_object"]),
+    ...mapGetters("post", ["isAuthorized"]),
   },
   methods: {
     addComment() {

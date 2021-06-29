@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="comment" v-for="com in comments.comment" :key="com.id">
-      <p>{{ com.message }}</p>
+    <div class="comment" v-for="com in comments.comments" :key="com.id">
+      <p>{{ com.content }}</p>
       <div class="flex-container">
         <Button
-          :label="'Likes: ' + com.likes"
+          :label="'Likes: ' + com.num_likes"
           btn_class="small"
           @click="addLike(com.id)"
         />
-        <p>{{ com.author }}</p>
-        <p>{{ com.date }}</p>
+        <p>{{ com.username }}</p>
+        <p>{{ com.creation_time }}</p>
       </div>
     </div>
   </div>
