@@ -21,44 +21,57 @@ posts.get("/search/", async (req, res) => {
 
 //TODO: add categories
 posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
-    //add a new post
-    const json = {
-      title: req.body.title,
-      content: req.body.content,
-      language_id: req.body.language_id,
-      user_id: req.id,
-    };
-    let post = { status: "", result: "" },
-      proxy = req.headers["x-forwarded-host"],
-      host = proxy ? proxy : req.headers.host;
-    post = await postsDB.postPost(json);
-    res
-      .set(
-        "Location",
-        `${req.protocol}://${host}${req.baseUrl}/${post.status.id}`
-      )
-      .status(post.status)
-      .json(post.result);
+  //add a new post
+  const json = {
+    title: req.body.title,
+    content: req.body.content,
+    language_id: req.body.language_id,
+    user_id: req.id,
+  };
+  let post = { status: "", result: "" },
+    proxy = req.headers["x-forwarded-host"],
+    host = proxy ? proxy : req.headers.host;
+  post = await postsDB.postPost(json);
+  res
+    .set(
+      "Location",
+      `${req.protocol}://${host}${req.baseUrl}/${post.status.id}`
+    )
+    .status(post.status)
+    .json(post.result);
 
-    //look for the category
-    let category = { status: "", result: "" };
-    category = await categoriesDB.getCategories(req.body.category);
-    let category_id;
+  //look for the category
+  const categoryArray = req.body.category;
+  let categoryIdArray = [];
+
+  for (const c of categoryArray) {
+    let categoryJson = { status: "", result: "" };
+    categoryJson = await categoriesDB.getCategories(c);
     //200: category already existing, use id
-    if (category.status === 200) {
-      category_id = category.result[0].id;
+    if (categoryJson.status === 200) {
+      console.log("existing:", c);
+      console.log(categoryJson);
+      categoryIdArray.push(categoryJson.result[0].id);
     } else {
-      category = await categoriesDB.postCategory({ name: req.body.category });
-      category_id = category.result.id;
+      console.log("not existing", c);
+      categoryJson = await categoriesDB.postCategory({
+        name: c
+      });
+      console.log(categoryJson);
+      categoryIdArray.push(categoryJson.result.id);
     }
+  }
+
+  for (const ca of categoryIdArray) {
     //connect post and category
     let hasCat = { status: "", result: "" };
-    (hasCat = await hasCategoriesDB.postHasCategory(
+    hasCat = await hasCategoriesDB.postHasCategory(
       post.result.id,
-      category_id
-    )),
-      (proxy = req.headers["x-forwarded-host"]),
-      (host = proxy ? proxy : req.headers.host);
+      ca
+    ),
+    proxy = req.headers["x-forwarded-host"],
+    host = proxy ? proxy : req.headers.host;
+  }
 });
 
 posts.get("/:id", async (req, res) => {
