@@ -25,13 +25,9 @@ export default {
   computed: {
     ...mapFields("auth", ["user"]),
     ...mapState('auth', ['success']),
-
     error() { return this.success === false }
   },
   methods: {
-    /*Login() {
-      this.$store.commit("auth/userLogin");
-    },*/
   ...mapActions('auth', ['login']),
    },
  

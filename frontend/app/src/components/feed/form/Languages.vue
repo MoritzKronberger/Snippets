@@ -1,7 +1,7 @@
 <template>
   <div class="flex-container">
     <div v-for="lang in languages" :key="lang.id">
-      <Button :label="lang.name" btn_class="small" @click="addLang(lang.name)" />
+      <Button :label="lang.name" btn_class="small" @click="addLang(lang.id)" />
     </div>
   </div>
 </template>
@@ -18,8 +18,8 @@ export default {
     ...mapFields("post", ["input_post"]),
   },
   methods: {
-    addLang(lang_name) {
-      this.input_post.language = lang_name;
+    addLang(lang_id) {
+      this.input_post.language_id = lang_id;
     },
   },
 };

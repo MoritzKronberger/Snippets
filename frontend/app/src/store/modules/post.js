@@ -21,7 +21,7 @@ const post_empty = () => {
   },
   input_post_empty = () => {
     return {
-      language: null,
+      language_id: null,
       content: null,
       title: null,
       categories: null,
@@ -136,7 +136,7 @@ export default {
     async postPost({ state }) {
       console.log("isAuth:", this.state.token);
       const data = {
-        language_id: state.input_post.language.id,
+        language_id: state.input_post.language_id,
         content: state.input_post.content,
         title: state.input_post.title,
         categories: state.input_post.categories,
