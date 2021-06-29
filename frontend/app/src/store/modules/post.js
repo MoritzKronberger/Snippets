@@ -105,8 +105,8 @@ export default {
     },
 
     authorizationUser(state, payload) {
-      state.token = payload.token;
-      state.id = payload.id;
+      this.state.token = payload.token;
+      this.state.id = payload.id;
     },
 
     deleteAuthorizationUser(state) {
@@ -131,6 +131,7 @@ export default {
 
   actions: {
     authorizationUser({ state, commit }, payload) {
+      console.log("authorize", payload.token);
       commit("authorizationUser", payload);
     },
 
@@ -138,18 +139,20 @@ export default {
       commit("deleteAuthorizationUser");
     },
 
-    async postPost({ state, post }) {
+    async postPost({ state }) {
+      console.log("isAuth:", this.state.token);
       const data = {
-        language: input_post.language,
-        content: input_post.content,
-        title: input_post.title,
-        categories: input_post.categories,
+        language_id: state.input_post.language.id,
+        content: state.input_post.content,
+        title: state.input_post.title,
+        categories: state.input_post.categories,
       };
-      const res = await postJson(state.token, `${paths.posts}`, data);
-      save_action_info(state, res);
+      const res = await postJson(this.state.token, `${paths.posts}`, data);
+      console.log("res:", res);
+      save_action_info(this.state, res);
     },
 
-    async getPost({ state, post }) {
+    async getPost({ state }) {
       const res = await getJson(state.token, `${paths.posts}/${post.id}`);
       save_action_info(state, res);
       if (res.status === 200) {
@@ -213,6 +216,7 @@ export default {
         state.languages = res.data;
         commit("setLanguages", res.data);
       }
+      console.log("lang:", state.languages);
     },
 
     async getLanguage({ state }) {

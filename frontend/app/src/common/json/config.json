@@ -4,6 +4,7 @@
       "accounts": "/api/accounts",
       "posts": "/api/posts",
       "languages": "/api/languages",
-      "comments": "/api/comments"
+      "comments": "/api/comments",
+      "likes": "/api/userLikes"
     }
 }
