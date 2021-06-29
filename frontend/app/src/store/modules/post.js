@@ -16,7 +16,7 @@ const post_empty = () => {
       num_likes: null,
       num_comments: null,
       categories: null,
-      comments: []
+      comments: [],
     };
   },
   input_post_empty = () => {
@@ -90,7 +90,7 @@ export default {
     getField,
 
     isNotAuthorized: (state) => !state.token,
-    isAuthorized: (state) => !!state.token // bug: Token muss gültig sein
+    isAuthorized: (state) => !!state.token, // bug: Token muss gültig sein
   },
 
   mutations: {
@@ -105,8 +105,9 @@ export default {
     },
 
     authorizationUser(state, payload) {
-      this.state.token = payload.token;
-      this.state.id = payload.id;
+      state.token = payload.token;
+      state.id = payload.id;
+      console.log("authorize", state.token);
     },
 
     deleteAuthorizationUser(state) {
@@ -121,11 +122,16 @@ export default {
     setLanguages(state, payload) {
       state.languages = payload;
     },
+
+    getToken(state, token) {
+      state.token = token;
+      console.log("GetToken "+ state.token);
+    },
   },
 
   actions: {
     authorizationUser({ state, commit }, payload) {
-      console.log("authorize", payload.token);
+      console.log(payload);
       commit("authorizationUser", payload);
     },
 
@@ -134,14 +140,14 @@ export default {
     },
 
     async postPost({ state }) {
-      console.log("isAuth:", this.state.token);
+      console.log("isAuth:", state.token);
       const data = {
         language_id: state.input_post.language_id,
         content: state.input_post.content,
         title: state.input_post.title,
         categories: state.input_post.categories,
       };
-      const res = await postJson(this.state.token, `${paths.posts}`, data);
+      const res = await postJson(state.token, `${paths.posts}`, data);
       console.log("res:", res);
       save_action_info(this.state, res);
     },
@@ -229,11 +235,11 @@ export default {
       const res = await getJson(state.token, `${paths.comments}`);
       save_action_info(state, res);
       state.comments = res.status === 200 ? res.data : [];
-      state.posts.forEach( function (p) {
+      state.posts.forEach(function(p) {
         let commentArray = [];
-        res.data.forEach( function (c) {
+        res.data.forEach(function(c) {
           if (c.post_id == p.id) {
-            commentArray.push(c); 
+            commentArray.push(c);
           }
         });
         p.comments = commentArray;

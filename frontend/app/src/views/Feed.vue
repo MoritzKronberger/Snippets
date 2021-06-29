@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Form from "../components/feed/form/Form.vue";
 import Search from "../components/feed/search/Search.vue";
 import Posts from "../components/feed/post/Posts.vue";
@@ -29,7 +30,11 @@ export default {
     Search,
     Button,
   },
+    computed: {
+    ...mapState("auth", ["token"]),
+  },
   beforeMount: function() {
+    this.$store.commit("post/getToken", this.token);
     return this.$store.dispatch("post/getLanguages", null, {root: true}).then( () => {
       return this.$store.dispatch("post/getPosts", null, {root: true}).then( () => {
         return this.$store.dispatch("post/getComments", null, {root: true});
