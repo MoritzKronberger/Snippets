@@ -30,9 +30,11 @@ export default {
     Button,
   },
   beforeMount: function() {
-    this.$store.dispatch("post/getLanguages", null, {root: true});
-    this.$store.dispatch("post/getPosts", null, {root: true});
-    this.$store.dispatch("post/getComments", null, {root: true});
+    return this.$store.dispatch("post/getLanguages", null, {root: true}).then( () => {
+      return this.$store.dispatch("post/getPosts", null, {root: true}).then( () => {
+        return this.$store.dispatch("post/getComments", null, {root: true});
+      });
+    });
   }
 };
 </script>

@@ -116,19 +116,16 @@ export default {
 
     setPosts(state, payload) {
       state.posts = payload;
-      console.log("posts:", state.posts);
     },
 
     setLanguages(state, payload) {
       state.languages = payload;
-      console.log("languages:", state.languages);
     },
 
     inputToPost(state) {
       for (let prop in state.input_post) {
         state.post[prop] = state.input_post[prop];
       }
-      console.log(state.post);
     },
   },
 
@@ -219,7 +216,6 @@ export default {
     },
 
     async getLanguage({ state }) {
-      console.log("getlang");
       const res = await getJson(
         state.token,
         `${paths.languages}/${state.language.id}`
@@ -231,7 +227,6 @@ export default {
     },
 
     async getComments({ state }) {
-      console.log("getComments");
       const res = await getJson(state.token, `${paths.comments}`);
       save_action_info(state, res);
       state.comments = res.status === 200 ? res.data : [];
@@ -240,14 +235,11 @@ export default {
         let commentArray = [];
         res.data.forEach( function (c) {
           if (c.post_id == p.id) {
-            console.log("success:", c.post_id, p.id);
             commentArray.push(c); 
           }
         });
         p.comments = commentArray;
       });
-      console.log("showpost comments", state.posts);
-      state.posts.forEach( (obj) => console.log("com:", obj.id, obj.comments));
     },
 
     async getComment({ state }) {
