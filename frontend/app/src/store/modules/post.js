@@ -1,7 +1,6 @@
 import { getField, updateField } from "vuex-map-fields";
 import { paths } from "/json/config.json";
 import { postJson, getJson, patchJson, deleteJson } from "/js/service/rest";
-import jwt_decode from "jwt-decode";
 
 const post_empty = () => {
     return {
@@ -90,11 +89,6 @@ export default {
     resetComments(state) {
       state.comment = comment_empty();
     },
-
-    getToken(state, token) {
-      state.token = token;
-      console.log("GetToken "+ state.token);
-    },
   },
 
   actions: {
@@ -136,6 +130,7 @@ export default {
     async getPosts({ rootState, state, commit }) {
       const res = await getJson(rootState.token, `${paths.posts}`);
       state.post.posts = (res.status === 200) ? res.data : [];
+      console.log("posts:", state.post.posts);
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
@@ -177,7 +172,7 @@ export default {
       if (res.status === 200) {
         languages = res.data;
       }
-      console.log("lang:", state.languages);
+      console.log("lang:", languages);
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
@@ -206,6 +201,8 @@ export default {
         });
         p.comments = commentArray;
       });
+      console.log("comments:", comments);
+      console.log("posts with comments:", posts);
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
