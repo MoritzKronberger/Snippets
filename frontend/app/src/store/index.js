@@ -6,10 +6,7 @@ import post from "./modules/post";
 import form from "./modules/form";
 import auth from "./modules/auth";
 import {
-  postJson,
-  getJson,
-  patchJson,
-  deleteJson,
+  postJson
 } from "/js/service/rest";
 import { paths } from '/json/config.json'
 import jwt_decode                     from 'jwt-decode'
@@ -30,7 +27,7 @@ export default createStore({
     getField,
 
     isNotAuthorized: state => !state.token,
-    isAuthorized:    state => !!state.token, // bug: Token muss gültig sein
+    isAuthorized:    state => !!state.token,
   },
 
   mutations: {
@@ -51,7 +48,7 @@ export default createStore({
 
   actions: {
     async register({ state, commit, dispatch }) {
-      const res = await postJson(rootState.token, paths.register, state.new_user);
+      const res = await postJson(rootState.token, paths.register, state.auth.new_user);
       commit('saveSessionInfo', res);
 
       if (res.status === 201) {
@@ -73,10 +70,9 @@ export default createStore({
           payload = jwt_decode(token);
           state.token = token;
           state.id = payload.id;
-        state.password = null; // Don't store the password.
-        await dispatch("auth/getProfile");
-        //dispatch("post/authorizationUser", { token: token, id: payload.id} , {root:true});
-        await dispatch("post/getPosts");
+          state.password = null;
+          await dispatch("auth/getProfile");
+          await dispatch("post/getPosts");
       } else {
         commit('reset');
       }
