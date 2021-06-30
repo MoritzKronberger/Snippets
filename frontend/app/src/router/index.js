@@ -3,6 +3,7 @@ import store from "../store";
 import Feed from "../views/Feed.vue";
 const 
   ifNotAuthorized = (to, from, next) => {
+    console.log("isNotAuth", store.getters["isNotAuthorized"]);
     if (store.getters["isNotAuthorized"]) {
       console.log("notAuth");
       next();
@@ -11,6 +12,7 @@ const
     }
   },
   ifAuthorized = (to, from, next) => {
+    console.log("isAuth", store.getters["isAuthorized"]);
     if (store.getters["isAuthorized"]) {
       console.log("isAuth");
       next();
@@ -25,7 +27,7 @@ const
       component: Feed,
     },
     {
-      beforeEnter: ifNotAuthorized,
+      //beforeEnter: ifNotAuthorized,
       path: "/login",
       name: "Login",
       component: function() {
@@ -33,7 +35,7 @@ const
       },
     },
     {
-      beforeEnter: ifNotAuthorized,
+      //beforeEnter: ifNotAuthorized,
       path: "/register",
       name: "Register",
       component: function() {
@@ -41,7 +43,7 @@ const
       },
     },
     {
-      beforeEnter: ifAuthorized,
+      //beforeEnter: ifAuthorized,
       path: "/profile",
       name: "Profile",
       component: function() {
