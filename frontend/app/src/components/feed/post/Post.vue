@@ -51,7 +51,7 @@ export default {
       return this.post.num_comments > 3 ? "overflow" : "";
     },
     ...mapFields("post", ["active_id", "comment"]),
-    ...mapGetters("post", ["isAuthorized"]),
+    ...mapGetters(["isAuthorized"]),
   },
   methods: {
     addComment() {
