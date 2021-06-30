@@ -44,13 +44,13 @@ const getLikesAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postLike = async (data) => {
-    const result = await query(`SELECT status, result FROM post_like($1)`, [
+    const result = await query(`SELECT result FROM post_like($1)`, [
       data,
     ]);
     return result.rows[0];
   },
   deleteLike = async (id) => {
-    const result = await query(`SELECT status, result FROM delete_like($1)`, [
+    const result = await query(`SELECT result FROM delete_like($1)`, [
       id,
     ]);
     return result.rows[0];

@@ -153,6 +153,7 @@ export default {
     },
 
     async getPost({ state }) {
+      console.log("getPost");
       const res = await getJson(state.token, `${paths.posts}/${post.id}`);
       save_action_info(state, res);
       if (res.status === 200) {

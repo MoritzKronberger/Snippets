@@ -43,7 +43,7 @@ const getCategoriesAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postCategory = async (data) => {
-    const result = await query(`SELECT status, result FROM post_category($1)`, [data]);
+    const result = await query(`SELECT result FROM post_category($1)`, [data]);
     return result.rows[0];
   };
 

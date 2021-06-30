@@ -14,12 +14,12 @@ userLikes.get("/", async (req, res) => {
 
 userLikes.post("/", isAuthorized, validate({ body: userLikeSchema }), refreshToken, async (req, res) => {
   const json = { user_id: req.id, post_id: req.body.post_id, comment_id: req.body.comment_id, subject_id: req.body.subject_id };
-  const { status, result } = await userLikesDB.postLike(json),
+  const { result } = await userLikesDB.postLike(json),
     proxy = req.header["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
   res
     .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-    .status(status)
+    .status(result.status)
     .json(result);
 });
 
@@ -34,14 +34,14 @@ userLikes.get("/:id", async (req, res) => {
 });
 
 userLikes.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
-  let like = { status: "", result: "" };
+  let like = { result: "" };
   like = await userLikesDB.getLike(req.params.id);
 
   if (req.id !== like.result.user_id) {
     return res.sendStatus(401);
   }
   like = await userLikesDB.deleteLike(req.params.id);
-  res.status(like.status).json(like.result);
+  res.status(like.result.status).json(like.result);
 });
 
 export { userLikes, userLikeSchema };

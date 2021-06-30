@@ -15,13 +15,13 @@ accounts.get("/", isAuthorized, refreshToken, async (req, res) => {
 });
 
 accounts.post("/", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
-  const { status, result } = await accountsDB.postAccount(req.body),
+  const { result } = await accountsDB.postAccount(req.body),
   proxy = req.headers["x-forwarded-host"],
   host = proxy ? proxy : req.headers.host;
   res
     //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
     .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-    .status(status)
+    .status(result.status)
     .json(result);
 });
 
@@ -43,33 +43,33 @@ accounts.put("/:id", isAuthorized, validate({ body: accountSchema }), refreshTok
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
-  const { status, result } = await accountsDB.putAccount(
+  const { result } = await accountsDB.putAccount(
     req.params.id,
     req.body
   );
-  res.status(status).json(result);
+  res.status(result.status).json(result);
 });
 
 accounts.patch("/:id", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
-  const { status, result } = await accountsDB.patchAccount(
+  const { result } = await accountsDB.patchAccount(
     req.params.id,
     req.body
   );
-  res.status(status).json(result);
+  res.status(result.status).json(result);
 });
 
 accounts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
-  const { status, result } = await accountsDB.deleteAccount(
+  const { result } = await accountsDB.deleteAccount(
     req.params.id,
     req.body
   );
-  res.status(status).json(result);
+  res.status(result.status).json(result);
 });
 
 export { accounts, accountSchema };
