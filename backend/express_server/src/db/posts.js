@@ -42,7 +42,15 @@ const getPostsAll = async () => {
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
   },
-  getPostSearch = async (data) => {
+  getPostsSearch = async (data) => {
+    const result = await query(
+      `
+      `, 
+      [data]
+    );
+    return result.rows;
+  },
+  getPostsWithCategories = async (data) => {
     const result = await query(
       `
       `, 
@@ -81,7 +89,8 @@ const getPostsAll = async () => {
 export { 
   getPosts, 
   getPost, 
-  getPostSearch,
+  getPostsSearch,
+  getPostsWithCategories,
   postPost, 
   putPost, 
   patchPost, 
@@ -91,7 +100,8 @@ export {
 export default { 
   getPosts, 
   getPost, 
-  getPostSearch,
+  getPostsSearch,
+  getPostsWithCategories,
   postPost, 
   putPost, 
   patchPost, 
