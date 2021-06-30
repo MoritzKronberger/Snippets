@@ -3,14 +3,14 @@ import store from "../store";
 import Feed from "../views/Feed.vue";
 const 
   ifNotAuthorized = (to, from, next) => {
-    if (store.getters["auth/isNotAuthorized"]) {
+    if (store.getters["isNotAuthorized"]) {
       next(), console.log("notAuth");
     } else {
       next("/");
     }
   },
   ifAuthorized = (to, from, next) => {
-    if (store.getters["auth/isAuthorized"]) {
+    if (store.getters["isAuthorized"]) {
       next(), console.log("isAuth");
     } else {
       next("/login");
