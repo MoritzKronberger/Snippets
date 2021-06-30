@@ -152,10 +152,11 @@ export default {
       save_action_info(this.state, res);
     },
 
-    async getPost({ state }) {
+    async getPost({ rootState, state }) {
       console.log("getPost");
-      const res = await getJson(state.token, `${paths.posts}/${post.id}`);
-      save_action_info(state, res);
+      const res = await getJson(rootState.token, `${paths.posts}/${post.id}`);
+      //save_action_info(state, res);
+      commit('saveSessionInfo', res, { root: true });
       if (res.status === 200) {
         const data = res.data;
         state.post.id = data.id;
@@ -172,12 +173,12 @@ export default {
       }
     },
 
-    async getPosts({ state, commit }) {
-      const res = await getJson(state.token, `${paths.posts}`);
+    async getPosts({ rootState, state, commit }) {
+      const res = await getJson(rootState.token, `${paths.posts}`);
       save_action_info(state, res);
-      res.status === 200
-        ? commit("setPosts", res.data)
-        : commit("setPosts", []);
+      state.posts = res.status === 200
+        ? res.data
+        : [];
     },
 
     async patchPost({ state }) {
