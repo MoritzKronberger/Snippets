@@ -33,6 +33,7 @@ const post_empty = () => {
       creation_time: null,
       content: null,
       user_id: null,
+      username: null,
       post_id: null,
     };
   },
