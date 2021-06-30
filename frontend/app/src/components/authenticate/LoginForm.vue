@@ -37,12 +37,16 @@ export default {
     ...mapActions(["login"]),
 
     async doLogin() {
+      /* TODO: success is not working, even though its logged in
       this.error = false;
       const success = await this.login();
       this.error = !success;
       if (success) {
-        router.push("/");
-      }
+        console.log("success");
+        router.push("/#/");
+      }*/
+      await this.login();
+      router.push("/#/");
     },
   },
 };

@@ -37,7 +37,7 @@ export default {
     /*Register() {
       this.$store.commit("auth/userRegister");
     },*/
-  ...mapActions('auth', ['register']),
+  ...mapActions(['register']),
    },
  
    watch:

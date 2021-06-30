@@ -49,7 +49,9 @@ export default {
       if (res.status === 200) {
         console.log("getProfile data:", res.data);
         Object.assign(state.account, res.data);
+        console.log("account:", state.account);
       }
+      commit("getToken", res, { root: true });
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },

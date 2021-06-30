@@ -1,15 +1,13 @@
 /* template form https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_vue_01/-/tree/debug */
 
 import { createStore } from "vuex";
-import { getField, updateField }      from 'vuex-map-fields'
+import { getField, updateField } from 'vuex-map-fields';
 import post from "./modules/post";
 import form from "./modules/form";
 import auth from "./modules/auth";
-import {
-  postJson
-} from "/js/service/rest";
-import { paths } from '/json/config.json'
-import jwt_decode                     from 'jwt-decode'
+import { postJson } from "/js/service/rest";
+import { paths } from '/json/config.json';
+import jwt_decode from 'jwt-decode';
 
 const defaultSession = () => {
   return {
@@ -34,6 +32,7 @@ export default createStore({
     updateField, 
   
     reset(state) {
+      console.log("reset");
       Object.assign(state, defaultSession());
       this.commit('auth/resetAccount');
     },
@@ -45,6 +44,10 @@ export default createStore({
          this.commit('reset')
       } // auto logout if no new token had be passed to the client    
     },
+
+    getToken(state) {
+      console.log("token:", state.token);
+    }
   },
 
   actions: {
@@ -79,6 +82,12 @@ export default createStore({
       } else {
         commit('reset');
       }
+
+      console.log("state:", state);
+      let isNotAuthorized = !state.token;
+      let isAuthorized = !!state.token;
+      console.log("isNotAuthorized", isNotAuthorized);
+      console.log("isAuthorized", isAuthorized);
     },
 
     logout({ state, commit }) {
