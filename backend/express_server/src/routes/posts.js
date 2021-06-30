@@ -35,7 +35,7 @@ posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, asyn
   res
     .set(
       "Location",
-      `${req.protocol}://${host}${req.baseUrl}/${post.status.id}`
+      `${req.protocol}://${host}${req.baseUrl}/${post.result.id}`
     )
     .status(post.status)
     .json(post.result);
@@ -49,15 +49,11 @@ posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, asyn
     categoryJson = await categoriesDB.getCategories(c);
     //200: category already existing, use id
     if (categoryJson.status === 200) {
-      console.log("existing:", c);
-      console.log(categoryJson);
       categoryIdArray.push(categoryJson.result[0].id);
     } else {
-      console.log("not existing", c);
       categoryJson = await categoriesDB.postCategory({
         name: c
       });
-      console.log(categoryJson);
       categoryIdArray.push(categoryJson.result.id);
     }
   }
@@ -98,19 +94,28 @@ posts.put( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken, a
 
 posts.patch( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken,
   async (req, res) => {
-    let post = { status: "", result: "" };
-    post = await postsDB.getPost(req.params.id);
-    if (post.status === 404) {
-      return res.sendStatus(post.status);
+    let oldPost = { result: "" };
+    oldPost = await postsDB.getPost(req.params.id);
+    if (oldPost.result.status === 404) {
+      return res.sendStatus(oldPost.result.status);
     }
-    if (req.id !== post.result.user_id) {
+    if (req.id !== oldPost.result.user_id) {
       return res.sendStatus(401);
     }
 
-    post = await postsDB.patchPost(req.params.id, req.body);
-    res.status(post.status).json(post.result);
-  }
-);
+    let newPost = { result: "" };
+    newPost = await postsDB.patchPost(req.params.id, req.body);
+/* TODO: change categories
+    for (const category of req.body.category) {
+      console.log("cat:", category);
+      let hasCat = { status: "", result: "" };
+      hasCat = await hasCategoriesDB.postHasCategory(
+        post.result.id,
+        ca
+      ),
+    }*/
+    res.status(post.result.status).json(post.result);
+});
 
 posts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
   let post = { status:"", result:"" };
@@ -119,8 +124,8 @@ posts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
     return res.sendStatus(401);
   }
 
-  post = await postsDB.deletePost(req.params.id, req.body);
-  res.status(post.status).json(post.result);
+  const { result } = await postsDB.deletePost(req.params.id, req.body);
+  res.status(result.status).json(result);
 });
 
 export { posts, postSchema };
