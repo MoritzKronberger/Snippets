@@ -54,52 +54,32 @@ export default {
       return res.status < 300;
     },
 
-    async patchProfile({ state }) {
-      const res = await patchJson(
-        state.token,
-        `${paths.accounts}/${state.id}`,
-        {
-          username: state.user.username ? state.user.username.trim() : null,
-          password: state.user.password ? state.user.password.trim() : null,
-        }
+    async patchProfile({ rootState, state, commit }) {
+      const data = {
+        username: state.user.username ? state.user.username.trim() : null,
+        password: state.user.password ? state.user.password.trim() : null,
+      };
+      const res = await patchJson(rootState.token, `${paths.accounts}/${rootState.id}`, data
       );
-      save_action_info(state, res);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async deleteProfile({ state, dispatch }) {
-      const res = await deleteJson(
-        state.token,
-        `${paths.accounts}/${state.id}`
-      );
-      save_action_info(state, res);
-
-      if (res.status !== 200) {
-        dispatch("logout");
+    async deleteProfile({ rootState, state, commit, dispatch }) {
+      const res = await deleteJson(rootState.token, `${paths.accounts}/${rootState.id}`);
+      commit('saveSessionInfo', res, { root: true });
+      if (res.status === 200) {
+        dispatch('logout');
+      } else {
+        return res.status < 300;
       }
     },
 
-    async getAccounts({ state }) {
-      const res = await getJson(state.token, `${paths.accounts}`);
-      save_action_info(state, res);
-      state.accounts = res.status === 200 ? res.data : [];
-    },
-
-    async newAccount({ state }) {
-      const res = await postJson(
-        state.token,
-        `${paths.accounts}`,
-        state.account
-      );
-      save_action_info(state, res);
-    },
-
-    async deleteAccount({ state }, id) {
-      const res = await deleteJson(
-        state.token,
-        `${paths.accounts}/${id}`,
-        state.account
-      );
-      save_action_info(state, res);
+    async getAccounts({  rootState, state, commit }) {
+      const res = await getJson(rootState.token, `${paths.accounts}`);
+      commit('saveSessionInfo', res, { root: true });
+      state.accounts = (res.status === 200) ? res.data : [];
+      return res.status < 300;
     },
   },
 
