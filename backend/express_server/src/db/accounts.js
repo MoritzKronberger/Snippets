@@ -46,7 +46,7 @@ const getAccountsAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postAccount = async (data) => {
-    const result = await query(`SELECT status, result FROM post_account($1)`, [
+    const result = await query(`SELECT result FROM post_account($1)`, [
       data,
     ]);
     return result.rows[0];
@@ -54,21 +54,21 @@ const getAccountsAll = async () => {
   //TODO: check profile_picture for accepted content
   putAccount = async (id, data) => {
     const result = await query(
-      `SELECT status, result FROM put_account($1, $2)`,
+      `SELECT result FROM put_account($1, $2)`,
       [id, data]
     );
     return result.rows[0];
   },
   patchAccount = async (id, data) => {
     const result = await query(
-      `SELECT status, result FROM patch_account($1, $2)`,
+      `SELECT result FROM patch_account($1, $2)`,
       [id, data]
     );
     return result.rows[0];
   },
   deleteAccount = async (id) => {
     const result = await query(
-      `SELECT status, result FROM delete_account($1)`,
+      `SELECT result FROM delete_account($1)`,
       [id]
     );
     return result.rows[0];

@@ -5,25 +5,22 @@
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS delete_like (id UUID);
+DROP FUNCTION IF EXISTS delete_like (_id UUID);
 
 /* Function */
-CREATE FUNCTION delete_like (id UUID)
-    RETURNS TABLE (status INTEGER, result JSONB)
+CREATE FUNCTION delete_like (_id UUID)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
-    DECLARE 
-        _id UUID;
     BEGIN
-        DELETE
-        FROM user_like l
-        WHERE l.id = $1
-        RETURNING l.id INTO _id;
-
         RETURN QUERY
-        SELECT CASE WHEN _id IS NOT NULL THEN 200 ELSE 404 END,
-            JSONB_BUILD_OBJECT('id', $1);
+        SELECT rest_helper
+        ('DELETE
+          FROM user_like l
+          WHERE l.id = $1',
+         _id => _id, _constraint => 'like_exists'
+        );
     END
 $$
 ;

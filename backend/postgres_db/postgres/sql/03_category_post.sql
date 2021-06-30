@@ -8,8 +8,8 @@ BEGIN;
 DROP FUNCTION IF EXISTS post_category (data JSONB);
 
 /* Function */
-CREATE FUNCTION post_category (data JSONB)
-    RETURNS TABLE (status INTEGER, result JSONB)
+CREATE FUNCTION post_category (_data JSONB)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
@@ -22,37 +22,20 @@ $$
         IF(EXISTS (SELECT id FROM e_category WHERE name = ($1->>'name')::D_UNTAINTED))
         THEN
             RETURN QUERY
-            SELECT 303,
-                   JSONB_BUILD_OBJECT
-                   ('name', $1->>'name',
-                    'id', ca.id,
-                    'constraint', 'category_unique',
-                    'message',    'The submitted category already exists.'
-                   )
-            FROM e_category ca
-            WHERE ca.name = ($1->>'name')::D_UNTAINTED;
+            SELECT json_status
+            (303,
+             (SELECT id FROM e_category WHERE name = ($1->>'name')::D_UNTAINTED),
+             _constraint => 'category_unique',
+             _message => 'the requested category already exists'
+            );
         ELSE
-            INSERT INTO e_category (name)
-            VALUES (($1->>'name')::D_UNTAINTED)
-            RETURNING id INTO _id;
-
             RETURN QUERY
-            SELECT 201, JSONB_BUILD_OBJECT('id', _id);
+            SELECT rest_helper
+            ('INSERT INTO e_category (name)
+              VALUES (json_attr_value_d_untainted($2,''name'', NULL))',
+              _data => _data, _http_status => 200
+            );
         END IF;
-
-        EXCEPTION WHEN OTHERS THEN
-            GET STACKED DIAGNOSTICS 
-                _state   := RETURNED_SQLSTATE,
-                _cname   := CONSTRAINT_NAME,
-                _message := MESSAGE_TEXT;
-            RETURN QUERY
-            SELECT 400, 
-                 JSONB_BUILD_OBJECT
-                 ('state',      _state,
-                  'constraint', _cname, 
-                  'message',    _message,
-                  'data',       $1
-                 );
     END;
 $$
 ;

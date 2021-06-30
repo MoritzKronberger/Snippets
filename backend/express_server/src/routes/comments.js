@@ -15,12 +15,12 @@ comments.get("/", async (req, res) => {
 //TODO: get post_id via a get request? 
 comments.post("/:post_id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
     const j = { content: req.body.content, user_id: req.id, post_id: req.params.post_id };
-    const { status, result } = await commentsDB.postComment(j),
+    const { result } = await commentsDB.postComment(j),
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
     res
       .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-      .status(status)
+      .status(result.status)
       .json(result);
 });
 
@@ -49,7 +49,7 @@ comments.put("/:id", isAuthorized, validate({ body: commentSchema }), refreshTok
 });
 
 comments.patch("/:id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
-    let comment = { status:"", result:"" };
+    let comment = { result:"" };
     comment = await commentsDB.getComment(req.params.id);
     if (req.id !== comment.result.user_id) {
         return res.sendStatus(401);
@@ -59,12 +59,12 @@ comments.patch("/:id", isAuthorized, validate({ body: commentSchema }), refreshT
         req.params.id,
         req.body
     );
-    res.status(comment.status).json(comment.result);
+    res.status(comment.result.status).json(comment.result);
 });
 
 comments.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
     //TODO: user des posts kann diesen ebenfalls löschen
-    let comment = { status:"", result:"" };
+    let comment = { result:"" };
     comment = await commentsDB.getComment(req.params.id);
     if (req.id !== comment.result.user_id) {
         return res.sendStatus(401);
@@ -74,7 +74,7 @@ comments.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
         req.params.id,
         req.body
     );
-    res.status(comment.status).json(comment.result);
+    res.status(comment.result.status).json(comment.result);
 });
 
 export { comments, commentSchema };

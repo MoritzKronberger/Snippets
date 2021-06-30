@@ -39,28 +39,28 @@ const getCommentsAll = async () => {
   },
   postComment = async (data) => {
     const result = await query(
-      `SELECT status, result FROM post_comment($1)`, 
+      `SELECT result FROM post_comment($1)`, 
       [data]
     );
     return result.rows[0];
   },
   putComment = async (id, data) => {
     const result = await query(
-      `SELECT status, result FROM put_comment($1, $2)`, 
+      `SELECT result FROM put_comment($1, $2)`, 
       [id, data]
     );
     return result.rows[0];
   },
   patchComment = async (id, data) => {
     const result = await query(
-      `SELECT status, result FROM patch_comment($1, $2)`,
+      `SELECT result FROM patch_comment($1, $2)`,
       [id, data]
     );
     return result.rows[0];
   },
   deleteComment = async (id) => {
     const result = await query(
-      `SELECT status, result FROM delete_comment($1)`, 
+      `SELECT result FROM delete_comment($1)`, 
       [id]
     );
     return result.rows[0];
