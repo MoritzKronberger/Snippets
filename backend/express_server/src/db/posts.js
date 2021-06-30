@@ -50,11 +50,13 @@ const getPostsAll = async () => {
     );
     return result.rows;
   },
-  getPostsWithCategories = async (data) => {
+  getPostsWithCategories = async (id) => {
     const result = await query(
-      `
+      `SELECT id AS category_id, name, post_id
+       FROM get_category_join_post
+       WHERE post_id = $1::UUID
       `, 
-      [data]
+      [id]
     );
     return result.rows;
   },
