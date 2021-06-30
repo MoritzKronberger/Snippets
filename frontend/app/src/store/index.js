@@ -45,16 +45,7 @@ export default createStore({
       const c_token = state.token;
       state.token     = res.token;
       if (c_token != null && state.token == null)
-      { this.commit('reset') } // auto logout if no new token had be passed to the client
-
-      if (state.token != null)
-      { state.isAdmin = jwt_decode(c_token).isAdmin }
-      //await dispatch('user/getUser');
-      /* This would be more general, as the user info may have been changed outside this web server. 
-        But it also would be much more expensive.
-        Improvement: The payload should carry a flag which tells the client whether the user
-        data has changed and should be reloaded. In this case the isAdmin property would be superfluous.
-      */     
+      { this.commit('reset') } // auto logout if no new token had be passed to the client    
     },
   },
 
