@@ -67,20 +67,9 @@ const post_empty = () => {
       //like info
       like: like_empty(),
       likes: [],
-
-      //session info
-      token: null,
-      id: null,
-      success: null,
       //TODO: add constraints
       //constraint: constraints[null],
     };
-  },
-  save_action_info = (state, res) => {
-    state.token = res.token;
-    state.success = res.status < 300;
-    //TODO: add constraints here ?
-    //state.constraint = constraints[res.data.constraint || null];
   };
 
 export default {
@@ -88,10 +77,7 @@ export default {
   state: state_default(),
 
   getters: {
-    getField,
-
-    isNotAuthorized: (state) => !state.token,
-    isAuthorized: (state) => !!state.token, // bug: Token muss gültig sein
+    getField
   },
 
   mutations: {
@@ -105,25 +91,6 @@ export default {
       state.comment = comment_empty();
     },
 
-    authorizationUser(state, payload) {
-      state.token = payload.token;
-      state.id = payload.id;
-      console.log("authorize", state.token);
-    },
-
-    deleteAuthorizationUser(state) {
-      state.token = null;
-      state.id = null;
-    },
-
-    setPosts(state, payload) {
-      state.posts = payload;
-    },
-
-    setLanguages(state, payload) {
-      state.languages = payload;
-    },
-
     getToken(state, token) {
       state.token = token;
       console.log("GetToken "+ state.token);
@@ -131,113 +98,106 @@ export default {
   },
 
   actions: {
-    authorizationUser({ state, commit }, payload) {
-      console.log(payload);
-      commit("authorizationUser", payload);
-    },
-
-    deleteAuthorizationUser({ state, commit }) {
-      commit("deleteAuthorizationUser");
-    },
-
-    async postPost({ state }) {
-      console.log("isAuth:", state.token);
+    async postPost({ rootState, state, commit }) {
+      const post = state.post.post;
       const data = {
-        language_id: state.input_post.language_id,
-        content: state.input_post.content,
-        title: state.input_post.title,
-        categories: state.input_post.categories,
+        language_id: post.input_post.language_id,
+        content: post.input_post.content,
+        title: post.input_post.title,
+        categories: post.input_post.categories,
       };
-      const res = await postJson(state.token, `${paths.posts}`, data);
-      console.log("res:", res);
-      save_action_info(this.state, res);
+      const res = await postJson(rootState.token, `${paths.posts}`, data);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async getPost({ rootState, state }) {
+    async getPost({ rootState, state, commit }) {
+      let post = state.post.post;
       console.log("getPost");
       const res = await getJson(rootState.token, `${paths.posts}/${post.id}`);
-      //save_action_info(state, res);
       commit('saveSessionInfo', res, { root: true });
       if (res.status === 200) {
         const data = res.data;
-        state.post.id = data.id;
-        state.post.creation_time = data.creation_time;
-        state.post.title = data.title;
-        state.post.content = data.content;
-        state.post.language = data.language;
-        state.post.user_id = data.user_id;
-        state.post.username = data.username;
-        state.post.profile_picture = data.profile_picture;
-        state.post.num_likes = data.num_likes;
-        state.post.num_comments = data.num_comments;
-        state.post.categories = data.categories;
+        post.id = data.id;
+        post.creation_time = data.creation_time;
+        post.title = data.title;
+        post.content = data.content;
+        post.language = data.language;
+        post.user_id = data.user_id;
+        post.username = data.username;
+        post.profile_picture = data.profile_picture;
+        post.num_likes = data.num_likes;
+        post.num_comments = data.num_comments;
+        post.categories = data.categories;
       }
+      return res.status < 300;
     },
 
     async getPosts({ rootState, state, commit }) {
       const res = await getJson(rootState.token, `${paths.posts}`);
-      save_action_info(state, res);
-      state.posts = res.status === 200
-        ? res.data
-        : [];
+      state.post.posts = (res.status === 200) ? res.data : [];
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async patchPost({ state }) {
+    async patchPost({ rootState, state, commit }) {
+      const post = state.post.post;
       const data = {
-        title: state.post.title ? state.post.title.trim() : null,
-        content: state.post.content ? state.post.content.trim() : null,
-        language_id: state.post.language ? state.post.language : null,
-        categories: state.post.categories ? state.post.categories : null,
+        title: post.title ? post.title.trim() : null,
+        content: post.content ? post.content.trim() : null,
+        language_id: post.language ? post.language : null,
+        categories: post.categories ? post.categories : null,
       };
       const res = await patchJson(
-        state.token,
-        `${paths.posts}/${state.post.id}`,
+        rootState.token,
+        `${paths.posts}/${post.id}`,
         data
       );
-      save_action_info(state, res);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async deletePost({ state }) {
-      const res = await deleteJson(
-        state.token,
-        `${paths.posts}${state.post.id}`
-      );
-      save_action_info(state, res);
+    async deletePost({ rootState, state, commit }) {
+      const res = await deleteJson(rootState.token, `${paths.posts}${state.post.post.id}`);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async searchPost({ state }) {
+    async searchPost({ rootState, state, commit }) {
       //TODO: implement data after Moritz implemented getPostSearch
       let data = {};
-      const res = await getJson(state.token, `${paths.posts}/search/`, data);
-      save_action_info(state, res);
+      const res = await getJson(rootState.token, `${paths.posts}/search/`, data);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async getLanguages({ state, commit }) {
-      const res = await getJson(state.token, `${paths.languages}`);
-      save_action_info(state, res);
+    async getLanguages({ rootState, state, commit }) {
+      let languages = state.post.languages;
+      const res = await getJson(rootState.token, `${paths.languages}`);
       if (res.status === 200) {
-        state.languages = res.data;
-        commit("setLanguages", res.data);
+        languages = res.data;
       }
       console.log("lang:", state.languages);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async getLanguage({ state }) {
-      const res = await getJson(
-        state.token,
-        `${paths.languages}/${state.language.id}`
-      );
-      save_action_info(state, res);
+    async getLanguage({ rootState, state, commit }) {
+      let language = state.post.langugage;
+      const res = await getJson(rootState.token, `${paths.languages}/${language.id}`);
       if (res.status === 200) {
-        state.language = res.data;
+        language = res.data;
       }
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async getComments({ state }) {
-      const res = await getJson(state.token, `${paths.comments}`);
-      save_action_info(state, res);
-      state.comments = res.status === 200 ? res.data : [];
-      state.posts.forEach(function(p) {
+    async getComments({ rootState, state, commit }) {
+      let comments = state.post.comments;
+      let posts = state.post.posts;
+      const res = await getJson(rootState.token, `${paths.comments}`);
+      comments = (res.status === 200) ? res.data : [];
+      posts.forEach(function(p) {
         let commentArray = [];
         res.data.forEach(function(c) {
           if (c.post_id == p.id) {
@@ -246,62 +206,63 @@ export default {
         });
         p.comments = commentArray;
       });
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async getComment({ state }) {
-      const res = await getJson(state.token, `${paths.comments}/${comment.id}`);
-      save_action_info(state, res);
+    async getComment({ rootState, state, commit }) {
+      let comment = state.post.comment;
+      const res = await getJson(rootState.token, `${paths.comments}/${comment.id}`);
       if (res.status === 200) {
         const data = res.data;
-        state.comment = data.comment;
+        comment = data.comment;
       }
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async postComment({ state }) {
+    async postComment({ rootState, state, commit }) {
       const data = {
-        content: state.comment.content,
-        post_id: state.post.id,
-        user_id: state.id,
+        content: state.post.comment.content,
+        post_id: state.post.post.id,
+        user_id: rootState.id,
       };
-      const res = await postJson(state.token, `${paths.comments}`, data);
-      save_action_info(state, res);
-      state.comments = res.status === 200 ? res.data : [];
+      const res = await postJson(rootState.token, `${paths.comments}`, data);
+      state.comments = (res.status === 200) ? res.data : [];
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async deleteComment({ state }) {
-      const res = await deleteJson(
-        state.token,
-        `${paths.comments}/${state.comment.id}`
-      );
-      save_action_info(state, res);
+    async deleteComment({ rootState, state, commit }) {
+      const res = await deleteJson(rootState.token, `${paths.comments}/${state.post.comment.id}`);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async postPostLike({ state }) {
-      const data = { user_id: state.id, post_id: state.post.id };
-      const res = await postJson(state.token, `${paths.userLikes}`, data);
-      save_action_info(state, res);
+    async postPostLike({ rootState, state, commit }) {
+      const data = { user_id: rootState.id, post_id: state.post.post.id };
+      const res = await postJson(rootState.token, `${paths.userLikes}`, data);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async deletePostLike({ state }) {
-      const res = await deleteJson(
-        state.token,
-        `${paths.userLikes}/${state.like.id}`
-      );
-      save_action_info(state, res);
+    async deletePostLike({ rootState, state, commit }) {
+      const res = await deleteJson(rootState.token, `${paths.userLikes}/${state.post.like.id}`);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async postCommentLike({ state }) {
-      const data = { user_id: state.id, comment_id: state.comment.id };
-      const res = await postJson(state.token, `${paths.userLikes}`, data);
-      save_action_info(state, res);
+    async postCommentLike({ rootState, state, commit }) {
+      const data = { user_id: rootState.id, comment_id: state.post.comment.id };
+      const res = await postJson(rootState.token, `${paths.userLikes}`, data);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
 
-    async deleteCommentLike({ state }) {
-      const res = await deleteJson(
-        state.token,
-        `${paths.userLikes}/${state.like.id}`
-      );
-      save_action_info(state, res);
+    async deleteCommentLike({ rootState, state, commit }) {
+      const res = await deleteJson(rootState.token, `${paths.userLikes}/${state.post.like.id}`);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
     },
   },
   /* modules: 

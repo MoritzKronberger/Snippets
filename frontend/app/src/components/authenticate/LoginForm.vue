@@ -17,7 +17,7 @@ import { mapActions, mapState } from 'vuex';
 import router  from '/router';
 import Form from "./Form.vue";
 import Button from "../Button.vue";
-import Validation from "../validation/Form.vue"
+import Validation from "../validation/Form.vue";
 
 export default {
   name: "LoginForm",
