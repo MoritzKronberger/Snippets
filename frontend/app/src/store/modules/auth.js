@@ -46,11 +46,11 @@ export default {
   actions: {
     async getProfile({ rootState, state, commit }) {
       const res = await getJson(rootState.token, `${paths.accounts}/${rootState.id}`);
-      commit('saveSessionInfo', res, { root: true });
       if (res.status === 200) {
-        console.log("data:", res.data);
-        Object.assign(state, res.data);
+        console.log("getProfile data:", res.data);
+        Object.assign(state.account, res.data);
       }
+      commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
 

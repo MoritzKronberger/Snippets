@@ -41,14 +41,15 @@ export default createStore({
     saveSessionInfo(state, res) {
       const c_token = state.token;
       state.token     = res.token;
-      if (c_token != null && state.token == null)
-      { this.commit('reset') } // auto logout if no new token had be passed to the client    
+      if (c_token != null && state.token == null) {
+         this.commit('reset')
+      } // auto logout if no new token had be passed to the client    
     },
   },
 
   actions: {
     async register({ state, commit, dispatch }) {
-      const res = await postJson(rootState.token, paths.register, state.auth.new_user);
+      const res = await postJson(null, paths.register, state.auth.new_user);
       commit('saveSessionInfo', res);
 
       if (res.status === 201) {
@@ -64,15 +65,17 @@ export default createStore({
         password: user.password ? user.password.trim() : "",
       };
       const res = await postJson(state.token, paths.login, data);
+      console.log("res", res);
 
       if (res.status === 200) {
         const token = res.headers.authorization.substring(7), // remove "Bearer "
           payload = jwt_decode(token);
+          console.log("token here:", token);
           state.token = token;
           state.id = payload.id;
           state.password = null;
+
           await dispatch("auth/getProfile");
-          await dispatch("post/getPosts");
       } else {
         commit('reset');
       }
