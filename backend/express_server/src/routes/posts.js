@@ -9,17 +9,20 @@ import { refreshToken } from "./auth.js";
 
 const posts = Router();
 
-posts.get("/", async (req, res) => {
+posts.get("/", isAuthorized, refreshToken, async (req, res) => {
+// posts.get("/", async (req, res) => {
   const { status, result } = await postsDB.getPosts();
   res.status(status).json(result);
 });
 
-posts.get("/search/", async (req, res) => {
+posts.get("/search/", isAuthorized, refreshToken, async (req, res) => {
+//posts.get("/search/", async (req, res) => {
   const { status, result } = await postsDB.getPostSearch(req.body);
   res.status(status).json(result);
 });
 
-posts.get("/categories", async (req, res) => {
+posts.get("/categories", isAuthorized, refreshToken, async (req, res) => {
+//posts.get("/categories", async (req, res) => {
   const { status, result } = await postsDB.getPostsWithCategories(req.body);
   res.status(status).json(result);
 });
@@ -75,7 +78,8 @@ posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, asyn
   }
 });
 
-posts.get("/:id", async (req, res) => {
+posts.get("/:id", isAuthorized, refreshToken, async (req, res) => {
+//posts.get("/:id", async (req, res) => {
   const { status, result } = await postsDB.getPost(req.params.id);
 
   if (status === 200) {

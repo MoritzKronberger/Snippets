@@ -7,7 +7,8 @@ import { refreshToken } from "./auth.js";
 
 const comments = Router();
 
-comments.get("/", async (req, res) => {
+// comments.get("/", async (req, res) => {
+comments.get("/", isAuthorized, refreshToken, async (req, res) => {
     const { status, result } = await commentsDB.getComments(req.query.search);
     res.status(status).json(result);
 });
@@ -24,7 +25,8 @@ comments.post("/:post_id", isAuthorized, validate({ body: commentSchema }), refr
       .json(result);
 });
 
-comments.get("/:id", async (req, res) => {
+comments.get("/:id", isAuthorized, refreshToken, async (req, res) => {
+// comments.get("/:id", async (req, res) => {
     const { status, result } = await commentsDB.getComment(req.params.id);
 
     if (status === 200) {
