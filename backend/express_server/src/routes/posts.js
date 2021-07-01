@@ -36,20 +36,18 @@ posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, asyn
     language_id: req.body.language_id,
     user_id: req.id,
   };
-  let post = { status: "", result: "" },
+  let post = { result: "" },
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
   post = await postsDB.postPost(json);
   res
-    .set(
-      "Location",
-      `${req.protocol}://${host}${req.baseUrl}/${post.result.id}`
-    )
-    .status(post.status)
+    .set("Location", `${req.protocol}://${host}${req.baseUrl}/${post.result.id}`)
+    .status(post.result.status)
     .json(post.result);
 
   //look for the category
-  const categoryArray = req.body.category;
+  console.log("req.body", req.body.categories);
+  let categoryArray = req.body.category;
   let categoryIdArray = [];
 
   for (const c of categoryArray) {
@@ -59,9 +57,7 @@ posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, asyn
     if (categoryJson.status === 200) {
       categoryIdArray.push(categoryJson.result[0].id);
     } else {
-      categoryJson = await categoriesDB.postCategory({
-        name: c
-      });
+      categoryJson = await categoriesDB.postCategory({ name: c });
       categoryIdArray.push(categoryJson.result.id);
     }
   }
@@ -102,7 +98,7 @@ posts.patch( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken,
 
     let newPost = { result: "" };
     newPost = await postsDB.patchPost(req.params.id, req.body);
-/* TODO: change categories
+    /* TODO: change categories
     for (const category of req.body.category) {
       console.log("cat:", category);
       let hasCat = { status: "", result: "" };
@@ -111,7 +107,7 @@ posts.patch( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken,
         ca
       ),
     }*/
-    res.status(post.result.status).json(post.result);
+    res.status(newPost.result.status).json(newPost.result);
 });
 
 posts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {

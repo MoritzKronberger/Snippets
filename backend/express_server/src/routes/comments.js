@@ -37,32 +37,32 @@ comments.get("/:id", isAuthorized, refreshToken, async (req, res) => {
 });
 
 comments.patch("/:id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
-    let comment = { result:"" };
+    let comment = { status:"", result:"" };
     comment = await commentsDB.getComment(req.params.id);
     if (req.id !== comment.result.user_id) {
         return res.sendStatus(401);
     }
 
-    comment = await commentsDB.patchComment(
+    const { result } = await commentsDB.patchComment(
         req.params.id,
         req.body
     );
-    res.status(comment.result.status).json(comment.result);
+    res.status(result.status).json(result);
 });
 
 comments.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
     //TODO: user des posts kann diesen ebenfalls löschen
-    let comment = { result:"" };
+    let comment = { status: "", result:"" };
     comment = await commentsDB.getComment(req.params.id);
     if (req.id !== comment.result.user_id) {
         return res.sendStatus(401);
     }
 
-    comment = await commentsDB.deleteComment(
+    const { result } = await commentsDB.deleteComment(
         req.params.id,
         req.body
     );
-    res.status(comment.result.status).json(comment.result);
+    res.status(result.status).json(result);
 });
 
 export { comments, commentSchema };
