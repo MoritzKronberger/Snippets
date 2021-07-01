@@ -8,13 +8,17 @@ const options = (method, token, url, data = null) => {
       data: data,
       validateStatus: false,
       headers: {
-        Accept: "application/json", // 'application/vnd.api+json'
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        'Accept': "application/json", // 'application/vnd.api+json'
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       },
     };
   },
   json = async (method, token, url, data = null) => {
+    console.log("rest api", token);
+    console.log("rest axios", options(method, token, url, data));
     const res = await axios(options(method, token, url, data));
+    console.log("res token", res.headers.authorization);
+    console.log("res", res);
     return {
       status: res.status,
       headers: res.headers,
