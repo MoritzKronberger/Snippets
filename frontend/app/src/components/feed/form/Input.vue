@@ -1,5 +1,4 @@
 <template>
-  <body>
     <div>
       <input
         v-model="post.title"
@@ -13,12 +12,11 @@
         placeholder="code input"
       />
       <input
-        v-model="post.category"
+        v-model="post.categories"
         class="input"
         placeholder="#category"
       />
     </div>
-  </body>
 </template>
 <script>
 export default {
@@ -26,6 +24,3 @@ export default {
   props: {post: Object},
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

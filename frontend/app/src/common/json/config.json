@@ -1,0 +1,10 @@
+{ "paths":
+    { "register": "/api/register",
+      "login":    "/api/login",
+      "accounts": "/api/accounts",
+      "posts": "/api/posts",
+      "languages": "/api/languages",
+      "comments": "/api/comments",
+      "likes": "/api/user-likes"
+    }
+}

@@ -1,18 +1,20 @@
 <template>
   <div>
     <router-link to="/">
-      <Button label="Visit Feed" btn_class="medium" />
+      <Button label="Feed" btn_class="medium" />
     </router-link>
-    <LoginForm />
+    <Account />
   </div>
 </template>
-
 <script>
 import Button from "../components/Button.vue";
-import LoginForm from "../components/authenticate/LoginForm.vue";
+import Account from "../components/authenticate/ProfileForm.vue";
 export default {
-  name: "Login",
-  components: { Button, LoginForm },
+  name: "Feed",
+  components: {
+    Button,
+    Account,
+  },
 };
 </script>
 <style lang="scss"></style>

@@ -38,14 +38,14 @@ auth.post("/login", isNotAuthorized, async (req, res) => {
 }),
 // Two phase registering is still missing!
 auth.post("/register", isNotAuthorized, validate({ body: accountSchema }), async (req, res) => {
-    const { status, result } = await accountsDB.postAccount(req.body),
+    const { result } = await accountsDB.postAccount(req.body),
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
     //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
     res
       //.set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-      .status(status)
-      .json(result);
+      .status(result.status)
+      .json(result.id);
     }
 );
 

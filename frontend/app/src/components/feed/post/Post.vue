@@ -1,51 +1,64 @@
 <template>
-  <body>
-    <div class="content post">
-      <Description :post="post" />
-      <Prism :prism="post" :lang_name="lang_object[post.lang_id].name" />
-      <Interaction :post="post" />
-      <div :class="vis_Comment">
-        <div :class="setOverFlow">
-          <Comments :comments="post" />
-        </div>
-        <input class="input" v-model="new_comment" type="text" />
-        <Button label="comment" btn_class="small likes" @click="addComment()" />
-        <Button label="Like" btn_class="small" @click="addLike()" />
-        <Validation />
+  <div class="content post">
+    <Edit :post="post" />
+    <Description :post="post" />
+    <Prism :prism="post" :lang_name="post.language" />
+    <Interaction :post="post" />
+    <div :class="vis_Comment">
+      <div :class="setOverFlow">
+        <Comments :comments="post" />
+      </div>
+       <div>
+      <input class="input" v-model="comment.content" type="text" />
+        <Validation
+          :object="add_comment"
+          button_name="comment"
+          btn_class="small"
+          @click="addComment"
+        />
+        <Button label="Like" btn_class="small" @click="addLike" />
       </div>
     </div>
-  </body>
+  </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
 import Description from "./Description.vue";
 import Comments from "./Comments.vue";
 import Button from "../../Button.vue";
 import Prism from "./Prism.vue";
-import Validation from "../form/Validation.vue";
+import Validation from "../../validation/Form.vue";
 import Interaction from "./Interaction.vue";
+import Edit from "./Edit.vue";
 export default {
   name: "Post",
   props: { post: Object },
-  components: { Button, Description, Prism, Validation, Interaction, Comments },
+  components: {
+    Button,
+    Description,
+    Prism,
+    Validation,
+    Interaction,
+    Comments,
+    Edit,
+  },
   computed: {
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
     setOverFlow() {
-      return this.posts[this.post.id].comment.length > 3 ? "overflow" : "";
+      return this.post.num_comments > 3 ? "overflow" : "";
     },
-    ...mapFields("post", ["new_comment", "posts", "active_id"]),
-    ...mapState("post", ["lang_object"]),
+    ...mapFields("post", ["active_id", "comment"]),
+    ...mapGetters("post", ["isAuthorized"]),
   },
   methods: {
     addComment() {
-      this.$store.commit("post/addComment", this.post.id);
-      this.new_comment = "";
+      //this.$store.commit("post/addComment", this.post.id);
     },
     addLike() {
-      this.$store.commit("post/addLike", this.post.id);
+      //this.$store.commit("post/addLike", this.post.id);
     },
   },
 };

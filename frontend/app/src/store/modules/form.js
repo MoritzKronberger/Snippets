@@ -19,4 +19,5 @@ export default {
       state.section = !state.section;
     },
   },
+
 };

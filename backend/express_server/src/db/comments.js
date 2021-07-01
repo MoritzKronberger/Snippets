@@ -4,7 +4,7 @@ import { query } from "./index.js";
 // TODO: limit für returned rows?
 const getCommentsAll = async () => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, profile_picture, num_likes
+      `SELECT id, creation_time, content, post_id, user_id, username, profile_picture, num_likes
        FROM get_full_comment
       `
     );
@@ -12,7 +12,7 @@ const getCommentsAll = async () => {
   },
   getCommentSearch = async (key) => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, profile_picture, num_likes
+      `SELECT id, creation_time, content, post_id, user_id, username, profile_picture, num_likes
        FROM get_full_comment
        WHERE id = $1::UUID OR user_id = $1::UUID
       `, 
@@ -27,7 +27,7 @@ const getCommentsAll = async () => {
   },
   getComment = async (id) => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, profile_picture, num_likes
+      `SELECT id, creation_time, content, post_id, user_id, username, profile_picture, num_likes
        FROM get_full_comment
        WHERE id = $1::UUID
       `, 
