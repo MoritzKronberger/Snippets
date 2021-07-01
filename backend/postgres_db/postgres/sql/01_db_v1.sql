@@ -23,7 +23,7 @@ DROP VIEW  IF EXISTS v_comment    CASCADE;
 
 /* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
 CREATE DOMAIN D_UNTAINTED
-AS VARCHAR (25) CHECK (value !~ '[<>"'';]|--|/\*');
+AS VARCHAR CHECK (value !~ '[<>"'';]|--|/\*');
 
 
 /* Create Tables */
@@ -39,7 +39,10 @@ CREATE TABLE account
     PRIMARY KEY (id),
 
  CONSTRAINT account_unique_username
-    UNIQUE (username)
+    UNIQUE (username),
+
+  CONSTRAINT account_username_length
+    CHECK (LENGTH(username)<31)
 );
 
 CREATE TABLE e_language
@@ -62,13 +65,16 @@ CREATE TABLE e_category
     PRIMARY KEY (id),
 
  CONSTRAINT e_category_unique_name
-    UNIQUE (name)
+    UNIQUE (name),
+
+ CONSTRAINT category_name_length
+    CHECK (LENGTH(name)<11)
 );
 
 CREATE TABLE post
 (id                     UUID                              DEFAULT gen_random_uuid(),
  creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL    DEFAULT CURRENT_TIMESTAMP,
- title                  VARCHAR (30)                      NOT NULL    DEFAULT 'A fancy title',
+ title                  D_UNTAINTED                       NOT NULL    DEFAULT 'A fancy title',
  content                TEXT                              NOT NULL,
  language_id            UUID                              NOT NULL,
  user_id                UUID                              NOT NULL,
@@ -80,7 +86,13 @@ CREATE TABLE post
     FOREIGN KEY (language_id) REFERENCES e_language (id),
 
  CONSTRAINT fk_user_id
-    FOREIGN KEY (user_id)     REFERENCES account (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id)     REFERENCES account (id) ON DELETE CASCADE,
+
+ CONSTRAINT post_title_length
+    CHECK (LENGTH(title)<81),
+
+  CONSTRAINT post_content_length
+    CHECK (LENGTH(content)<401)
 );
 
 CREATE TABLE has_category
@@ -100,7 +112,7 @@ CREATE TABLE has_category
 CREATE TABLE comment
 (id                     UUID                              DEFAULT gen_random_uuid(),
  creation_time          TIMESTAMP WITH TIME ZONE          NOT NULL DEFAULT CURRENT_TIMESTAMP,
- content                TEXT                              NOT NULL,
+ content                D_UNTAINTED                       NOT NULL,
  user_id                UUID                              NOT NULL,
  post_id                UUID                              NOT NULL,
 
@@ -111,7 +123,10 @@ CREATE TABLE comment
     FOREIGN KEY (user_id) REFERENCES account (id) ON DELETE CASCADE,
 
  CONSTRAINT fk_post_id
-    FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE,
+
+ CONSTRAINT comment_content_length
+    CHECK (LENGTH(content)<181)
 );
 
 
@@ -150,8 +165,8 @@ CREATE TABLE user_like
 
 CREATE TABLE e_sort_by
 (id                   UUID            DEFAULT gen_random_uuid(),
- sort_by              VARCHAR(20)     NOT NULL,   
- view_name            VARCHAR(50)     NOT NULL,
+ sort_by              D_UNTAINTED     NOT NULL,   
+ view_name            D_UNTAINTED     NOT NULL,
 
  CONSTRAINT e_sort_by_pk
     PRIMARY KEY (id),

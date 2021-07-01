@@ -17,7 +17,7 @@ $$
         RETURN QUERY
         SELECT rest_helper
         ('INSERT INTO post (title, content, language_id, user_id)
-          VALUES(($2->>''title'')::VARCHAR,
+          VALUES(json_attr_value_d_untainted($2, ''title'', NULL),
                  ($2->>''content'')::TEXT,
                  ($2->>''language_id'')::UUID,
                  ($2->>''user_id'')::UUID

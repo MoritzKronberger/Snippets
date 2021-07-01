@@ -17,7 +17,7 @@ $$
         RETURN QUERY
         SELECT rest_helper
         ('INSERT INTO comment (content, user_id, post_id)
-          VALUES (($2->>''content'')::TEXT,
+          VALUES (json_attr_value_d_untainted($2, ''content'', NULL),
                   ($2->>''user_id'')::UUID,
                   ($2->>''post_id'')::UUID
                  )',
@@ -35,7 +35,7 @@ SELECT * FROM post;
 SELECT * FROM comment;
 SELECT * 
 FROM post_comment
-     ('{ "content": "This comment was created via the sored function!",
+     ('{ "content": "This comment was created via the stored function!",
          "user_id": "copy_here",
          "post_id": "copy_here"
        }');
