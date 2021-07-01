@@ -22,7 +22,7 @@ export default {
   props: { comments: Object },
   methods: {
     addLike(com_id) {
-     // this.$store.commit("post/addLikeComment", com_id);
+       this.$store.dispatch("post/postCommentLike", com_id)
     },
   },
 };

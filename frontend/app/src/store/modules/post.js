@@ -229,10 +229,10 @@ export default {
     async postComment({ rootState, state, commit }) {
       const data = {
         content: state.comment.content,
-        post_id: state.post.id,
+        post_id: state.active_id,
         user_id: rootState.id,
       };
-      const res = await postJson(rootState.token, `${paths.comments}`, data);
+      const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);
       /* if (res.status === 200) {
         Object.assign(state.comment, res.data);
       } */

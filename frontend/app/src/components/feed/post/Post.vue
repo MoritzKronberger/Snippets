@@ -11,7 +11,7 @@
        <div>
       <input class="input" v-model="comment.content" type="text" />
         <Validation
-          :object="add_comment"
+          :object="comment.content"
           button_name="comment"
           btn_class="small"
           @click="addComment"
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     addComment() {
-      //this.$store.commit("post/addComment", this.post.id);
+      this.$store.dispatch("post/postComment");
     },
     addLike() {
       //this.$store.commit("post/addLike", this.post.id);
