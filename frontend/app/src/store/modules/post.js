@@ -68,6 +68,10 @@ const post_empty = () => {
       //like info
       like: like_empty(),
       likes: [],
+
+      //sorting info
+      sortings: [],
+
       //TODO: add constraints
       //constraint: constraints[null],
     };
@@ -305,6 +309,15 @@ export default {
 
     async deleteCommentLike({ rootState, state, commit }) {
       const res = await deleteJson(rootState.token, `${paths.userLikes}/${state.like.id}`);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
+    },
+
+    async getSortings({ rootState, state, commit }) {
+      const res = await getJson(rootState.token, `${paths.sorting}`);
+      if (res.status === 200) {
+        Object.assign(state.sortings, res.data);
+      }
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
