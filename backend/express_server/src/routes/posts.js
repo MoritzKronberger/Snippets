@@ -47,10 +47,11 @@ posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, asyn
 
   //look for the category
   console.log("req.body", req.body.categories);
-  let categoryArray = req.body.category;
+  let categoryArray = req.body.categories;
   let categoryIdArray = [];
 
-  for (const c of categoryArray) {
+  for (const key in categoryArray) {
+    let c = categoryArray[key];
     let categoryJson = { status: "", result: "" };
     categoryJson = await categoriesDB.getCategories(c);
     //200: category already existing, use id
