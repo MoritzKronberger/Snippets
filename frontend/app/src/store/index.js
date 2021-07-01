@@ -79,6 +79,15 @@ export default createStore({
           state.password = null;
 
           await dispatch("auth/getProfile");
+
+          //TODO: delete and reactivate in feed
+          await dispatch("post/getLanguages").then( () => {
+            dispatch("post/getPosts").then( () => {
+              dispatch("post/getComments").then( () => {
+                dispatch("post/getLikes");
+              })
+            });
+          });
       } else {
         commit('reset');
       }

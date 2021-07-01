@@ -34,11 +34,14 @@ export default {
     ...mapState("auth", ["token"]),
   },
   beforeMount: function() {
+    /* TODO: reactivate after login works
     return this.$store.dispatch("post/getLanguages", null, {root: true}).then( () => {
       return this.$store.dispatch("post/getPosts", null, {root: true}).then( () => {
-        return this.$store.dispatch("post/getComments", null, {root: true});
+        return this.$store.dispatch("post/getComments", null, {root: true}).then( () => {
+          return this.$store.dispatch("post/getLikes", null, {root: true});
+        });
       });
-    });
+    });*/
   }
 };
 </script>
