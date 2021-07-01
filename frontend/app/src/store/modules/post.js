@@ -16,6 +16,7 @@ const post_empty = () => {
       num_comments: null,
       categories: null,
       comments: [],
+      likedByCurrentUser: false,
     };
   },
   input_post_empty = () => {
@@ -34,6 +35,7 @@ const post_empty = () => {
       user_id: null,
       username: null,
       post_id: null,
+      likedByCurrentUser: false,
     };
   },
   like_empty = () => {
@@ -192,16 +194,16 @@ export default {
       let posts = state.post.posts;
       const res = await getJson(rootState.token, `${paths.comments}`);
       comments = (res.status === 200) ? res.data : [];
-      posts.forEach(function(p) {
+      
+      for (let p of posts) {
         let commentArray = [];
-        res.data.forEach(function(c) {
+        for (let c of comments) {
           if (c.post_id == p.id) {
             commentArray.push(c);
           }
-        });
+        }
         p.comments = commentArray;
-      });
-      console.log("comments:", comments);
+      }
       console.log("posts with comments:", posts);
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
@@ -232,6 +234,41 @@ export default {
 
     async deleteComment({ rootState, state, commit }) {
       const res = await deleteJson(rootState.token, `${paths.comments}/${state.post.comment.id}`);
+      commit('saveSessionInfo', res, { root: true });
+      return res.status < 300;
+    },
+
+    async getLikes({ rootState, state, commit }) {
+      let likes = state.post.likes;
+      let posts = state.post.posts;
+      let comments = state.post.comments;
+      const res = await getJson(rootState.token, `${paths.likes}`);
+      likes = (res.status === 200) ? res.data : [];
+      console.log("likes:", likes);
+      
+      for (let l of likes) {
+        if (l.user_id == rootState.id) {
+          let found = false;
+          for (let p of posts) {
+            if (l.subject_id == p.id) {
+              p.likedByCurrentUser =  true;
+              found = true;
+              console.log("found like titled:", p.title);
+              break;
+            }
+          }
+          if (!found) {
+            for (let c of comments) {
+              if (l.subject_id == c.id) {
+                c.likedByCurrentUser =  true;
+                found = true;
+                console.log("found like comment:", c.content);
+                break;
+              }
+            };
+          }
+        }
+      }
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
