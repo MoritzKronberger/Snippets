@@ -83,13 +83,6 @@ const getPostsAll = async () => {
     );
     return result.rows[0];
   },
-  putPost = async (id, data) => {
-    const result = await query(
-      `SELECT result FROM put_post($1, $2)`, 
-      [id, data]
-    );
-    return result.rows[0];
-  },
   patchPost = async (id, data) => {
     const result = await query(
       `SELECT result FROM patch_post($1, $2)`, 
@@ -110,7 +103,6 @@ export {
   getPostsSearch,
   getPostsWithCategories,
   postPost, 
-  putPost, 
   patchPost, 
   deletePost 
 };
@@ -121,7 +113,6 @@ export default {
   getPostsSearch,
   getPostsWithCategories,
   postPost, 
-  putPost, 
   patchPost, 
   deletePost 
 };

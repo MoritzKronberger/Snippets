@@ -44,13 +44,6 @@ const getCommentsAll = async () => {
     );
     return result.rows[0];
   },
-  putComment = async (id, data) => {
-    const result = await query(
-      `SELECT result FROM put_comment($1, $2)`, 
-      [id, data]
-    );
-    return result.rows[0];
-  },
   patchComment = async (id, data) => {
     const result = await query(
       `SELECT result FROM patch_comment($1, $2)`,
@@ -70,7 +63,6 @@ export {
   getComments,
   getComment,
   postComment,
-  putComment,
   patchComment,
   deleteComment,
 };
@@ -79,7 +71,6 @@ export default {
   getComments,
   getComment,
   postComment,
-  putComment,
   patchComment,
   deleteComment,
 };
