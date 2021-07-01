@@ -39,17 +39,6 @@ accounts.get("/:id", isAuthorized, refreshToken, async (req, res) => {
   }
 });
 
-accounts.put("/:id", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
-  if (req.id !== req.params.id) {
-    return res.sendStatus(401);
-  }
-  const { result } = await accountsDB.putAccount(
-    req.params.id,
-    req.body
-  );
-  res.status(result.status).json(result);
-});
-
 accounts.patch("/:id", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);

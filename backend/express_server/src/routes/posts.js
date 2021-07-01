@@ -89,18 +89,6 @@ posts.get("/:id", isAuthorized, refreshToken, async (req, res) => {
   }
 });
 
-posts.put( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
-    let post = { status: "", result: "" };
-    post = await postsDB.getPost(req.params.id);
-    if (req.id !== post.result.user_id) {
-      return res.sendStatus(401);
-    }
-
-    post = await postsDB.putPost(req.params.id, req.body);
-    res.status(post.status).json(post.result);
-  }
-);
-
 posts.patch( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken,
   async (req, res) => {
     let oldPost = { result: "" };

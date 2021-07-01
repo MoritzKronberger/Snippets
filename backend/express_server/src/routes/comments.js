@@ -36,20 +36,6 @@ comments.get("/:id", isAuthorized, refreshToken, async (req, res) => {
     }
 });
 
-comments.put("/:id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
-    let comment = { status:"", result:"" };
-    comment = await commentsDB.getComment(req.params.id);
-    if (req.id !== comment.result.user_id) {
-        return res.sendStatus(401);
-    }
-
-    comment = await commentsDB.putComment(
-        req.params.id,
-        req.body
-    );
-    res.status(comment.status).json(comment.result);
-});
-
 comments.patch("/:id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
     let comment = { result:"" };
     comment = await commentsDB.getComment(req.params.id);
