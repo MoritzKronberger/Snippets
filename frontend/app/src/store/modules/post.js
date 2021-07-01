@@ -99,12 +99,12 @@ export default {
 
   actions: {
     async postPost({ rootState, state, commit }) {
-      const post = state.post;
+      const input_post = state.input_post;
       const data = {
-        language_id: post.input_post.language_id,
-        content: post.input_post.content,
-        title: post.input_post.title,
-        categories: post.input_post.categories,
+        language_id: input_post.language_id,
+        content: input_post.content,
+        title: input_post.title,
+        categories: input_post.categories,
       };
       const res = await postJson(rootState.token, `${paths.posts}`, data);
       /* if (res.status === 200) {

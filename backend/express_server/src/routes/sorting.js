@@ -1,17 +1,17 @@
 import Router from "express-promise-router";
-import sortingsDB from "../db/sortings.js";
+import sortingsDB from "../db/sorting.js";
 import { isAuthorized } from "../util/auth.js";
 import { refreshToken } from "./auth.js";
 
-const sortings = Router();
+const sorting = Router();
 
-sortings.get("/", isAuthorized, refreshToken, async (req, res) => {
+sorting.get("/", isAuthorized, refreshToken, async (req, res) => {
 // sortings.get("/", async (req, res) => {
     const { status, result } = await sortingsDB.getSortings();
     res.status(status).json(result);
 });
 
-sortings.get("/:id", isAuthorized, refreshToken, async (req, res) => {
+sorting.get("/:id", isAuthorized, refreshToken, async (req, res) => {
 // sortings.get("/:id", async (req, res) => {
     const { status, result } = await sortingsDB.getSorting(req.params.id);
 
@@ -22,6 +22,6 @@ sortings.get("/:id", isAuthorized, refreshToken, async (req, res) => {
     }
 });
 
-export { sortings };
+export { sorting };
 
-export default { sortings };
+export default { sorting };
