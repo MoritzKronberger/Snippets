@@ -140,7 +140,12 @@ $$
                 _cname_   = CONSTRAINT_NAME,
                 _message_ = MESSAGE_TEXT;
             RETURN QUERY
-            SELECT json_status(400, _id, _pgstate_, _cname_, _message_);
+            SELECT json_status(400, 
+                               _id, 
+                               _pgstate_, 
+                               CASE WHEN _cname_ <> '' THEN _cname_ ELSE _message_ END, 
+                               _message_
+                              );
     END
 $$
 ;
