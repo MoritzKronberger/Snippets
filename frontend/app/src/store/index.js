@@ -76,7 +76,7 @@ export default createStore({
           console.log("token here:", token);
           state.token = token;
           state.id = payload.id;
-          state.password = null;
+          user.password = null;
 
           await dispatch("auth/getProfile");
 

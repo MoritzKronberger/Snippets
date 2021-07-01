@@ -44,18 +44,19 @@ export default {
     },
   },
   actions: {
+    //Remember: rootState has all states in it, state is this state!
     async getProfile({ rootState, state, commit }) {
       const res = await getJson(rootState.token, `${paths.accounts}/${rootState.id}`);
       commit('saveSessionInfo', res, { root: true });
       if (res.status === 200) {
         console.log("getProfile data:", res.data);
         Object.assign(state.account, res.data);
-        console.log("account:", state.account);
       }
       return res.status < 300;
     },
 
     async patchProfile({ rootState, state, commit }) {
+      console.log("state", state);
       const data = {
         username: state.user.username ? state.user.username.trim() : null,
         password: state.user.password ? state.user.password.trim() : null,
