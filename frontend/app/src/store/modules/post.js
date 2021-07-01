@@ -100,16 +100,18 @@ export default {
   actions: {
     async postPost({ rootState, state, commit }) {
       const input_post = state.input_post;
+      let categories = input_post.categories.split(" ");
       const data = {
         language_id: input_post.language_id,
         content: input_post.content,
         title: input_post.title,
-        categories: input_post.categories,
+        categories: categories,
       };
       const res = await postJson(rootState.token, `${paths.posts}`, data);
-      /* if (res.status === 200) {
-        Object.assign(state.post, res.data);
-      } */
+      //only save the current data into post if it got sent to db
+      if (res.status === 200) {
+        Object.assign(state.post, data);
+      }
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
