@@ -34,7 +34,6 @@ export default {
     ...mapState("auth", ["token"]),
   },
   beforeMount: function() {
-    this.$store.commit("post/getToken", this.token);
     return this.$store.dispatch("post/getLanguages", null, {root: true}).then( () => {
       return this.$store.dispatch("post/getPosts", null, {root: true}).then( () => {
         return this.$store.dispatch("post/getComments", null, {root: true});
