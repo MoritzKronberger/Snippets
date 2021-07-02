@@ -74,7 +74,9 @@ const getPostsAll = async () => {
       `, 
       [id]
     );
-    return result.rows;
+    return result.rows.length === 0
+      ? { status: 404, result: {} }
+      : { status: 200, result: result.rows };
   },
   postPost = async (data) => {
     const result = await query(
