@@ -1,13 +1,13 @@
 import { query } from "./index.js";
 
 const getSortings = async () => {
-    const result = await query(`SELECT id, name FROM get_language`);
+    const result = await query(`SELECT id, sort_by FROM get_sort_by`);
     return { status: 200, result: result.rows };
   },
   getSorting = async (id) => {
     const result = await query(
-      `SELECT id, name 
-       FROM get_language
+      `SELECT id, sort_by 
+       FROM get_sort_by
        WHERE id = $1::UUID
       `,
       [id]
