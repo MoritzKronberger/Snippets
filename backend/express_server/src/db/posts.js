@@ -3,7 +3,7 @@ import { query } from "./index.js";
 // TODO: limit für returned rows?
 const getPostsAll = async () => {
     const result = await query(
-      `SELECT id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
+      `SELECT id, creation_time, title, content, language, user_id, username, num_likes, num_comments, categories
        FROM get_full_post
       `);
     return { status: 200, result: result.rows };
@@ -22,7 +22,7 @@ const getPostsAll = async () => {
     }
     if(query_string){
       const result = await query(
-        `SELECT DISTINCT sort_rank, p.id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
+        `SELECT DISTINCT sort_rank, p.id, creation_time, title, content, language, user_id, username, num_likes, num_comments, categories
          FROM $1 p
               JOIN has_category hc ON p.id = hc.post_id
               JOIN e_category ct   ON hc.category_id = ct.id
@@ -32,7 +32,7 @@ const getPostsAll = async () => {
       );
     }else{
       const result = await query(
-        `SELECT sort_rank, id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
+        `SELECT sort_rank, id, creation_time, title, content, language, user_id, username, num_likes, num_comments, categories
          FROM $1
         `, 
         [view.rows[0]]

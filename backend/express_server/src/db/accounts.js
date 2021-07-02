@@ -5,7 +5,7 @@ import { query } from "./index.js";
 const getAccountsAll = async () => {
     console.log("getAccountsAll");
     const result = await query(
-      `SELECT id, username, profile_picture FROM v_account`
+      `SELECT id, username FROM get_account`
     );
     return { status: 200, result: result.rows };
   },
@@ -14,16 +14,16 @@ const getAccountsAll = async () => {
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       result = key.match(c_uuid_regex)
         ? await query(
-            `SELECT id, username, profile_picture
-             FROM   account
+            `SELECT id, username
+             FROM   get_account
              WHERE  id = $1::UUID
             `,
             [key]
           )
         : await query(
-            `SELECT id, username, profile_picture
-             FROM   account
-             WHERE username = $1::VARCHAR`,
+            `SELECT id, username
+             FROM   get_account
+             WHERE  username = $1::VARCHAR`,
             [key]
           );
     return result.rows.length === 0
@@ -35,8 +35,8 @@ const getAccountsAll = async () => {
   },
   getAccount = async (id) => {
     const result = await query(
-      `SELECT id, username, profile_picture
-       FROM   v_account
+      `SELECT id, username
+       FROM   get_account
        WHERE  $1::UUID = id
       `,
       [id]
@@ -51,7 +51,6 @@ const getAccountsAll = async () => {
     ]);
     return result.rows[0];
   },
-  //TODO: check profile_picture for accepted content
   putAccount = async (id, data) => {
     const result = await query(
       `SELECT result FROM put_account($1, $2)`,

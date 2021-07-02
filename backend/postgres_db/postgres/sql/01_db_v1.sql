@@ -30,7 +30,6 @@ CREATE TABLE account
 (id                     UUID                DEFAULT gen_random_uuid(),
  username               D_UNTAINTED         NOT NULL,
  password               VARCHAR             NOT NULL,
- profile_picture        BYTEA,
 
  CONSTRAINT account_pk
     PRIMARY KEY (id),
