@@ -9,9 +9,9 @@ INSERT INTO e_language (name)
 VALUES
 ('javascript'),
 ('python'),
-('java'),
+('html'),
 ('c#'),
-('c++');
+('plsql');
 
 /* feed sorting */
 INSERT INTO e_sort_by (sort_by, view_name)
