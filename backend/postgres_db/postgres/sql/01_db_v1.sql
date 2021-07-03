@@ -22,6 +22,9 @@ DROP TABLE IF EXISTS has_category CASCADE;
 CREATE DOMAIN D_UNTAINTED
 AS VARCHAR CHECK (value !~ '[<>"'';]|--|/\*');
 
+CREATE DOMAIN D_CATEGORY
+AS VARCHAR CHECK (value ~ '^[A-Za-z0-9]+$');
+
 
 /* Create Tables */
 
@@ -54,7 +57,7 @@ CREATE TABLE e_language
 
 CREATE TABLE e_category
 (id                     UUID                DEFAULT gen_random_uuid(),
- name                   D_UNTAINTED         NOT NULL, 
+ name                   D_CATEGORY          NOT NULL, 
  trigram_category       TEXT,
 
  CONSTRAINT e_category_pk
