@@ -11,6 +11,7 @@
 </template>
 <script>
 import Button from "../../Button.vue";
+import { mapFields } from "vuex-map-fields";
 export default {
   name: "Comment",
   components: { Button },
@@ -22,9 +23,13 @@ export default {
       ).toLocaleDateString("en"),
     };
   },
+   computed: {
+    ...mapFields("post", ["active_id"]),
+  },
   methods: {
     addLike() {
-      this.$store.dispatch("post/postCommentLike", this.comment.id);
+      this.active_id = this.comment.id
+      this.$store.dispatch("post/postCommentLike");
     },
   },
 };

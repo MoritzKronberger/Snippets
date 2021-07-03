@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h1>Profile</h1>
+    <h1>Profile for {{ user.username }}</h1>
     <div class="content auth">
-      <p>{{ user.username }}</p>
       <Form button_name="Save Profile" auth_type="username_password" :auth="user"/> 
       <Validation :object="user" button_name="Save Profile" @click= "patchProfile" btn_class="medium"/>
     </div>
@@ -26,9 +25,6 @@ export default {
     ...mapState('auth', ['success']),
   },
   methods: {
-    /*Save() {
-      this.$store.commit("auth/userProfile");
-    },*/
     ...mapActions('auth', ['patchProfile']),
   },
   watch: { success(p_new)
