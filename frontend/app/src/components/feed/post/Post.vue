@@ -59,6 +59,7 @@ export default {
     },
     addLike() {
       //this.$store.commit("post/addLike", this.post.id);
+      this.$store.dispatch("post/postPostLike");
     },
   },
 };
