@@ -2,13 +2,10 @@
   <div>
     <p>{{ comment.content }}</p>
     <div class="flex-container">
-      <Button
-        :label="'Likes: ' + comment.num_likes"
-        btn_class="small"
-        @click="addLike"
-      />
       <p>User: {{ comment.username }}</p>
       <p>Date: {{ format_date }}</p>
+      <p>Likes: {{ comment.num_likes }}</p>
+      <Button label="Like" btn_class="small" @click="addLike" />
     </div>
   </div>
 </template>
@@ -26,8 +23,8 @@ export default {
     };
   },
   methods: {
-    addLike(){
-      this.$store.dispatch("post/postCommentLike", comment.id);
+    addLike() {
+      this.$store.dispatch("post/postCommentLike", this.comment.id);
     },
   },
 };
