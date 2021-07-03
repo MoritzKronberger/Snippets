@@ -11,13 +11,7 @@ const posts = Router();
 
 posts.get("/", isAuthorized, refreshToken, async (req, res) => {
   // posts.get("/", async (req, res) => {
-  const { status, result } = await postsDB.getPosts();
-  res.status(status).json(result);
-});
-
-posts.get("/search/", isAuthorized, refreshToken, async (req, res) => {
-  //posts.get("/search/", async (req, res) => {
-  const { status, result } = await postsDB.getPostSearch(req.body);
+  const { status, result } = await postsDB.getPosts(req.body.sorting_id, req.body.query_string);
   res.status(status).json(result);
 });
 
