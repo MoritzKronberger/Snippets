@@ -6,10 +6,11 @@
 </template>
 <script>
 import Button from "../Button.vue";
+import Input from "../feed/form/Input.vue";
 import Validation from "./Valid.vue";
 export default {
   name: "Form",
-  components: { Button, Validation },
+  components: { Button, Validation, Input },
   props: { button_name: String, object: Object, btn_class: String },
   data: function() {
     return {
@@ -29,7 +30,7 @@ export default {
       switch (this.button_name) {
         case "Register":
           this.valid_length = {
-            username: 10,
+            username: 30,
             password: 20,
             password_confirm: 20,
           };
@@ -40,23 +41,22 @@ export default {
             : null;
           break;
 
-        case "Submit":
+        case "Submit": //Post Form
           const arr_category = [];
+          this.valid_length = { title: 80, content: 1000 };
           if (obj.categories !== null) {
             obj.categories.split(" ").forEach((element) => {
-              element.length > 10 ? arr_category.push(element) : null;
+              element.length > 20 ? arr_category.push(element) : null;
             });
             if (arr_category.length > 0) {
-              //console.log(arr_category);
               this.errors.push(arr_category + " only 10 characters allowed.");
             }
           }
           delete obj.categories;
-          this.valid_length = { title: 40, content: 400 };
           break;
 
         case "Comment":
-          this.len = { comment: 10 };
+          this.len = { comment: 100 };
           break;
       }
 
