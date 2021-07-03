@@ -12,16 +12,16 @@ const getLikesAll = async () => {
       result = key.match(uuid_regex)
         ? await query(
             `SELECT id, user_id, subject_id
-      FROM get_like
-      WHERE id = $1::UUID
-      `,
+             FROM get_like
+             WHERE id = $1::UUID
+            `,
             [key]
           )
         : await query(
             `SELECT id, user_id, subject_id
-      FROM get_like
-      WHERE user_id = $1::UUID OR subject_id = $1::UUID
-      `,
+             FROM get_like
+             WHERE user_id = $1::UUID OR subject_id = $1::UUID
+            `,
             [key]
           );
     return result.rows.length === 0
@@ -44,24 +44,15 @@ const getLikesAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postLike = async (data) => {
-    const result = await query(`SELECT result FROM post_like($1)`, [
-      data,
-    ]);
+    const result = await query(`SELECT result FROM post_like($1)`, [data]);
     return result.rows[0];
   },
-  deleteLike = async (id) => {
-    const result = await query(`SELECT result FROM delete_like($1)`, [
-      id,
-    ]);
+  deleteLike = async (data) => {
+    const result = await query(`SELECT result FROM delete_like($1)`, [data]);
     return result.rows[0];
   };
 
-export { 
-  getLikes, 
-  getLike, 
-  postLike, 
-  deleteLike 
-};
+export { getLikes, getLike, postLike, deleteLike };
 
 export default {
   getLikes,
