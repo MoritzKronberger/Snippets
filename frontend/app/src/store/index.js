@@ -34,7 +34,7 @@ export default createStore({
     reset(state) {
       console.log("reset");
       Object.assign(state, defaultSession());
-      this.commit('auth/resetAccount');
+      this.commit('auth/resetUser');
     },
 
     saveSessionInfo(state, res) {
