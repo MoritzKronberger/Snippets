@@ -44,6 +44,7 @@ export default {
     Edit,
   },
   computed: {
+
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
@@ -58,7 +59,6 @@ export default {
       this.$store.dispatch("post/postComment");
     },
     addLike() {
-      //this.$store.commit("post/addLike", this.post.id);
       this.$store.dispatch("post/postPostLike");
     },
   },
