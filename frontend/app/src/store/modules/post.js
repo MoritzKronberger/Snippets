@@ -243,7 +243,7 @@ export default {
     },
 
     async postPostLike({ rootState, state, commit }) {
-      const data = { user_id: rootState.id, subject_id: state.active_id };
+      const data = { post_id: state.active_id };
       const res = await postJson(rootState.token, `${paths.userLikes}`, data);
       if (res.status === 200) {
         Object.assign(state.like, res.data);
@@ -252,7 +252,7 @@ export default {
       return res.status < 300;
     },
 
-    //TODO: method in db with user_id and subject_id
+    //TODO: active id or get like
     async deletePostLike({ rootState, state, commit }) {
       const res = await deleteJson(rootState.token, `${paths.userLikes}/${state.like.id}`);
       commit('saveSessionInfo', res, { root: true });
@@ -260,7 +260,7 @@ export default {
     },
 
     async postCommentLike({ rootState, state, commit }) {
-      const data = { user_id: rootState.id, subject_id: state.active_id };
+      const data = { comment_id: state.active_id };
       const res = await postJson(rootState.token, `${paths.userLikes}`, data);
       if (res.status === 200) {
         Object.assign(state.like, res.data);
