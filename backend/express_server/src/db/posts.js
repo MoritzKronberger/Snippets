@@ -58,14 +58,6 @@ const getPostsAll = async () => {
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
   },
-  getPostsSearch = async (key) => {
-    const result = await query(
-      `SELECT 
-      `, 
-      [key]
-    );
-    return result.rows;
-  },
   getPostsWithCategories = async (id) => {
     const result = await query(
       `SELECT id AS category_id, name, post_id
@@ -74,7 +66,9 @@ const getPostsAll = async () => {
       `, 
       [id]
     );
-    return result.rows;
+    return result.rows.length === 0
+      ? { status: 404, result: {} }
+      : { status: 200, result: result.rows };
   },
   postPost = async (data) => {
     const result = await query(
@@ -100,7 +94,6 @@ const getPostsAll = async () => {
 export { 
   getPosts, 
   getPost, 
-  getPostsSearch,
   getPostsWithCategories,
   postPost, 
   patchPost, 
@@ -109,8 +102,7 @@ export {
 
 export default { 
   getPosts, 
-  getPost, 
-  getPostsSearch,
+  getPost,
   getPostsWithCategories,
   postPost, 
   patchPost, 

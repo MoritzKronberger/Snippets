@@ -10,7 +10,7 @@ import {
 } from "/js/service/rest";
 import jwt_decode from "jwt-decode";
 
-const account_empty = () => {
+const user_empty = () => {
     return {
       username: null,
       password: null,
@@ -18,12 +18,10 @@ const account_empty = () => {
   },
   state_default = () => {
     return {
-      user: { username: null, password: null },
+      user: user_empty(),
       new_user: { username: null, password: null, password_confirm: null },
 
-
-      account:      account_empty(),
-      accounts:     [],
+      users:     [],
     };
   };
 
@@ -39,8 +37,8 @@ export default {
   mutations: {
     updateField,
 
-    resetAccount(state) {
-      Object.assign(state, account_empty());
+    resetUser(state) {
+      Object.assign(state.user, user_empty());
     },
   },
   actions: {
@@ -50,7 +48,7 @@ export default {
       commit('saveSessionInfo', res, { root: true });
       if (res.status === 200) {
         console.log("getProfile data:", res.data);
-        Object.assign(state.account, res.data);
+        Object.assign(state.user, res.data);
       }
       return res.status < 300;
     },
@@ -77,10 +75,10 @@ export default {
       }
     },
 
-    async getAccounts({  rootState, state, commit }) {
+    async getUsers({  rootState, state, commit }) {
       const res = await getJson(rootState.token, `${paths.accounts}`);
       commit('saveSessionInfo', res, { root: true });
-      state.accounts = (res.status === 200) ? res.data : [];
+      state.users = (res.status === 200) ? res.data : [];
       return res.status < 300;
     },
   },
