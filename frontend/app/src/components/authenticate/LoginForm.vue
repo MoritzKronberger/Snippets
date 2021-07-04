@@ -9,7 +9,6 @@
         @click="doLogin"
         btn_class="medium"
       />
-      <p>{{ report }}</p>
       <p>No Account?</p>
       <router-link to="/register">
         <Button label="Register here" btn_class="medium" />
@@ -19,7 +18,7 @@
 </template>
 <script>
 import { mapFields } from "vuex-map-fields";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import router from "/router";
 import Form from "./Form.vue";
 import Button from "../Button.vue";
@@ -27,11 +26,8 @@ import Validation from "../validation/Form.vue";
 export default {
   name: "LoginForm",
   components: { Button, Form, Validation },
-  data: function() {
-    return { report: null };
-  },
   computed: {
-    ...mapFields("auth", ["user"]),
+    ...mapFields("auth", ["user", "report"]),
   },
   methods: {
     ...mapActions(["login"]),
@@ -43,7 +39,7 @@ export default {
         router.push("/#/");
         this.report = null;
       } else if (success === 401) {
-        this.report = "Username or Passwort is wrong";
+        this.report = "Invalid Username or Password";
       } else {
         this.report = "Something went wrong";
       }

@@ -10,7 +10,7 @@
         <input
           class="input"
           v-model="auth.password"
-          type="text"
+          type="password"
           placeholder="Password"
         />
       </div>
@@ -18,7 +18,7 @@
         <input
           class="input"
           v-model="auth.password_confirm"
-          type="text"
+          type="password"
           placeholder="Confirm Password"
         />
       </div>

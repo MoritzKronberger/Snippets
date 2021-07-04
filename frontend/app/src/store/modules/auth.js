@@ -20,8 +20,8 @@ const user_empty = () => {
     return {
       user: user_empty(),
       new_user: { username: null, password: null, password_confirm: null },
-
       users:     [],
+      report: null,
     };
   };
 
