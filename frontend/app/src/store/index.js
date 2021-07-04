@@ -1,20 +1,20 @@
 /* template form https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_vue_01/-/tree/debug */
 
 import { createStore } from "vuex";
-import { getField, updateField } from "vuex-map-fields";
+import { getField, updateField } from 'vuex-map-fields';
 import post from "./modules/post";
 import form from "./modules/form";
 import auth from "./modules/auth";
 import { postJson } from "/js/service/rest";
-import { paths } from "/json/config.json";
-import jwt_decode from "jwt-decode";
+import { paths } from '/json/config.json';
+import jwt_decode from 'jwt-decode';
 
 const defaultSession = () => {
   return {
     token: null,
-    id: null,
-  };
-};
+    id: null
+  }
+}
 
 export default createStore({
   modules: { post, form, auth },
@@ -24,36 +24,36 @@ export default createStore({
   getters: {
     getField,
 
-    isNotAuthorized: (state) => !state.token,
-    isAuthorized: (state) => !!state.token,
+    isNotAuthorized: state => !state.token,
+    isAuthorized:    state => !!state.token,
   },
 
   mutations: {
-    updateField,
-
+    updateField, 
+  
     reset(state) {
       console.log("reset");
       Object.assign(state, defaultSession());
-      this.commit("auth/resetUser");
+      this.commit('auth/resetUser');
     },
 
     saveSessionInfo(state, res) {
       const c_token = state.token;
-      state.token = res.token;
+      state.token     = res.token;
       if (c_token != null && state.token == null) {
-        this.commit("reset");
-      } // auto logout if no new token had be passed to the client
+         this.commit('reset')
+      } // auto logout if no new token had be passed to the client    
     },
 
     getToken(state) {
       console.log("token:", state.token);
-    },
+    }
   },
 
   actions: {
     async register({ state, commit, dispatch }) {
       const res = await postJson(null, paths.register, state.auth.new_user);
-      commit("saveSessionInfo", res);
+      commit('saveSessionInfo', res);
 
       if (res.status === 201) {
         await dispatch("login");
@@ -73,23 +73,25 @@ export default createStore({
       if (res.status === 200) {
         const token = res.headers.authorization.substring(7), // remove "Bearer "
           payload = jwt_decode(token);
-        console.log("token here:", token);
-        state.token = token;
-        state.id = payload.id;
-        user.password = null;
+          console.log("token here:", token);
+          state.token = token;
+          state.id = payload.id;
+          user.password = null;
 
-        await dispatch("auth/getProfile");
+          await dispatch("auth/getProfile");
 
-        //TODO: delete and reactivate in feed
-        await dispatch("post/getLanguages").then(() => {
-          dispatch("post/getPosts").then(() => {
-            dispatch("post/getComments").then(() => {
-              dispatch("post/getLikes");
+          //TODO: delete and reactivate in feed
+          await dispatch("post/getLanguages").then( () => {
+            dispatch("post/getSortings").then( () => {
+              dispatch("post/getPosts").then( () => {
+                dispatch("post/getComments").then( () => {
+                  dispatch("post/getLikes");
+                })
+              });
             });
           });
-        });
       } else {
-        commit("reset");
+        commit('reset');
       }
 
       console.log("state:", state);
@@ -101,8 +103,8 @@ export default createStore({
     },
 
     logout({ state, commit }) {
-      commit("reset");
+      commit('reset');
       return true;
     },
-  },
+  }
 });

@@ -35,15 +35,12 @@ userLikes.get("/:id", isAuthorized, refreshToken, async (req, res) => {
   }
 });
 
-userLikes.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
-  let like = { result: "" };
-  like = await userLikesDB.getLike(req.params.id);
-
-  if (req.id !== like.result.user_id) {
-    return res.sendStatus(401);
-  }
-  like = await userLikesDB.deleteLike(req.params.id);
-  res.status(like.result.status).json(like.result);
+userLikes.delete("/", isAuthorized, refreshToken, async (req, res) => {
+  //req.id is substitute for checking if the person made the like, because you can only delete your own likes when you are logged in
+  let id = req.body.comment_id || req.body.post_id;
+  const json = { user_id: req.id, subject_id: id };
+  const { result } = await userLikesDB.deleteLike(json);
+  res.status(result.status).json(result);
 });
 
 export { userLikes, userLikeSchema };
