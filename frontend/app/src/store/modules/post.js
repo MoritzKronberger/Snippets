@@ -116,8 +116,11 @@ export default {
       return res.status < 300;
     },
 
-    async getPosts({ rootState, state, commit }) {
-      const res = await getJson(rootState.token, `${paths.posts}`);
+    async getPosts({ rootState, state, commit }, sorting_id, query) {
+      let s_id = sorting_id || state.sortings[0];
+      console.log("sorting:", s_id);
+      const data = { sorting_id: s_id, query_string: query }
+      const res = await getJson(rootState.token, `${paths.posts}`, data);
       if (res.status === 200) {
         Object.assign(state.posts, res.data);
       }
@@ -142,14 +145,6 @@ export default {
 
     async deletePost({ rootState, state, commit }) {
       const res = await deleteJson(rootState.token, `${paths.posts}/${state.active_id}`);
-      commit('saveSessionInfo', res, { root: true });
-      return res.status < 300;
-    },
-
-    async searchPost({ rootState, state, commit }) {
-      //TODO: implement data after Moritz implemented getPostSearch
-      let data = {};
-      const res = await getJson(rootState.token, `${paths.posts}/search/`, data);
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
@@ -222,7 +217,6 @@ export default {
             if (l.subject_id == p.id) {
               p.likedByCurrentUser =  true;
               found = true;
-              console.log("found like titled:", p.title);
               break;
             }
           }
@@ -231,7 +225,6 @@ export default {
               if (l.subject_id == c.id) {
                 c.likedByCurrentUser =  true;
                 found = true;
-                console.log("found like comment:", c.content);
                 break;
               }
             };
@@ -245,34 +238,64 @@ export default {
     async postPostLike({ rootState, state, commit }) {
       const data = { post_id: state.active_id };
       const res = await postJson(rootState.token, `${paths.likes}`, data);
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 201) {
         Object.assign(state.like, res.data);
+        for (let p of state.posts) {
+          if (p.id == state.active_id) {
+            p.likedByCurrentUser = true;
+          }
+        }
       }
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
 
-    //TODO: active id or get like
     async deletePostLike({ rootState, state, commit }) {
-      const res = await deleteJson(rootState.token, `${paths.likes}/${state.like.id}`);
-      commit('saveSessionInfo', res, { root: true });
+      let res;
+      for (let p of state.posts) {
+        if (p.id == state.active_id) {
+          if (p.likedByCurrentUser) {
+            const data = { user_id: rootState.id, post_id: state.active_id }
+            res = await deleteJson(rootState.token, `${paths.likes}/${state.like}`, data);
+            if (res.status < 300) {
+              commit('saveSessionInfo', res, { root: true });
+              p.likedByCurrentUser = false;
+            }
+          }
+        }
+      }
       return res.status < 300;
     },
 
     async postCommentLike({ rootState, state, commit }) {
       const data = { comment_id: state.active_id };
       const res = await postJson(rootState.token, `${paths.likes}`, data);
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 201) {
         Object.assign(state.like, res.data);
+        for (let c of state.comments) {
+          if (c.id == state.active_id) {
+            c.likedByCurrentUser = true;
+          }
+        }
       }
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
 
-    //TODO: as with deletePostLike
     async deleteCommentLike({ rootState, state, commit }) {
-      const res = await deleteJson(rootState.token, `${paths.likes}/${state.like.id}`);
-      commit('saveSessionInfo', res, { root: true });
+      let res;
+      for (let c of state.comments) {
+        if (c.id == state.active_id) {
+          if (c.likedByCurrentUser) {
+            const data = { user_id: rootState.id, comment_id: state.active_id }
+            res = await deleteJson(rootState.token, `${paths.likes}/${state.like}`, data);
+            if (res.status < 300) {
+              commit('saveSessionInfo', res, { root: true });
+              c.likedByCurrentUser = false;
+            }
+          }
+        }
+      }
       return res.status < 300;
     },
 

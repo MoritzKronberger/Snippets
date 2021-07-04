@@ -82,10 +82,12 @@ export default createStore({
 
           //TODO: delete and reactivate in feed
           await dispatch("post/getLanguages").then( () => {
-            dispatch("post/getPosts").then( () => {
-              dispatch("post/getComments").then( () => {
-                dispatch("post/getLikes");
-              })
+            dispatch("post/getSortings").then( () => {
+              dispatch("post/getPosts").then( () => {
+                dispatch("post/getComments").then( () => {
+                  dispatch("post/getLikes");
+                })
+              });
             });
           });
       } else {
