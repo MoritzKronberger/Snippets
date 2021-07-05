@@ -184,7 +184,9 @@ CREATE TABLE e_sort_by
 CREATE FUNCTION hash_password_function() RETURNS TRIGGER AS
 $_plpgsql_$
     BEGIN
-        IF( TG_OP = 'INSERT' OR (TG_OP = 'UPDATE' AND NEW.password <> OLD.password))
+        IF(LENGTH(NEW.password)<6)
+            THEN RAISE EXCEPTION 'minimum_password_legth';
+        ELSIF(TG_OP = 'INSERT' OR (TG_OP = 'UPDATE' AND NEW.password <> OLD.password))
             THEN NEW.password = crypt(NEW.password, gen_salt('bf',12));
         END IF;
 

@@ -9,7 +9,7 @@ INSERT INTO account (username, password)
 VALUES
 ('tinykoala648', 'raistlin'),
 ('heavyduck567', 'santafe'),
-('smallladybug804', 'aztnm');
+('smallladybug804', 'supersecret');
 
 /* categories */
 INSERT INTO e_category (name)
