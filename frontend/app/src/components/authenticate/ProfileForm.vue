@@ -4,7 +4,7 @@
     <div class="content auth">
       <p>current name: {{user.username}}</p>
       <Form button_name="Save Profile" auth_type="username_password confirm_password" :auth="new_user"/> 
-      <Validation :object="new_user" button_name="Save Profile" @click= "patchProfile" btn_class="medium"/>
+      <Validation :object="new_user" button_name="Register" @click= "patchProfile" btn_class="medium"/>
     </div>
   </div>
 </template>
