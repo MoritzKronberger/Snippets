@@ -62,6 +62,7 @@ export default {
         `${paths.accounts}/${rootState.id}`,
         data
       );
+      state.report = "successfully changed profile"
       commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
