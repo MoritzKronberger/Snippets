@@ -40,8 +40,10 @@ export default {
         this.report = null;
       } else if (success === 401) {
         this.report = "Invalid Username or Password";
-      } else {
+      } else if (success > 401) {
         this.report = "Something went wrong";
+      } else {
+        this.report = null;
       }
     },
   },
