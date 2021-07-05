@@ -11,7 +11,6 @@ const post_empty = () => {
       language: null,
       user_id: null,
       username: null,
-      profile_picture: null,
       num_likes: null,
       num_comments: null,
       categories: null,
@@ -117,7 +116,7 @@ export default {
     },
 
     async getPosts({ rootState, state, commit }, sorting_id, query) {
-      let s_id = sorting_id || state.sortings[0];
+      let s_id = sorting_id || state.sortings[0].id;
       console.log("sorting:", s_id);
       const data = { sorting_id: s_id, query_string: query }
       const res = await getJson(rootState.token, `${paths.posts}`, data);
