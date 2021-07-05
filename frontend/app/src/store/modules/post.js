@@ -30,7 +30,7 @@ const post_empty = () => {
     return {
       id: null,
       creation_time: null,
-      content: null,
+      content:[{input: null}],
       user_id: null,
       username: null,
       post_id: null,
@@ -182,7 +182,7 @@ export default {
 
     async postComment({ rootState, state, commit }) {
       const data = {
-        content: state.comment.content,
+        content: state.comment.content.input,
       };
       const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);
       /* if (res.status === 200) {
@@ -302,6 +302,7 @@ export default {
       const res = await getJson(rootState.token, `${paths.sorting}`);
       if (res.status === 200) {
         Object.assign(state.sortings, res.data);
+
       }
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;

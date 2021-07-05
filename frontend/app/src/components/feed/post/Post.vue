@@ -9,7 +9,7 @@
         <Comments :comments="post" />
       </div>
        <div>
-      <input class="input" v-model="comment.content" type="text" />
+      <textarea class="input" v-model="comment.content.input"/>
         <Validation
           :object="comment.content"
           button_name="comment"

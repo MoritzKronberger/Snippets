@@ -99,6 +99,7 @@ export default createStore({
       let isAuthorized = !!state.token;
       console.log("isNotAuthorized", isNotAuthorized);
       console.log("isAuthorized", isAuthorized);
+      return res.status;
     },
 
     logout({ state, commit }) {

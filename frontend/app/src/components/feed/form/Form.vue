@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div :class="vis_Add(false)">
+    <div v-if="isAuthorized" :class="vis_Add(false)">
       <Button label="add Post" btn_class="addButton" @click="setActive" />
+    </div>
+    <div v-else class="content form">
+      <h2>Hello! Login to post, comment and like!</h2>
     </div>
     <div :class="vis_Form(true)">
       <form>
@@ -30,6 +33,7 @@ export default {
   components: { Button, Languages, Validation, Input },
   computed: {
     ...mapGetters("form", ["vis_Add", "vis_Form"]),
+    ...mapGetters(["isAuthorized"]),
     ...mapFields("post", ["input_post"]),
     ...mapFields("form", ["section"]),
   },
@@ -38,7 +42,7 @@ export default {
       this.$store.commit("form/setActive");
     },
     submitPost() {
-      this.$store.dispatch("post/postPost").then( () => {
+      this.$store.dispatch("post/postPost").then(() => {
         this.$store.dispatch("post/getPosts");
       });
       this.setActive();

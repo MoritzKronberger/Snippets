@@ -2,12 +2,7 @@
 
 import { getField, updateField } from "vuex-map-fields";
 import { paths } from "/json/config.json";
-import {
-  postJson,
-  getJson,
-  patchJson,
-  deleteJson,
-} from "/js/service/rest";
+import { postJson, getJson, patchJson, deleteJson } from "/js/service/rest";
 import jwt_decode from "jwt-decode";
 
 const user_empty = () => {
@@ -20,8 +15,8 @@ const user_empty = () => {
     return {
       user: user_empty(),
       new_user: { username: null, password: null, password_confirm: null },
-
-      users:     [],
+      users: [],
+      report: null,
     };
   };
 
@@ -31,7 +26,7 @@ export default {
   state: state_default(),
 
   getters: {
-    getField
+    getField,
   },
 
   mutations: {
@@ -45,8 +40,11 @@ export default {
   actions: {
     //Remember: rootState has all states in it, state is this state!
     async getProfile({ rootState, state, commit }) {
-      const res = await getJson(rootState.token, `${paths.accounts}/${rootState.id}`);
-      commit('saveSessionInfo', res, { root: true });
+      const res = await getJson(
+        rootState.token,
+        `${paths.accounts}/${rootState.id}`
+      );
+      commit("saveSessionInfo", res, { root: true });
       if (res.status === 200) {
         console.log("getProfile data:", res.data);
         Object.assign(state.user, res.data);
@@ -57,29 +55,36 @@ export default {
     async patchProfile({ rootState, state, commit }) {
       console.log("state", state);
       const data = {
-        username: state.user.username ? state.user.username.trim() : null,
-        password: state.user.password ? state.user.password.trim() : null,
+        username: state.new_user.username ? state.new_user.username.trim() : null,
+        password: state.new_user.password ? state.new_user.password.trim() : null,
       };
-      const res = await patchJson(rootState.token, `${paths.accounts}/${rootState.id}`, data
+      const res = await patchJson(
+        rootState.token,
+        `${paths.accounts}/${rootState.id}`,
+        data
       );
-      commit('saveSessionInfo', res, { root: true });
+      state.report = "successfully changed profile"
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
     async deleteProfile({ rootState, state, commit, dispatch }) {
-      const res = await deleteJson(rootState.token, `${paths.accounts}/${rootState.id}`);
-      commit('saveSessionInfo', res, { root: true });
+      const res = await deleteJson(
+        rootState.token,
+        `${paths.accounts}/${rootState.id}`
+      );
+      commit("saveSessionInfo", res, { root: true });
       if (res.status === 200) {
-        dispatch('logout');
+        dispatch("logout");
       } else {
         return res.status < 300;
       }
     },
 
-    async getUsers({  rootState, state, commit }) {
+    async getUsers({ rootState, state, commit }) {
       const res = await getJson(rootState.token, `${paths.accounts}`);
-      commit('saveSessionInfo', res, { root: true });
-      state.users = (res.status === 200) ? res.data : [];
+      commit("saveSessionInfo", res, { root: true });
+      state.users = res.status === 200 ? res.data : [];
       return res.status < 300;
     },
   },
