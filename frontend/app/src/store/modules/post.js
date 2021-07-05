@@ -118,8 +118,7 @@ export default {
     async getPosts({ rootState, state, commit }, sorting_id, query) {
       let s_id = sorting_id || state.sortings[0].id;
       console.log("sorting:", s_id);
-      const data = { sorting_id: s_id, query_string: query }
-      const res = await getJson(rootState.token, `${paths.posts}`, data);
+      const res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}&?query_string=${query}`);
       if (res.status === 200) {
         Object.assign(state.posts, res.data);
       }

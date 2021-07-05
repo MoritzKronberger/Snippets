@@ -11,7 +11,7 @@ const posts = Router();
 
 posts.get("/", isAuthorized, refreshToken, async (req, res) => {
   // posts.get("/", async (req, res) => {
-  const { status, result } = await postsDB.getPosts(req.body.sorting_id, req.body.query_string);
+  const { status, result } = await postsDB.getPosts(req.query.sorting_id);
   res.status(status).json(result);
 });
 
