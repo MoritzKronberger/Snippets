@@ -38,6 +38,7 @@ export default {
     updateField,
 
     resetUser(state) {
+      console.log("reset User");
       Object.assign(state.user, user_empty());
     },
   },
