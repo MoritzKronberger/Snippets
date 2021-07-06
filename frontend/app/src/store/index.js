@@ -39,10 +39,12 @@ export default createStore({
 
     saveSessionInfo(state, res) {
       const c_token = state.token;
+      console.log("c_token", c_token);
       state.token     = res.token;
-      if (c_token != null && state.token == null) {
+      console.log("res.token", res.token);
+     /* if (c_token != null && state.token == null) {
          this.commit('reset')
-      } // auto logout if no new token had be passed to the client    
+      } */ // auto logout if no new token had be passed to the client    
     },
 
     getToken(state) {
