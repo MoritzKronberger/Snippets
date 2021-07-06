@@ -11,7 +11,7 @@
        <div>
       <input class="input" v-model="comment.content" type="text" />
         <Validation
-          :object="add_comment"
+          :object="comment.content"
           button_name="comment"
           btn_class="small"
           @click="addComment"
@@ -44,6 +44,7 @@ export default {
     Edit,
   },
   computed: {
+
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },
@@ -51,14 +52,14 @@ export default {
       return this.post.num_comments > 3 ? "overflow" : "";
     },
     ...mapFields("post", ["active_id", "comment"]),
-    ...mapGetters("post", ["isAuthorized"]),
+    ...mapGetters(["isAuthorized"]),
   },
   methods: {
     addComment() {
-      //this.$store.commit("post/addComment", this.post.id);
+      this.$store.dispatch("post/postComment");
     },
     addLike() {
-      //this.$store.commit("post/addLike", this.post.id);
+      this.$store.dispatch("post/postPostLike");
     },
   },
 };

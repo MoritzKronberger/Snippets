@@ -51,13 +51,6 @@ const getAccountsAll = async () => {
     ]);
     return result.rows[0];
   },
-  putAccount = async (id, data) => {
-    const result = await query(
-      `SELECT result FROM put_account($1, $2)`,
-      [id, data]
-    );
-    return result.rows[0];
-  },
   patchAccount = async (id, data) => {
     const result = await query(
       `SELECT result FROM patch_account($1, $2)`,
@@ -77,7 +70,6 @@ export {
   getAccounts,
   postAccount,
   getAccount,
-  putAccount,
   patchAccount,
   deleteAccount,
 };
@@ -86,7 +78,6 @@ export default {
   getAccounts,
   postAccount,
   getAccount,
-  putAccount,
   patchAccount,
   deleteAccount,
 };

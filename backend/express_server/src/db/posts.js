@@ -20,22 +20,22 @@ const getPostsAll = async () => {
     if(view.rows.length===0){
       return { status: 404, result: {} }
     }
+    let result = null;
     if(query_string){
-      const result = await query(
-        `SELECT DISTINCT sort_rank, p.id, creation_time, title, content, language, user_id, username, num_likes, num_comments, categories
-         FROM $1 p
+      result = await query(
+        `SELECT DISTINCT sort_rank, p.id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
+         FROM ${view.rows[0].view_name} p
               JOIN has_category hc ON p.id = hc.post_id
               JOIN e_category ct   ON hc.category_id = ct.id
-         WHERE trigram_category ILIKE '%' || $2::VARCHAR || '%' OR $2::VARCHAR <<% trigram_category
+         WHERE trigram_category ILIKE '%' || $1::VARCHAR || '%' OR $1::VARCHAR <<% trigram_category
         `, 
-        [view.rows[0], query_string]
+        [query_string]
       );
     }else{
-      const result = await query(
-        `SELECT sort_rank, id, creation_time, title, content, language, user_id, username, num_likes, num_comments, categories
-         FROM $1
-        `, 
-        [view.rows[0]]
+      result = await query(
+        `SELECT sort_rank, id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
+         FROM ${view.rows[0].view_name}
+        `
       );
     }
 
@@ -43,8 +43,8 @@ const getPostsAll = async () => {
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows };
   },
-  getPosts = async (key) => {
-    return key ? getPostSorted(key) : getPostsAll();
+  getPosts = async (key, query_string) => {
+    return key ? getPostSorted(key, query_string) : getPostsAll();
   },
   getPost = async (id) => {
     const result = await query(
@@ -58,14 +58,6 @@ const getPostsAll = async () => {
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
   },
-  getPostsSearch = async (key) => {
-    const result = await query(
-      `SELECT 
-      `, 
-      [key]
-    );
-    return result.rows;
-  },
   getPostsWithCategories = async (id) => {
     const result = await query(
       `SELECT id AS category_id, name, post_id
@@ -74,19 +66,14 @@ const getPostsAll = async () => {
       `, 
       [id]
     );
-    return result.rows;
+    return result.rows.length === 0
+      ? { status: 404, result: {} }
+      : { status: 200, result: result.rows };
   },
   postPost = async (data) => {
     const result = await query(
       `SELECT result FROM post_post($1)`, 
       [data]
-    );
-    return result.rows[0];
-  },
-  putPost = async (id, data) => {
-    const result = await query(
-      `SELECT result FROM put_post($1, $2)`, 
-      [id, data]
     );
     return result.rows[0];
   },
@@ -107,21 +94,17 @@ const getPostsAll = async () => {
 export { 
   getPosts, 
   getPost, 
-  getPostsSearch,
   getPostsWithCategories,
   postPost, 
-  putPost, 
   patchPost, 
   deletePost 
 };
 
 export default { 
   getPosts, 
-  getPost, 
-  getPostsSearch,
+  getPost,
   getPostsWithCategories,
   postPost, 
-  putPost, 
   patchPost, 
   deletePost 
 };

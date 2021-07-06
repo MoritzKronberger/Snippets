@@ -5,6 +5,7 @@
       "posts": "/api/posts",
       "languages": "/api/languages",
       "comments": "/api/comments",
-      "likes": "/api/user-likes"
+      "likes": "/api/user-likes",
+      "sorting": "/api/sorting"
     }
 }

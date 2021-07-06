@@ -9,9 +9,10 @@ import VuePrism from "vue-prism";
 // do not delete VuePrism import
 import "prismjs/themes/prism.css";
 import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-java"
-import "prismjs/components/prism-csharp"
-import "prismjs/components/prism-python"
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-csharp";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-sql";
 import "prismjs/plugins/normalize-whitespace/prism-normalize-whitespace";
 
 Prism.plugins.NormalizeWhitespace.setDefaults({

@@ -7,7 +7,8 @@ import { refreshToken } from "./auth.js";
 
 const comments = Router();
 
-comments.get("/", async (req, res) => {
+// comments.get("/", async (req, res) => {
+comments.get("/", isAuthorized, refreshToken, async (req, res) => {
     const { status, result } = await commentsDB.getComments(req.query.search);
     res.status(status).json(result);
 });
@@ -24,7 +25,8 @@ comments.post("/:post_id", isAuthorized, validate({ body: commentSchema }), refr
       .json(result);
 });
 
-comments.get("/:id", async (req, res) => {
+comments.get("/:id", isAuthorized, refreshToken, async (req, res) => {
+// comments.get("/:id", async (req, res) => {
     const { status, result } = await commentsDB.getComment(req.params.id);
 
     if (status === 200) {
@@ -34,47 +36,33 @@ comments.get("/:id", async (req, res) => {
     }
 });
 
-comments.put("/:id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
+comments.patch("/:id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
     let comment = { status:"", result:"" };
     comment = await commentsDB.getComment(req.params.id);
     if (req.id !== comment.result.user_id) {
         return res.sendStatus(401);
     }
 
-    comment = await commentsDB.putComment(
+    const { result } = await commentsDB.patchComment(
         req.params.id,
         req.body
     );
-    res.status(comment.status).json(comment.result);
-});
-
-comments.patch("/:id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
-    let comment = { result:"" };
-    comment = await commentsDB.getComment(req.params.id);
-    if (req.id !== comment.result.user_id) {
-        return res.sendStatus(401);
-    }
-
-    comment = await commentsDB.patchComment(
-        req.params.id,
-        req.body
-    );
-    res.status(comment.result.status).json(comment.result);
+    res.status(result.status).json(result);
 });
 
 comments.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
     //TODO: user des posts kann diesen ebenfalls löschen
-    let comment = { result:"" };
+    let comment = { status: "", result:"" };
     comment = await commentsDB.getComment(req.params.id);
     if (req.id !== comment.result.user_id) {
         return res.sendStatus(401);
     }
 
-    comment = await commentsDB.deleteComment(
+    const { result } = await commentsDB.deleteComment(
         req.params.id,
         req.body
     );
-    res.status(comment.result.status).json(comment.result);
+    res.status(result.status).json(result);
 });
 
 export { comments, commentSchema };

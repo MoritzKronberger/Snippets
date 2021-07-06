@@ -7,13 +7,14 @@ import { refreshToken } from "./auth.js";
 
 const userLikes = Router();
 
-userLikes.get("/", async (req, res) => {
+userLikes.get("/", isAuthorized, refreshToken, async (req, res) => {
+// userLikes.get("/", async (req, res) => {
   const { status, result } = await userLikesDB.getLikes(req.query.search);
   res.status(status).json(result);
 });
 
 userLikes.post("/", isAuthorized, validate({ body: userLikeSchema }), refreshToken, async (req, res) => {
-  const json = { user_id: req.id, post_id: req.body.post_id, comment_id: req.body.comment_id, subject_id: req.body.subject_id };
+  const json = { user_id: req.id, post_id: req.body.post_id, comment_id: req.body.comment_id };
   const { result } = await userLikesDB.postLike(json),
     proxy = req.header["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
@@ -23,7 +24,8 @@ userLikes.post("/", isAuthorized, validate({ body: userLikeSchema }), refreshTok
     .json(result);
 });
 
-userLikes.get("/:id", async (req, res) => {
+userLikes.get("/:id", isAuthorized, refreshToken, async (req, res) => {
+// userLikes.get("/:id", async (req, res) => {
   const { status, result } = await userLikesDB.getLike(req.params.id);
 
   if (status === 200) {
@@ -33,14 +35,11 @@ userLikes.get("/:id", async (req, res) => {
   }
 });
 
-userLikes.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
+userLikes.delete("/", isAuthorized, refreshToken, async (req, res) => {
   let like = { result: "" };
-  like = await userLikesDB.getLike(req.params.id);
-
-  if (req.id !== like.result.user_id) {
-    return res.sendStatus(401);
-  }
-  like = await userLikesDB.deleteLike(req.params.id);
+  //req.id is substitute for checking if the person made the like, because you can only delete your own likes when you are logged in
+  let id = req.body.comment_id || req.body.post_id;
+  like = await userLikesDB.deleteLike(req.id, id);
   res.status(like.result.status).json(like.result);
 });
 
