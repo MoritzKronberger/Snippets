@@ -5,8 +5,8 @@ import { refreshToken } from "./auth.js";
 
 const sorting = Router();
 
-sorting.get("/", isAuthorized, refreshToken, async (req, res) => {
-// sortings.get("/", async (req, res) => {
+//sorting.get("/", isAuthorized, refreshToken, async (req, res) => {
+sorting.get("/", refreshToken, async (req, res) => {
     const { status, result } = await sortingsDB.getSortings();
     res.status(status).json(result);
 });

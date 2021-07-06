@@ -7,8 +7,7 @@ import { refreshToken } from "./auth.js";
 
 const userLikes = Router();
 
-userLikes.get("/", isAuthorized, refreshToken, async (req, res) => {
-// userLikes.get("/", async (req, res) => {
+userLikes.get("/", refreshToken, async (req, res) => {
   const { status, result } = await userLikesDB.getLikes(req.query.search);
   res.status(status).json(result);
 });

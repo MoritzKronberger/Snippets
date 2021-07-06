@@ -9,8 +9,8 @@ import { refreshToken } from "./auth.js";
 
 const posts = Router();
 
-posts.get("/", isAuthorized, refreshToken, async (req, res) => {
-  // posts.get("/", async (req, res) => {
+//posts.get("/", isAuthorized, refreshToken, async (req, res) => {
+posts.get("/", refreshToken, async (req, res) => {
   const { status, result } = await postsDB.getPosts(req.query.sorting_id);
   res.status(status).json(result);
 });
@@ -21,13 +21,7 @@ posts.get("/categories/", isAuthorized, refreshToken, async (req, res) => {
   res.status(status).json(result);
 });
 
-//TODO: add categories
-posts.post(
-  "/",
-  isAuthorized,
-  validate({ body: postSchema }),
-  refreshToken,
-  async (req, res) => {
+posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
     //add a new post
     const json = {
       title: req.body.title,
