@@ -50,7 +50,7 @@ const post_empty = () => {
     return {
       section: false,
       active_id: null,
-
+      user_query: null,
       //post info
       input_post: input_post_empty(),
       post: post_empty(),
@@ -117,12 +117,15 @@ export default {
 
     async getPosts({ rootState, state, commit }, sorting_id, query) {
       let s_id = sorting_id || state.sortings[0].id;
+      state.user_query != null ? query = state.user_query : null
+      console.log(query);
       console.log("sorting:", s_id);
       const res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}&?query_string=${query}`);
       if (res.status === 200) {
         Object.assign(state.posts, res.data);
       }
       console.log("posts:", state.posts);
+      state.user_query = null;
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
