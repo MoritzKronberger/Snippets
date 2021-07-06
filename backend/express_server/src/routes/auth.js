@@ -12,13 +12,16 @@ import dbAuth from "../db/auth.js";
 const auth = Router(),
   {
     TOKEN_SECRET = "Please set the secret value in .env: TOKEN_SECRET=...",
-    TOKEN_EXPIRES = 1800,
+    TOKEN_EXPIRES = 3600,
   } = process.env,
   refreshToken = (req, res, next) => {
-    const token = jwt.sign({ id: req.id }, TOKEN_SECRET, {
-      expiresIn: TOKEN_EXPIRES,
-    });
-    res.set("Authorization", `Bearer ${token}`);
+   /* if (req.id != null) {
+      const token = jwt.sign({ id: req.id }, TOKEN_SECRET, {
+        expiresIn: TOKEN_EXPIRES,
+      });
+      res.set("Authorization", `Bearer ${token}`);
+    }    
+    console.log("req.", req.headers['authorization'], req.id);*/
     next();
   };
 
