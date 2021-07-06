@@ -14,6 +14,7 @@ hasCategories.post("/", isAuthorized, validate({ body: hasCategoriesSchema }), r
   if (req.id !== post.result.user_id) {
     return res.sendStatus(401);
   }
+  //TODO: add data as json
   /*const json = {
     post_id: req.body.post_id,
     category_id: req.body.category_id,

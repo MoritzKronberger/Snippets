@@ -23,8 +23,7 @@ userLikes.post("/", isAuthorized, validate({ body: userLikeSchema }), refreshTok
     .json(result);
 });
 
-userLikes.get("/:id", isAuthorized, refreshToken, async (req, res) => {
-// userLikes.get("/:id", async (req, res) => {
+userLikes.get("/:id", refreshToken, async (req, res) => {
   const { status, result } = await userLikesDB.getLike(req.params.id);
 
   if (status === 200) {

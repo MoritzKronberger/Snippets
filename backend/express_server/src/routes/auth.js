@@ -15,6 +15,7 @@ const auth = Router(),
     TOKEN_EXPIRES = 3600,
   } = process.env,
   refreshToken = (req, res, next) => {
+    //no new refreshtoken, because otherwise the frontend gets a token without an id and thinks its logged in. changed during lecture on 06.07.2020 on advice of Prof. Kowarschick
    /* if (req.id != null) {
       const token = jwt.sign({ id: req.id }, TOKEN_SECRET, {
         expiresIn: TOKEN_EXPIRES,
@@ -44,9 +45,8 @@ auth.post("/register", isNotAuthorized, validate({ body: accountSchema }), async
     const { result } = await accountsDB.postAccount(req.body),
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
-    //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
     res
-      //.set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
+      .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
       .status(result.status)
       .json(result.id);
     }

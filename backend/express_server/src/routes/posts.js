@@ -9,7 +9,6 @@ import { refreshToken } from "./auth.js";
 
 const posts = Router();
 
-//posts.get("/", isAuthorized, refreshToken, async (req, res) => {
 posts.get("/", refreshToken, async (req, res) => {
   const { status, result } = await postsDB.getPosts(req.query.sorting_id);
   res.status(status).json(result);
@@ -69,8 +68,7 @@ posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, asyn
   }
 );
 
-posts.get("/:id", isAuthorized, refreshToken, async (req, res) => {
-  //posts.get("/:id", async (req, res) => {
+posts.get("/:id", refreshToken, async (req, res) => {
   const { status, result } = await postsDB.getPost(req.params.id);
 
   if (status === 200) {

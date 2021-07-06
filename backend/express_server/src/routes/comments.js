@@ -12,7 +12,6 @@ comments.get("/", refreshToken, async (req, res) => {
     res.status(status).json(result);
 });
 
-//TODO: get post_id via a get request? 
 comments.post("/:post_id", isAuthorized, validate({ body: commentSchema }), refreshToken, async (req, res) => {
     const j = { content: req.body.content, user_id: req.id, post_id: req.params.post_id };
     const { result } = await commentsDB.postComment(j),
@@ -24,8 +23,7 @@ comments.post("/:post_id", isAuthorized, validate({ body: commentSchema }), refr
       .json(result);
 });
 
-comments.get("/:id", isAuthorized, refreshToken, async (req, res) => {
-// comments.get("/:id", async (req, res) => {
+comments.get("/:id", refreshToken, async (req, res) => {
     const { status, result } = await commentsDB.getComment(req.params.id);
 
     if (status === 200) {
