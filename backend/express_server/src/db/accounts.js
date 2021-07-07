@@ -5,7 +5,7 @@ import { query } from "./index.js";
 const getAccountsAll = async () => {
     console.log("getAccountsAll");
     const result = await query(
-      `SELECT id, username FROM get_account`
+      `SELECT "id", "username" FROM get_account`
     );
     return { status: 200, result: result.rows };
   },
@@ -14,16 +14,16 @@ const getAccountsAll = async () => {
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       result = key.match(c_uuid_regex)
         ? await query(
-            `SELECT id, username
+            `SELECT "id", "username"
              FROM   get_account
-             WHERE  id = $1::UUID
+             WHERE  "id" = $1::UUID
             `,
             [key]
           )
         : await query(
-            `SELECT id, username
+            `SELECT "id", "username"
              FROM   get_account
-             WHERE  username = $1::VARCHAR`,
+             WHERE  "username" = $1::VARCHAR`,
             [key]
           );
     return result.rows.length === 0
@@ -35,9 +35,9 @@ const getAccountsAll = async () => {
   },
   getAccount = async (id) => {
     const result = await query(
-      `SELECT id, username
+      `SELECT "id", "username"
        FROM   get_account
-       WHERE  $1::UUID = id
+       WHERE  $1::UUID = "id"
       `,
       [id]
     );
@@ -46,21 +46,21 @@ const getAccountsAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postAccount = async (data) => {
-    const result = await query(`SELECT result FROM post_account($1)`, [
+    const result = await query(`SELECT "result" FROM post_account($1)`, [
       data,
     ]);
     return result.rows[0];
   },
   patchAccount = async (id, data) => {
     const result = await query(
-      `SELECT result FROM patch_account($1, $2)`,
+      `SELECT "result" FROM patch_account($1, $2)`,
       [id, data]
     );
     return result.rows[0];
   },
   deleteAccount = async (id) => {
     const result = await query(
-      `SELECT result FROM delete_account($1)`,
+      `SELECT "result" FROM delete_account($1)`,
       [id]
     );
     return result.rows[0];
