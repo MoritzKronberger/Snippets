@@ -8,9 +8,9 @@ BEGIN;
 DROP VIEW IF EXISTS get_language;
 
 /* View */
-CREATE VIEW get_language (id, name)
+CREATE VIEW get_language ("id", "name")
 AS
-SELECT id, name
+SELECT "id", "name"
 FROM e_language
 ;
 

@@ -16,7 +16,7 @@ $$
     BEGIN
         RETURN QUERY
         SELECT rest_helper
-        ('INSERT INTO comment (content, user_id, post_id)
+        ('INSERT INTO comment ("content", "user_id", "post_id")
           VALUES (json_attr_value_d_untainted($2, ''content'', NULL),
                   ($2->>''user_id'')::UUID,
                   ($2->>''post_id'')::UUID

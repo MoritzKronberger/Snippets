@@ -19,9 +19,9 @@ $$
     BEGIN  
         DELETE 
         FROM has_category hc
-        WHERE hc.post_id = $1
-              AND hc.category_id = $2
-        RETURNING hc.post_id, hc.category_id INTO _pid, _cid;
+        WHERE hc."post_id" = $1
+              AND hc."category_id" = $2
+        RETURNING hc."post_id", hc."category_id" INTO _pid, _cid;
 
         RETURN QUERY
         SELECT CASE WHEN _pid IS NOT NULL THEN 200 ELSE 404 END,

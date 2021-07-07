@@ -19,9 +19,9 @@ $$
         _cname   TEXT;
         _message TEXT;
     BEGIN
-        INSERT INTO has_category (post_id, category_id)
+        INSERT INTO has_category ("post_id", "category_id")
         VALUES ($1,$2)
-        RETURNING post_id, category_id INTO _pid, _cid;
+        RETURNING "post_id", "category_id" INTO _pid, _cid;
 
         RETURN QUERY
         SELECT 201, JSONB_BUILD_OBJECT('post_id', _pid,

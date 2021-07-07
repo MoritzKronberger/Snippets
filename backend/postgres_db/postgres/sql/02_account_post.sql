@@ -17,7 +17,7 @@ $$
     BEGIN
         RETURN QUERY 
         SELECT rest_helper
-               ('INSERT INTO account (username, password)
+               ('INSERT INTO account ("username", "password")
                  VALUES(json_attr_value_d_untainted($2, ''username'', NULL),
                         ($2->>''password'')::VARCHAR
                        )',

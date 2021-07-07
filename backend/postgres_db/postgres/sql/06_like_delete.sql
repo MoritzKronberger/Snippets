@@ -18,8 +18,8 @@ $$
         SELECT rest_helper
         ('DELETE
           FROM user_like
-          WHERE user_id = ($2->>''user_id'')::UUID
-                AND ((post_id = ($2->>''subject_id'')::UUID OR comment_id = ($2->>''subject_id'')::UUID))',
+          WHERE "user_id" = ($2->>''user_id'')::UUID
+                AND (("post_id" = ($2->>''subject_id'')::UUID OR "comment_id" = ($2->>''subject_id'')::UUID))',
          _data => _data, _constraint => 'like_exists'
         );
     END

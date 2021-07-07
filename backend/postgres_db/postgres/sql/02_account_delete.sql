@@ -19,7 +19,7 @@ $$
         SELECT rest_helper
         ('DELETE
           FROM account a
-          WHERE a.id = $1',
+          WHERE a."id" = $1',
          _id => _id, _constraint => 'account_exists'
         );
     END
@@ -30,6 +30,6 @@ COMMIT;
 
 /*
 SELECT * FROM account;
-SELECT * FROM delete_account((SELECT id FROM account WHERE username = 'tinykoala648'));
+SELECT * FROM delete_account((SELECT id FROM account WHERE "username" = 'tinykoala648'));
 SELECT * FROM account;
 */
