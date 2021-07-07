@@ -56,6 +56,8 @@ export default createStore({
       commit('saveSessionInfo', res);
 
       if (res.status === 201) {
+        /*state.auth.user.username = state.auth.new_user.username;
+        state.auth.user.password = state.auth.new_user.password;*/
         await dispatch("login");
       }
       return res.status < 300;
