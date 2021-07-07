@@ -11,6 +11,7 @@
  
  $font-size-base:    2vw;
  $font-size-factor:  1.25;  // cmp. https://type-scale.com/
+ $font-size-factor-inverse:  0.80;
   
  $font-size-h5:      $font-size-factor*$font-size-base;
  $font-size-h4:      $font-size-factor*$font-size-h5;
@@ -20,4 +21,4 @@
  
  $font-size-p:       $font-size-base;
  $font-size-p-large: $font-size-h4;
- $font-size-small:   $font-size-base/$font-size-factor;
+ $font-size-small:   $font-size-base*$font-size-factor-inverse;
