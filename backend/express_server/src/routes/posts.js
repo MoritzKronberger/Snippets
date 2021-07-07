@@ -48,7 +48,6 @@ posts.post(
       .json(post.result);
 
     //look for the category
-    console.log("req.body", req.body.categories);
     let categoryArray = req.body.categories;
     let categoryIdArray = [];
 

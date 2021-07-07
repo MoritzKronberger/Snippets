@@ -14,11 +14,11 @@ hasCategories.post("/", isAuthorized, validate({ body: hasCategoriesSchema }), r
   if (req.id !== post.result.user_id) {
     return res.sendStatus(401);
   }
-  /*const json = {
+  const json = {
     post_id: req.body.post_id,
     category_id: req.body.category_id,
-  };*/
-  const { status, result } = await hasCategoriesDB.postHasCategory(req.body.post_id, req.body.category_id),
+  };
+  const { status, result } = await hasCategoriesDB.postHasCategory(json),
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
   res
@@ -33,10 +33,11 @@ hasCategories.delete("/", isAuthorized, refreshToken, async (req, res) => {
   if (req.id !== post.result.user_id) {
     return res.sendStatus(401);
   }
-  const { status, result } = await hasCategoriesDB.deleteHasCategory(
-    req.body.post_id,
-    req.body.category_id
-  );
+  const json = {
+    post_id: req.body.post_id,
+    category_id: req.body.category_id,
+  };
+  const { status, result } = await hasCategoriesDB.deleteHasCategory(json);
 
   res.status(status).json(result);
 });
