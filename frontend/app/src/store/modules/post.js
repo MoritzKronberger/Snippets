@@ -11,7 +11,6 @@ const post_empty = () => {
       language: null,
       user_id: null,
       username: null,
-      profile_picture: null,
       num_likes: null,
       num_comments: null,
       categories: null,
@@ -31,7 +30,7 @@ const post_empty = () => {
     return {
       id: null,
       creation_time: null,
-      content: null,
+      content:[{input: null}],
       user_id: null,
       username: null,
       post_id: null,
@@ -51,7 +50,7 @@ const post_empty = () => {
     return {
       section: false,
       active_id: null,
-
+      user_query: null,
       //post info
       input_post: input_post_empty(),
       post: post_empty(),
@@ -117,14 +116,16 @@ export default {
     },
 
     async getPosts({ rootState, state, commit }, sorting_id, query) {
-      let s_id = sorting_id || state.sortings[0];
+      let s_id = sorting_id || state.sortings[0].id;
+      state.user_query != null ? query = state.user_query : null
+      console.log(query);
       console.log("sorting:", s_id);
-      const data = { sorting_id: s_id, query_string: query }
-      const res = await getJson(rootState.token, `${paths.posts}`, data);
+      const res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}&?query_string=${query}`);
       if (res.status === 200) {
         Object.assign(state.posts, res.data);
       }
       console.log("posts:", state.posts);
+      state.user_query = null;
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
@@ -183,7 +184,7 @@ export default {
 
     async postComment({ rootState, state, commit }) {
       const data = {
-        content: state.comment.content,
+        content: state.comment.content.input,
       };
       const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);
       /* if (res.status === 200) {

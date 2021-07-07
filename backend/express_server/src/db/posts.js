@@ -31,7 +31,7 @@ const getPostsAll = async () => {
         `, 
         [query_string]
       );
-    }else{
+    } else {
       result = await query(
         `SELECT sort_rank, id, creation_time, title, content, language, user_id, username, profile_picture, num_likes, num_comments, categories
          FROM ${view.rows[0].view_name}

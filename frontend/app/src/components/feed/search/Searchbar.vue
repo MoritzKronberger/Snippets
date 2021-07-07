@@ -1,11 +1,28 @@
 <template>
-    <div>
-      <input type="text" placeholder="search..." />
-    </div>
+  <div>
+    <input type="text" v-model="user_query" placeholder="search..." @keyup="search" />
+  </div>
 </template>
 <script>
+import { mapFields } from "vuex-map-fields";
 export default {
   name: "Searchbar",
+  computed:
+  {
+   ...mapFields("post", ["user_query"]),
+  },
+  methods: {
+    search(p_event) {
+      if (p_event.key === "Enter" && this.user_query != null) {
+        p_event.preventDefault();
+        p_event.stopPropagation();
+        this.$store.dispatch("post/getPosts");
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener("keydown", this.search);
+  },
 };
 </script>
 

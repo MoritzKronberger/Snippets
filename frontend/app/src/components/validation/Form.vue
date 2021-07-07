@@ -34,6 +34,7 @@ export default {
             password: 20,
             password_confirm: 20,
           };
+          // unique check pw confirm
           obj.password != obj.password_confirm
             ? this.errors.push(
                 "Password not confirmed correctly! Please try again"
@@ -44,6 +45,7 @@ export default {
         case "Submit": //Post Form
           const arr_category = [];
           this.valid_length = { title: 80, content: 1000 };
+          // unique categories split and validation
           if (obj.categories !== null) {
             obj.categories.split(" ").forEach((element) => {
               element.length > 20 ? arr_category.push(element) : null;
@@ -63,6 +65,7 @@ export default {
       for (const [key, value] of Object.entries(obj)) {
         if (value === null) {
           this.errors.push(key + " required!");
+          // If input is given, then validate length
         } else if (value.length > this.valid_length[`${key}`]) {
           this.errors.push(
             key +
@@ -72,11 +75,14 @@ export default {
           );
         }
       }
-
+      //Validation invalid? -> Reset input fields
       if (this.errors.length != 0) {
         for (let prop in obj) {
           obj[prop] = null;
         }
+        /* Validation valid?
+        -> Reset input fields
+        -> Trigger given function */
       } else {
         this.$emit("click");
         for (let prop in this.object) {
