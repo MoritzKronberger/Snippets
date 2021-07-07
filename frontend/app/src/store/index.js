@@ -39,15 +39,15 @@ export default createStore({
 
     saveSessionInfo(state, res) {
       const c_token = state.token;
+      console.log("c_token", c_token);
       state.token     = res.token;
-      if (c_token != null && state.token == null) {
+      console.log("res.token", res.token);
+     /* because of a problem sending the tokens between frontend and backend, this is not working as it should.
+     // auto logout if no new token was passed to the client    
+     if (c_token != null && state.token == null) {
          this.commit('reset')
-      } // auto logout if no new token had be passed to the client    
+      } */  
     },
-
-    getToken(state) {
-      console.log("token:", state.token);
-    }
   },
 
   actions: {
@@ -73,32 +73,14 @@ export default createStore({
       if (res.status === 200) {
         const token = res.headers.authorization.substring(7), // remove "Bearer "
           payload = jwt_decode(token);
-          console.log("token here:", token);
           state.token = token;
           state.id = payload.id;
           user.password = null;
 
           await dispatch("auth/getProfile");
-
-          //TODO: delete and reactivate in feed
-          await dispatch("post/getLanguages").then( () => {
-            dispatch("post/getSortings").then( () => {
-              dispatch("post/getPosts").then( () => {
-                dispatch("post/getComments").then( () => {
-                  dispatch("post/getLikes");
-                })
-              });
-            });
-          });
       } else {
         commit('reset');
       }
-
-      console.log("state:", state);
-      let isNotAuthorized = !state.token;
-      let isAuthorized = !!state.token;
-      console.log("isNotAuthorized", isNotAuthorized);
-      console.log("isAuthorized", isAuthorized);
       return res.status;
     },
 
