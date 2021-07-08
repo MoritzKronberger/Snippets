@@ -1,5 +1,4 @@
 import { query } from "./index.js";
-//TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
 const getCategoriesAll = async () => {
     const result = await query(
