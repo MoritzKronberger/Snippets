@@ -16,7 +16,7 @@ $$
     BEGIN
         RETURN QUERY
         SELECT rest_helper
-        ('INSERT INTO user_like (user_id, post_id, comment_id)
+        ('INSERT INTO user_like ("user_id", "post_id", "comment_id")
           VALUES(($2->>''user_id'')::UUID,
                  ($2->>''post_id'')::UUID,
                  ($2->>''comment_id'')::UUID

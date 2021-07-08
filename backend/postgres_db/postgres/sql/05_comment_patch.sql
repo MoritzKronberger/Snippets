@@ -18,8 +18,8 @@ $$
         SELECT rest_helper
         ('UPDATE comment c
           SET
-             content = json_attr_value_not_null_d_untainted($2, ''content'', c.content)
-          WHERE c.id = $1',
+             "content" = json_attr_value_not_null_d_untainted($2, ''content'', c."content")
+          WHERE c."id" = $1',
           _id => _id, _data => _data, _constraint => 'comment_exists'
         );
     END;

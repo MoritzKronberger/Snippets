@@ -6,9 +6,9 @@ const postLogin = async ({ username, password }) => {
   const result = (
     await query(
       `SELECT check_password($1::VARCHAR, $2::VARCHAR) AS authorized, 
-               id
+               "id"
         FROM   account
-        WHERE  username = $1::VARCHAR
+        WHERE  "username" = $1::VARCHAR
        `,
       [username, password]
     )

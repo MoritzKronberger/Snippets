@@ -48,7 +48,7 @@ DROP FUNCTION IF EXISTS trigram_category_update_function();
 DROP INDEX IF EXISTS trigram_category_index;
 
 /* Create fulltext index for e_category name */
-CREATE INDEX trigram_category_index ON e_category USING GIN(trigram_category gin_trgm_ops);
+CREATE INDEX trigram_category_index ON e_category USING GIN("trigram_category" gin_trgm_ops);
 
 /* TODO: trigger on DELETE, UPDATE? */
 /* Create trigger and function to update index on e_category INSERT, UPDATE */
@@ -56,7 +56,7 @@ CREATE FUNCTION trigram_category_update_function() RETURNS TRIGGER
 AS 
 $$
     BEGIN 
-        NEW.trigram_category = NEW.name::TEXT;
+        NEW."trigram_category" = NEW."name"::TEXT;
         RETURN NEW;
     END
 $$

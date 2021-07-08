@@ -110,7 +110,8 @@ CREATE FUNCTION rest_helper(_sql               TEXT,
                             _constraint        TEXT    DEFAULT 'id exists',
                             _postgres_status   TEXT    DEFAULT '02000',
                             _http_status       INTEGER DEFAULT 200,
-                            _http_error_status INTEGER DEFAULT 400
+                            _http_error_status INTEGER DEFAULT 400,
+                            _relationship      BOOLEAN DEFAULT FALSE
                            )
     RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
@@ -121,14 +122,25 @@ $$
         _pgstate_ TEXT;
         _cname_   TEXT;
         _message_ TEXT;
+        _id1_     UUID DEFAULT NULL;
+        _id2_     UUID DEFAULT NULL;
     
     BEGIN
-        EXECUTE _sql || ' RETURNING id' INTO _id_ USING _id, _data;
+        IF NOT _relationship
+        THEN 
+            EXECUTE _sql || ' RETURNING id' INTO _id_ USING _id, _data;
+        ELSE
+            EXECUTE _sql || ' RETURNING *' INTO _id1_, _id2_ USING _id, _data;
+        END IF;
 
-        IF (_id_ IS NOT NULL)
+        IF (CASE WHEN _relationship THEN _id1_ ELSE _id_ END IS NOT NULL)
         THEN 
             RETURN QUERY
-            SELECT json_status(_http_status, _id_);
+            SELECT json_status(_http_status, _id_, 
+                               _data => CASE WHEN _relationship 
+                                        THEN JSONB_BUILD_OBJECT('id1', _id1_, 'id2', _id2_)
+                                        ELSE NULL
+                                        END);
         ELSE 
             RETURN QUERY
             SELECT json_status(_http_error_status, _id_, _postgres_status, _constraint, _message_);

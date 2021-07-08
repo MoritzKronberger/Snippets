@@ -1,10 +1,9 @@
 import { query } from "./index.js";
-//TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
 // TODO: limit für returned rows?
 const getCommentsAll = async () => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, username, num_likes
+      `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
        FROM get_full_comment
       `
     );
@@ -12,9 +11,9 @@ const getCommentsAll = async () => {
   },
   getCommentSearch = async (key) => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, username, num_likes
+      `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
        FROM get_full_comment
-       WHERE id = $1::UUID OR user_id = $1::UUID
+       WHERE "id" = $1::UUID OR "user_id" = $1::UUID
       `, 
       [key]
     );
@@ -27,9 +26,9 @@ const getCommentsAll = async () => {
   },
   getComment = async (id) => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, username, num_likes
+      `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
        FROM get_full_comment
-       WHERE id = $1::UUID
+       WHERE "id" = $1::UUID
       `, 
       [id]
     );
@@ -39,21 +38,21 @@ const getCommentsAll = async () => {
   },
   postComment = async (data) => {
     const result = await query(
-      `SELECT result FROM post_comment($1)`, 
+      `SELECT "result" FROM post_comment($1)`, 
       [data]
     );
     return result.rows[0];
   },
   patchComment = async (id, data) => {
     const result = await query(
-      `SELECT result FROM patch_comment($1, $2)`,
+      `SELECT "result" FROM patch_comment($1, $2)`,
       [id, data]
     );
     return result.rows[0];
   },
   deleteComment = async (id) => {
     const result = await query(
-      `SELECT result FROM delete_comment($1)`, 
+      `SELECT "result" FROM delete_comment($1)`, 
       [id]
     );
     return result.rows[0];

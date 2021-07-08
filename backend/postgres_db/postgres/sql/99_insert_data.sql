@@ -5,7 +5,7 @@
 BEGIN;
 
 /* supported languages for syntax highlighting */
-INSERT INTO e_language (name)
+INSERT INTO e_language ("name")
 VALUES
 ('javascript'),
 ('python'),
@@ -14,7 +14,7 @@ VALUES
 ('plsql');
 
 /* feed sorting */
-INSERT INTO e_sort_by (sort_by, view_name)
+INSERT INTO e_sort_by ("sort_by", "view_name")
 VALUES
 ('most liked', 'get_post_by_likes'),
 ('newest', 'get_post_by_newest'),

@@ -18,10 +18,10 @@ $$
         SELECT rest_helper
         ('UPDATE post p
           SET
-             title       = json_attr_value_not_null_d_untainted($2, ''title'', p.title),
-             content     = json_attr_value_not_null            ($2, ''content'', p.content)::TEXT,
-             language_id = json_attr_value_not_null            ($2, ''language_id'', p.language_id::TEXT)::UUID
-          WHERE p.id = $1',
+             "title"       = json_attr_value_not_null_d_untainted($2, ''title'', p."title"),
+             "content"     = json_attr_value_not_null            ($2, ''content'', p."content")::TEXT,
+             "language_id" = json_attr_value_not_null            ($2, ''language_id'', p."language_id"::TEXT)::UUID
+          WHERE p."id" = $1',
          _id => _id, _data => _data, _constraint => 'post_exists'
         );
     END;

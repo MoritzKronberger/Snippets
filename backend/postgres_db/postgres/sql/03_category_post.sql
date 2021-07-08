@@ -19,7 +19,7 @@ $$
         _id UUID;
     BEGIN
         BEGIN
-            _id = (SELECT id FROM e_category WHERE name = (_data->>'name')::D_CATEGORY);
+            _id = (SELECT "id" FROM e_category WHERE "name" = (_data->>'name')::D_CATEGORY);
             EXCEPTION WHEN OTHERS THEN
                 _id = NULL;
         END;
@@ -36,7 +36,7 @@ $$
             ELSE
                 RETURN QUERY
                 SELECT rest_helper
-                ('INSERT INTO e_category (name)
+                ('INSERT INTO e_category ("name")
                   VALUES (($2->>''name'')::D_CATEGORY)',
                  _data => _data, _http_status => 201
                 );
