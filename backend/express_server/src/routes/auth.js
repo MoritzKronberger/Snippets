@@ -41,9 +41,8 @@ auth.post("/register", isNotAuthorized, validate({ body: accountSchema }), async
     const { result } = await accountsDB.postAccount(req.body),
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
-    //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
     res
-      //.set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
+      .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
       .status(result.status)
       .json(result.id);
     }

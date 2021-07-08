@@ -60,17 +60,22 @@ posts.post(
       if (categoryJson.status === 200) {
         categoryIdArray.push(categoryJson.result[0].id);
       } else {
-        categoryJson = await categoriesDB.postCategory({ name: c });
-        categoryIdArray.push(categoryJson.result.id);
+        let newCategoryJson = { result:"" };
+        newCategoryJson = await categoriesDB.postCategory({ name: c });
+        categoryIdArray.push(newCategoryJson.result.id);
       }
     }
 
     for (const ca of categoryIdArray) {
       //connect post and category
-      let hasCat = { status: "", result: "" };
-      (hasCat = await hasCategoriesDB.postHasCategory(post.result.id, ca)),
-        (proxy = req.headers["x-forwarded-host"]),
-        (host = proxy ? proxy : req.headers.host);
+      let hasCat = { result: "" };
+      const jsonCat = {
+        post_id: post.result.id,
+        category_id: ca
+      }
+      hasCat = await hasCategoriesDB.postHasCategory(jsonCat),
+        proxy = req.headers["x-forwarded-host"],
+        host = proxy ? proxy : req.headers.host;
     }
   }
 );
@@ -119,8 +124,12 @@ posts.patch("/:id", isAuthorized, validate({ body: postSchema }), refreshToken, 
     //foreach is not async
     for (const key of oldPostCategories.result) {
       if (oldCategories.includes(key.name)) {
-        let d = { status:"", result:"" };
-        d = await hasCategoriesDB.deleteHasCategory(req.params.id, key.category_id);
+        let d = { result:"" };
+        const jsonCat = {
+          post_id: req.params.id,
+          category_id: key.category_id
+        }
+        d = await hasCategoriesDB.deleteHasCategory(jsonCat);
       }
     }
     //only add new categories not in old
@@ -145,8 +154,12 @@ posts.patch("/:id", isAuthorized, validate({ body: postSchema }), refreshToken, 
   //post relation between post and new categories
   for (const ca of categoryIdArray) {
     //connect post and category
-    let hasCat = { status: "", result: "" };
-    hasCat = await hasCategoriesDB.postHasCategory(req.params.id, ca);
+    let hasCat = { result: "" };
+    const jsonCat = {
+      post_id: req.params.id,
+      category_id: ca
+    }
+    hasCat = await hasCategoriesDB.postHasCategory(jsonCat);
   }
 });
 
