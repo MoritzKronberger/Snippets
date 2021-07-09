@@ -18,4 +18,4 @@ do
   psql -v ON_ERROR_STOP=1 --username web -f $f $db
 done
 
-echo "------------> 01_sql.sh has finished sucessfully"
+echo "------------> 10_databases.sh has finished successfully"

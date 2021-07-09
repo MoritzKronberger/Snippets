@@ -20,7 +20,7 @@ DROP FUNCTION IF EXISTS json_attr_value_not_null_d_untainted CASCADE;
 /* Extract JSON Attriubutes */
 -- returns attribute value if attribute exists (returns NULL if attribute is NULL)
 -- else returns default if attribute is not set
-CREATE FUNCTION json_attr_value(_data JSONB, _attr TEXT, _default TEXT)
+CREATE OR REPLACE FUNCTION json_attr_value(_data JSONB, _attr TEXT, _default TEXT)
     RETURNS TEXT
     IMMUTABLE PARALLEL SAFE
 LANGUAGE SQL
@@ -33,7 +33,7 @@ $$
 
 -- returns attribute value if attribute is set and is not null
 -- else returns default
-CREATE FUNCTION json_attr_value_not_null(_data JSONB, _attr TEXT, _default TEXT)
+CREATE OR REPLACE FUNCTION json_attr_value_not_null(_data JSONB, _attr TEXT, _default TEXT)
     RETURNS TEXT
     IMMUTABLE PARALLEL SAFE
 LANGUAGE SQL
@@ -46,7 +46,7 @@ $$
 
 -- returns trimmed value of attribute type D_UNTAINTED (returns NULL if attribute is NULL)
 -- else returns default if attribute is not set
-CREATE FUNCTION json_attr_value_d_untainted(_data JSONB, _attr TEXT, _default D_UNTAINTED)
+CREATE OR REPLACE FUNCTION json_attr_value_d_untainted(_data JSONB, _attr TEXT, _default D_UNTAINTED)
     RETURNS D_UNTAINTED
     IMMUTABLE PARALLEL SAFE
 LANGUAGE SQL
@@ -65,7 +65,7 @@ $$
 
 -- returns trimmed value of attribute type D_UNTAINTED if attr is set and is not null
 -- else returns default
-CREATE FUNCTION json_attr_value_not_null_d_untainted(_data JSONB, _attr TEXT, _default D_UNTAINTED)
+CREATE OR REPLACE FUNCTION json_attr_value_not_null_d_untainted(_data JSONB, _attr TEXT, _default D_UNTAINTED)
     RETURNS D_UNTAINTED
     IMMUTABLE PARALLEL SAFE
 LANGUAGE SQL
@@ -83,12 +83,12 @@ $$
 ;
 
 /* JSON STATUS */
-CREATE FUNCTION json_status(_status     INTEGER,
-                            _id         UUID,
-                            _pgstate    TEXT  DEFAULT '00000',
-                            _constraint TEXT  DEFAULT NULL,
-                            _message    TEXT  DEFAULT NULL,
-                            _data       JSONB DEFAULT NULL)
+CREATE OR REPLACE FUNCTION json_status(_status     INTEGER,
+                                       _id         UUID,
+                                       _pgstate    TEXT  DEFAULT '00000',
+                                       _constraint TEXT  DEFAULT NULL,
+                                       _message    TEXT  DEFAULT NULL,
+                                       _data       JSONB DEFAULT NULL)
     RETURNS JSONB
     IMMUTABLE PARALLEL SAFE
 LANGUAGE SQL
@@ -100,8 +100,7 @@ $$
             'pgstate', _pgstate,
             'constraint', _constraint,
             'message', _message,
-            'data', _data
-           );
+            'data', _data);
 $$
 ;
 
@@ -109,17 +108,16 @@ $$
 -- !!
 -- !! RELATIONSHIP FUNCTIONALITY ONLY WORKS FOR TABLES WITH JUST THE TWO IDS AS ATTRIBUTES !!
 -- !!
--- returns id into id,  returns null for data              if _relationship is FALSE
--- returns null for id, returns both pk/ fk ids into _data if _relationship is TRUE
-CREATE FUNCTION rest_helper(_sql               TEXT,
-                            _id                UUID    DEFAULT NULL,
-                            _data              JSONB   DEFAULT NULL,
-                            _constraint        TEXT    DEFAULT 'id exists',
-                            _postgres_status   TEXT    DEFAULT '02000',
-                            _http_status       INTEGER DEFAULT 200,
-                            _http_error_status INTEGER DEFAULT 400,
-                            _relationship      BOOLEAN DEFAULT FALSE
-                           )
+-- returns id into id,  returns null for data             if _relationship is FALSE
+-- returns null for id, returns both pk/fk ids into _data if _relationship is TRUE
+CREATE OR REPLACE FUNCTION rest_helper(_sql               TEXT,
+                                       _id                UUID    DEFAULT NULL,
+                                       _data              JSONB   DEFAULT NULL,
+                                       _constraint        TEXT    DEFAULT 'id exists',
+                                       _postgres_status   TEXT    DEFAULT '02000',
+                                       _http_status       INTEGER DEFAULT 200,
+                                       _http_error_status INTEGER DEFAULT 400,
+                                       _relationship      BOOLEAN DEFAULT FALSE)
     RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
@@ -163,8 +161,7 @@ $$
                                _id, 
                                _pgstate_, 
                                CASE WHEN _cname_ <> '' THEN _cname_ ELSE _message_ END, 
-                               _message_
-                              );
+                               _message_);
     END
 $$
 ;
