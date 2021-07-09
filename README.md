@@ -53,11 +53,21 @@ Password: web
 Database: db_v1
 ```
 
-Or faster:
+Or pre-filled via:
 
 <http://localhost:11000/?pgsql=PostgreSQL&username=web&db=db_v1&ns=public>
 
-## Create dotenv-file
+### Reset Docker Container and Volumes after changes to the SQL commands
+
+```bash
+docker compose down
+docker stop `docker ps -a -q` && docker rm `docker ps -a -q`; docker volume prune 
+docker compose up --build
+```
+
+## Start Express-Server
+
+### Create dotenv-file
 
 ```bash
 node
@@ -69,7 +79,7 @@ echo PORT=3000 >> .env
 echo TOKEN_SECRET=... >> .env
 ```
 
-## Start Express-Server
+### Start Server
 
 On: <http://localhost:3000>
 
