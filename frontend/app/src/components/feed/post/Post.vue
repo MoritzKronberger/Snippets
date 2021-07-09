@@ -8,16 +8,19 @@
       <div :class="setOverFlow">
         <Comments :comments="post" />
       </div>
-       <div>
-      <textarea class="input" v-model="comment.content.input"/>
+      <div v-if="isAuthorized">
+        <textarea class="input" v-model="comment.content.input" />
         <Validation
           :object="comment.content"
           button_name="comment"
           btn_class="small"
           @click="addComment"
+          type="Comment"
         />
-        <Button label="Like" btn_class="small" @click="addLike" />
       </div>
+    </div>
+    <div v-if="isAuthorized">
+      <Button label="Like" btn_class="small" @click="addLike" />
     </div>
   </div>
 </template>
@@ -44,7 +47,6 @@ export default {
     Edit,
   },
   computed: {
-
     vis_Comment() {
       return this.post.id !== this.active_id ? "hidden" : "";
     },

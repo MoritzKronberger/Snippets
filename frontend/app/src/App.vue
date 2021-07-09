@@ -86,11 +86,15 @@ body {
       background-color: orange;
       float: right;
     }
-      &.delete {
+    &.delete {
       background-color: red;
       float: right;
     }
   }
+}
+
+.button:hover {
+  background-color: #6c99ac;
 }
 
 .input {

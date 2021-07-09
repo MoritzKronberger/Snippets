@@ -14,8 +14,9 @@
         <Input :post="input_post" />
         <Validation
           :object="input_post"
-          button_name="Submit"
+          button_name="Create new Post"
           @click="submitPost"
+          type="Post"
         />
       </form>
     </div>
@@ -39,13 +40,16 @@ export default {
   },
   methods: {
     setActive() {
+      for (let prop in this.input_post) {
+        this.input_post[prop] = null;
+      }
       this.$store.commit("form/setActive");
     },
     submitPost() {
       this.$store.dispatch("post/postPost").then(() => {
         this.$store.dispatch("post/getPosts");
       });
-      this.setActive();
+      this.$store.commit("form/setActive");
     },
   },
 };
