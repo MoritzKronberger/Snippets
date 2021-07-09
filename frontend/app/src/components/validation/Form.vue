@@ -45,7 +45,7 @@ export default {
           };
           // unique check min length for registration
           if (obj.password != null) {
-            obj.password.length < 5
+            obj.password.length <= 5
               ? this.errors.push("Password Minimum is 5 Characters")
               : null;
           }

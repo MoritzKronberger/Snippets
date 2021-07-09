@@ -16,7 +16,7 @@ import "prismjs/components/prism-sql";
 import "prismjs/plugins/normalize-whitespace/prism-normalize-whitespace";
 
 Prism.plugins.NormalizeWhitespace.setDefaults({
-  "break-lines": 50,
+  "break-lines": 0,
 });
 
 export default {

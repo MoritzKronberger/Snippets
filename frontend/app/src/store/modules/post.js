@@ -186,10 +186,7 @@ export default {
       const data = {
         content: state.comment.content.input,
       };
-      const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);
-      /* if (res.status === 200) {
-        Object.assign(state.comment, res.data);
-      } */
+      const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);     
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
@@ -232,6 +229,7 @@ export default {
           }
         }
       }
+      console.log(state.posts);
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
