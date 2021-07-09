@@ -10,6 +10,7 @@ const getPostsAll = async () => {
   },
   // TODO: weniger hacky implementieren?
   getPostSorted = async (key, query_string) => {
+    console.log("in methode", key, query_string);
     const view = await query(
       `SELECT "view_name"
        FROM get_sort_by_view_name
@@ -22,10 +23,11 @@ const getPostsAll = async () => {
     }
     let result = null;
     if(query_string){
+      console.log("get quer", query_string);
       result = await query(
-        `SELECT DISTINCT "sort_rank", "p.id", "creation_time", "title", "content", "language", "user_id", "username", "num_likes", "num_comments", "categories"
+        `SELECT DISTINCT "sort_rank", p."id", "creation_time", "title", "content", "language", "user_id", "username", "num_likes", "num_comments", "categories"
          FROM ${view.rows[0].view_name} p
-              JOIN has_category hc ON "p.id" = hc."post_id"
+              JOIN has_category hc ON p."id" = hc."post_id"
               JOIN e_category ct   ON hc."category_id" = ct."id"
          WHERE "trigram_category" ILIKE '%' || $1::VARCHAR || '%' OR $1::VARCHAR <<% "trigram_category"
         `, 
@@ -44,6 +46,7 @@ const getPostsAll = async () => {
       : { status: 200, result: result.rows };
   },
   getPosts = async (key, query_string) => {
+    console.log(key, query_string);
     return key ? getPostSorted(key, query_string) : getPostsAll();
   },
   getPost = async (id) => {

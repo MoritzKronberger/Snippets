@@ -115,14 +115,17 @@ export default {
       return res.status < 300;
     },
 
-    async getPosts({ rootState, state, commit }, sorting_id, query) {
+    async getPosts({ rootState, state, commit }, sorting_id) {
       let s_id = sorting_id || state.sortings[0].id;
-      state.user_query != null ? query = state.user_query : null
-      console.log(query);
-      console.log("sorting:", s_id);
-      const res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}&?query_string=${query}`);
+      let res;
+      if (state.user_query == undefined) {
+        res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}`);
+      } else {
+        res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}&query_string=${state.user_query}`);
+      }
       if (res.status === 200) {
-        Object.assign(state.posts, res.data);
+        state.posts = res.data;
+        //not working: Object.assign(state.posts, res.data);
       }
       console.log("posts:", state.posts);
       state.user_query = null;

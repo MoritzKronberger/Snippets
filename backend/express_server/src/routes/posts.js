@@ -9,9 +9,16 @@ import { refreshToken } from "./auth.js";
 
 const posts = Router();
 
+//query looks like this http://localhost:3000/v1/posts/?sorting_id=e8a86be5-aff1-426b-843f-2cb0a6a5699d&query_string=web
 posts.get("/", refreshToken, async (req, res) => {
-  const { status, result } = await postsDB.getPosts(req.query.sorting_id);
-  res.status(status).json(result);
+  let response = { status: "", result: "" };
+  console.log("query_string", req.query.query_string);
+  if (req.query.query_string == undefined) {
+    response = await postsDB.getPosts(req.query.sorting_id);
+  } else {
+    response = await postsDB.getPosts(req.query.sorting_id, req.query.query_string);
+  }
+  res.status(response.status).json(response.result);
 });
 
 posts.get("/categories/", isAuthorized, refreshToken, async (req, res) => {
