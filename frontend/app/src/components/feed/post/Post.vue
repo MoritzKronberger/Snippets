@@ -18,8 +18,6 @@
           type="Comment"
         />
       </div>
-    </div>
-    <div v-if="isAuthorized">
       <Button label="Like" btn_class="small" @click="addLike" />
     </div>
   </div>
