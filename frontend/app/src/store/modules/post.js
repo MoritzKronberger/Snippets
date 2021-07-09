@@ -245,9 +245,11 @@ export default {
         for (let p of state.posts) {
           if (p.id == state.active_id) {
             p.likedByCurrentUser = true;
+            p.num_likes++;
           }
         }
       }
+      console.log("posts:", state.posts);
       commit('saveSessionInfo', res, { root: true });
       return res.status < 300;
     },
@@ -262,6 +264,7 @@ export default {
             if (res.status < 300) {
               commit('saveSessionInfo', res, { root: true });
               p.likedByCurrentUser = false;
+              p.num_likes--;
             }
           }
         }
@@ -277,6 +280,7 @@ export default {
         for (let c of state.comments) {
           if (c.id == state.active_id) {
             c.likedByCurrentUser = true;
+            c.num_likes++;
           }
         }
       }
@@ -294,6 +298,7 @@ export default {
             if (res.status < 300) {
               commit('saveSessionInfo', res, { root: true });
               c.likedByCurrentUser = false;
+              c.num_likes--;
             }
           }
         }

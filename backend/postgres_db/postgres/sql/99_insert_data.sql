@@ -11,7 +11,7 @@ VALUES
 ('python'),
 ('html'),
 ('c#'),
-('plsql');
+('sql');
 
 /* feed sorting */
 INSERT INTO e_sort_by ("sort_by", "view_name")
