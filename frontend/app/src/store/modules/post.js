@@ -286,13 +286,13 @@ export default {
       return res.status < 300;
     },
 
-    async postCommentLike({ rootState, state, commit }) {
-      const data = { comment_id: state.active_id };
+    async postCommentLike({ rootState, state, commit }, id) {
+      const data = { comment_id: id};
       const res = await postJson(rootState.token, `${paths.likes}`, data);
       if (res.status === 200 || res.status === 201) {
         Object.assign(state.like, res.data);
         for (let c of state.comments) {
-          if (c.id == state.active_id) {
+          if (c.id == id) {
             c.likedByCurrentUser = true;
             c.num_likes++;
           }
@@ -302,12 +302,12 @@ export default {
       return res.status < 300;
     },
 
-    async deleteCommentLike({ rootState, state, commit }) {
+    async deleteCommentLike({ rootState, state, commit }, id) {
       let res;
       for (let c of state.comments) {
-        if (c.id == state.active_id) {
+        if (c.id == id) {
           if (c.likedByCurrentUser) {
-            const data = { user_id: rootState.id, comment_id: state.active_id }
+            const data = { user_id: rootState.id, comment_id: id}
             console.log("DATAAAAAA", data);
             res = await deleteJson(rootState.token, `${paths.likes}`, data);
             if (res.status < 300) {

@@ -37,12 +37,10 @@ export default {
   },
   methods: {
     addLike() {
-      this.active_id = this.comment.id;
-      this.$store.dispatch("post/postCommentLike");
+      this.$store.dispatch("post/postCommentLike", this.comment.id);
     },
     deleteLike() {
-      this.active_id = this.comment.id;
-      this.$store.dispatch("post/deleteCommentLike");
+      this.$store.dispatch("post/deleteCommentLike", this.comment.id);
     },
 
   },
