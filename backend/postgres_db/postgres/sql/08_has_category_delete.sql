@@ -24,7 +24,8 @@ $$
           FROM  has_category hc
           WHERE hc."post_id" = ($2->>''post_id'')::UUID
                 AND hc."category_id" = ($2->>''category_id'')::UUID',
-         _data => _data, _constraint => 'has_category exists', _relationship => TRUE
+         _data => _data, _constraint => 'has_category exists', 
+         _relationship => TRUE, _id1 => 'post_id', _id2 => 'category_id'
         );
     END;
 $$

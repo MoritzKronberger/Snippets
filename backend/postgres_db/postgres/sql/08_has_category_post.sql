@@ -22,7 +22,8 @@ $$
         ('INSERT INTO has_category ("post_id", "category_id")
           VALUES (($2->>''post_id'')::UUID,
                   ($2->>''category_id'')::UUID)',
-         _data => _data, _http_status => 201, _relationship => TRUE      
+         _data => _data, _http_status => 201, 
+         _relationship => TRUE, _id1 => 'post_id', _id2 => 'category_id'      
         );
     END;
 $$

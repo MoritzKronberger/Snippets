@@ -105,11 +105,8 @@ $$
 ;
 
 /* REST HELPER */
--- !!
--- !! RELATIONSHIP FUNCTIONALITY ONLY WORKS FOR TABLES WITH JUST THE TWO IDS AS ATTRIBUTES !!
--- !!
--- returns id into id,  returns null for data             if _relationship is FALSE
--- returns null for id, returns both pk/fk ids into _data if _relationship is TRUE
+-- returns id into id,  returns null for data                       if _relationship is FALSE
+-- returns null for id, returns values for _id1 and _id2 into _data if _relationship is TRUE
 CREATE OR REPLACE FUNCTION rest_helper(_sql               TEXT,
                                        _id                UUID    DEFAULT NULL,
                                        _data              JSONB   DEFAULT NULL,
@@ -117,7 +114,9 @@ CREATE OR REPLACE FUNCTION rest_helper(_sql               TEXT,
                                        _postgres_status   TEXT    DEFAULT '02000',
                                        _http_status       INTEGER DEFAULT 200,
                                        _http_error_status INTEGER DEFAULT 400,
-                                       _relationship      BOOLEAN DEFAULT FALSE)
+                                       _relationship      BOOLEAN DEFAULT FALSE,
+                                       _id1               TEXT    DEFAULT NULL,
+                                       _id2               TEXT    DEFAULT NULL)
     RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
@@ -135,7 +134,10 @@ $$
         THEN 
             EXECUTE _sql || ' RETURNING id' INTO _id_ USING _id, _data;
         ELSE
-            EXECUTE _sql || ' RETURNING *' INTO _id1_, _id2_ USING _id, _data;
+            EXECUTE _sql || ' RETURNING ' 
+                         || quote_ident(_id1) 
+                         || ', ' 
+                         || quote_ident(_id2) INTO _id1_, _id2_ USING _id, _data;
         END IF;
 
         IF (CASE WHEN _relationship THEN _id1_ ELSE _id_ END IS NOT NULL)
