@@ -1,5 +1,6 @@
 /*************************************************************************************
  * comment: DELETE function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
@@ -17,7 +18,7 @@ $$
         RETURN QUERY
         SELECT rest_helper
         ('DELETE
-          FROM comment c
+          FROM  comment c
           WHERE c."id" = $1',
          _id => _id, _constraint => 'comment_exists'
         );

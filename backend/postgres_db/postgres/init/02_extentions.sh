@@ -7,4 +7,4 @@ CREATE EXTENSION pgcrypto;
 CREATE EXTENSION pg_trgm;
 EOSQL
 
-echo "------------> 02_extensions.sh has finished sucessfully"
+echo "------------> 02_extensions.sh has finished successfully"

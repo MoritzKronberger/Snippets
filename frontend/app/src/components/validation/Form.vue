@@ -39,14 +39,14 @@ export default {
       switch (this.type) {
         case "Register":
           this.valid_length = {
-            username: 30,
+            username: 31,
             password: 20,
             password_confirm: 20,
           };
           // unique check min length for registration
           if (obj.password != null) {
-            obj.password.length <= 5
-              ? this.errors.push("Password Minimum is 5 Characters")
+            obj.password.length < 6
+              ? this.errors.push("Password Minimum is 6 Characters")
               : null;
           }
           // unique check pw confirm
@@ -59,8 +59,8 @@ export default {
 
         case "Post": //Post Form
           const error_categories = [];
-          const cat_length = 20;
-          this.valid_length = { title: 80, content: 1000 };
+          const cat_length = 21;
+          this.valid_length = { title: 81, content: 1201 };
           // unique categories split and validation
           if (obj.categories !== null) {
             const split_categories = obj.categories.split(" ");
@@ -81,7 +81,7 @@ export default {
           break;
 
         case "Comment":
-          this.len = { comment: 100 };
+          this.len = { comment: 181 };
           break;
       }
 

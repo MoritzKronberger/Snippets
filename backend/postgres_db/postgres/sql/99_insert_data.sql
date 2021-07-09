@@ -16,9 +16,9 @@ VALUES
 /* feed sorting */
 INSERT INTO e_sort_by ("sort_by", "view_name")
 VALUES
-('most liked', 'get_post_by_likes'),
-('newest', 'get_post_by_newest'),
-('best of today', 'get_post_by_likes_today'),
+('most liked',        'get_post_by_likes'),
+('newest',            'get_post_by_newest'),
+('best of today',     'get_post_by_likes_today'),
 ('best of this week', 'get_post_by_likes_week');
 
 COMMIT;

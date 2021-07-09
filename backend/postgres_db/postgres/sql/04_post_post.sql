@@ -1,5 +1,6 @@
 /*************************************************************************************
  * post: POST function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
@@ -17,11 +18,11 @@ $$
         RETURN QUERY
         SELECT rest_helper
         ('INSERT INTO post ("title", "content", "language_id", "user_id")
-          VALUES(json_attr_value_d_untainted($2, ''title'', NULL),
-                 ($2->>''content'')::TEXT,
-                 ($2->>''language_id'')::UUID,
-                 ($2->>''user_id'')::UUID
-                )',
+          VALUES (json_attr_value_d_untainted($2, ''title'', NULL),
+                  ($2->>''content'')::TEXT,
+                  ($2->>''language_id'')::UUID,
+                  ($2->>''user_id'')::UUID
+                 )',
          _data => _data, _http_status => 201
         );
     END;
