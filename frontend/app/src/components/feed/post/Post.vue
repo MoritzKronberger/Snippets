@@ -17,8 +17,13 @@
           @click="addComment"
           type="Comment"
         />
+        <div v-if="post.likedByCurrentUser == true">
+          <Button label="Dislike" btn_class="small" @click="addLike" />
+        </div>
+        <div v-else>
+          <Button label="Like" btn_class="small" @click="addLike" />
+        </div>
       </div>
-      <Button label="Like" btn_class="small" @click="addLike" />
     </div>
   </div>
 </template>
@@ -60,6 +65,9 @@ export default {
     },
     addLike() {
       this.$store.dispatch("post/postPostLike");
+    },
+    deleteLike() {
+      this.$store.dispatch("post/deletePostLike");
     },
   },
 };

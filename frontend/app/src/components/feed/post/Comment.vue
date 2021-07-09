@@ -5,12 +5,20 @@
       <p>User: {{ comment.username }}</p>
       <p>Date: {{ format_date }}</p>
       <p>Likes: {{ comment.num_likes }}</p>
-      <Button label="Like" btn_class="small" @click="addLike" />
+      <div v-if="isAuthorized">
+        <div v-if="comment.likedByCurrentUser == true">
+          <Button label="Dislike" btn_class="small" @click="addLike" />
+        </div>
+        <div v-else>
+          <Button label="Like" btn_class="small" @click="addLike" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Button from "../../Button.vue";
+import { mapGetters } from "vuex";
 import { mapFields } from "vuex-map-fields";
 export default {
   name: "Comment",
@@ -23,14 +31,20 @@ export default {
       ).toLocaleDateString("en"),
     };
   },
-   computed: {
+  computed: {
     ...mapFields("post", ["active_id"]),
+    ...mapGetters(["isAuthorized"]),
   },
   methods: {
     addLike() {
-      this.active_id = this.comment.id
+      this.active_id = this.comment.id;
       this.$store.dispatch("post/postCommentLike");
     },
+    deleteLike() {
+      this.active_id = this.comment.id;
+      this.$store.dispatch("post/postCommentLike");
+    },
+
   },
 };
 </script>
