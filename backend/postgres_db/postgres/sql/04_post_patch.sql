@@ -1,5 +1,6 @@
 /*************************************************************************************
  * post: PATCH function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
@@ -41,7 +42,6 @@ FROM patch_post
      );
 SELECT * FROM post;
 
-SELECT * FROM post;
 SELECT * 
 FROM patch_post
      ((SELECT id FROM post WHERE title='Not my first post anymore'),

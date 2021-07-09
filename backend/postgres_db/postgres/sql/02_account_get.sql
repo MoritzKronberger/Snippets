@@ -11,7 +11,7 @@ DROP VIEW IF EXISTS get_account;
 CREATE VIEW get_account ("id", "username")
 AS
 SELECT "id", "username"
-FROM account
+FROM   account
 ;
 
 COMMIT;

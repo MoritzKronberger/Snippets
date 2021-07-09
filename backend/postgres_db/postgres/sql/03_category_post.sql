@@ -1,5 +1,8 @@
 /*************************************************************************************
  * category: POST function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
+
+ * modified to not error out when posting duplicates
  *************************************************************************************/
 
 BEGIN;

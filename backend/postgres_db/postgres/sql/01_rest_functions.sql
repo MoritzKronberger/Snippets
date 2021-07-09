@@ -1,6 +1,8 @@
 /*************************************************************************************
  * db_v1: Functions For REST
-   from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
+ * from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
+
+ * rest_helper is modified to work with relationship tables
  *************************************************************************************/
 
 BEGIN;
@@ -16,8 +18,8 @@ DROP FUNCTION IF EXISTS json_attr_value_not_null_d_untainted CASCADE;
 /* Functions */
 
 /* Extract JSON Attriubutes */
--- returns attribute value if attribute exists (even if NULL)
--- else returns default
+-- returns attribute value if attribute exists (returns NULL if attribute is NULL)
+-- else returns default if attribute is not set
 CREATE FUNCTION json_attr_value(_data JSONB, _attr TEXT, _default TEXT)
     RETURNS TEXT
     IMMUTABLE PARALLEL SAFE
@@ -29,7 +31,7 @@ $$
 $$
 ;
 
--- returns attribute value if attribute exists and is not null
+-- returns attribute value if attribute is set and is not null
 -- else returns default
 CREATE FUNCTION json_attr_value_not_null(_data JSONB, _attr TEXT, _default TEXT)
     RETURNS TEXT
@@ -42,8 +44,8 @@ $$
 $$
 ;
 
--- returns trimmed value of attribute type D_UNTAINTED (even if NULL)
--- else returns default
+-- returns trimmed value of attribute type D_UNTAINTED (returns NULL if attribute is NULL)
+-- else returns default if attribute is not set
 CREATE FUNCTION json_attr_value_d_untainted(_data JSONB, _attr TEXT, _default D_UNTAINTED)
     RETURNS D_UNTAINTED
     IMMUTABLE PARALLEL SAFE
@@ -61,7 +63,7 @@ $$
 $$
 ;
 
--- returns trimmed value of attribute type D_UNTAINTED if attr exists and is not null
+-- returns trimmed value of attribute type D_UNTAINTED if attr is set and is not null
 -- else returns default
 CREATE FUNCTION json_attr_value_not_null_d_untainted(_data JSONB, _attr TEXT, _default D_UNTAINTED)
     RETURNS D_UNTAINTED
@@ -104,6 +106,11 @@ $$
 ;
 
 /* REST HELPER */
+-- !!
+-- !! RELATIONSHIP FUNCTIONALITY ONLY WORKS FOR TABLES WITH JUST THE TWO IDS AS ATTRIBUTES !!
+-- !!
+-- returns id into id,  returns null for data              if _relationship is FALSE
+-- returns null for id, returns both pk/ fk ids into _data if _relationship is TRUE
 CREATE FUNCTION rest_helper(_sql               TEXT,
                             _id                UUID    DEFAULT NULL,
                             _data              JSONB   DEFAULT NULL,

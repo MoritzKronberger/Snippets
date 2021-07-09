@@ -18,9 +18,9 @@ $$
         RETURN QUERY 
         SELECT rest_helper
                ('INSERT INTO account ("username", "password")
-                 VALUES(json_attr_value_d_untainted($2, ''username'', NULL),
-                        ($2->>''password'')::VARCHAR
-                       )',
+                 VALUES (json_attr_value_d_untainted($2, ''username'', NULL),
+                         ($2->>''password'')::VARCHAR
+                        )',
                  _data => _data, _http_status => 201
                );
     END;
@@ -35,8 +35,7 @@ SELECT *
 FROM   post_account
        ( '{ "username": "bigfish593",
             "password": "whiplash"
-          }
-         '
+          }'
         );
 SELECT * FROM account;
 */

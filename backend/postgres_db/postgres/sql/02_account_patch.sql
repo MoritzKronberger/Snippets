@@ -34,30 +34,24 @@ COMMIT;
 SELECT * FROM account;
 SELECT * 
 FROM   patch_account
-       ( (SELECT id FROM account WHERE "username" = 'tinykoala648'), 
+       ( (SELECT "id" FROM account WHERE "username" = 'tinykoala648'), 
          '{ "username": "hugekoala648",
             "password": "changeit"
-          }
-         '
+          }'
         );
 SELECT * FROM account;
 
-SELECT * FROM account;
 SELECT * 
 FROM   patch_account
-       ( (SELECT id FROM account WHERE "username" = 'tinykoala648'), 
-         '{ "password": "changeit"
-          }
-         '
+       ( (SELECT "id" FROM account WHERE "username" = 'hugekoala648'), 
+         '{ "password": "changeit2"}'
         );
 SELECT * FROM account;
 
-SELECT * FROM account;
 SELECT * 
 FROM   patch_account
-       ( (SELECT id FROM account WHERE "username" = 'tinykoala648'), 
-         '{}
-         '
+       ( (SELECT "id" FROM account WHERE "username" = 'hugekoala648'), 
+         '{}'
         );
 SELECT * FROM account;
 */
