@@ -1,0 +1,18 @@
+{ "name": "postgres_db",
+  "version": "1.0.0",
+  "author": "Moritz Kronberger",
+  "license": "MIT",
+  "description": "Postgres: Database for Web-Prog Group Project",
+  "scripts": {
+    "serve": "docker compose up"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://gitlab.multimedia.hs-augsburg.de/mokro/gruppenprojekt-webprogrammierung"
+  },
+  "keywords": ["Postgres",
+               "JSON",
+               "REST"
+              ]
+}
+  
