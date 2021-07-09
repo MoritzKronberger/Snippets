@@ -25,21 +25,25 @@ VALUES
 ('es6');
 
 /* posts */
-INSERT INTO post ("title", "content", "language_id", "user_id")
+INSERT INTO post ("title", "content", "creation_time", "language_id", "user_id")
 VALUES 
 ('Hello World in Javascript', 'console.log("Hello World");',
+ current_timestamp - INTERVAL '18 hours',
  (SELECT "id" FROM e_language WHERE "name"='javascript'), 
  (SELECT "id" FROM account    WHERE "username"='tinykoala648')
 ),
 ('Hello World in Python', 'print("Hello World")',
+ current_timestamp - INTERVAL '1 hour',
  (SELECT "id" FROM e_language WHERE "name"='python'),
  (SELECT "id" FROM account    WHERE "username"='tinykoala648')
 ),
 ('Hello World in Postgres', 'SELECT * FROM hello_world";',
+ current_timestamp - INTERVAL '6 days 5 hours',
  (SELECT "id" FROM e_language WHERE "name"='plsql'),
  (SELECT "id" FROM account    WHERE "username"='heavyduck567')
 ),
 ('Fizz Buzz', 'for(let i=0;i<100;)console.log((++i%3?"":"fizz")+(i%5?'':"buzz")||i)', 
+ current_timestamp - INTERVAL '10 days 1 hour',
  (SELECT "id" FROM e_language WHERE "name"='javascript'), 
  (SELECT "id" FROM account    WHERE "username"='smallladybug804')
 );
