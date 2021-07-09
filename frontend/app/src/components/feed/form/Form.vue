@@ -40,13 +40,16 @@ export default {
   },
   methods: {
     setActive() {
+      for (let prop in this.input_post) {
+        this.input_post[prop] = null;
+      }
       this.$store.commit("form/setActive");
     },
     submitPost() {
       this.$store.dispatch("post/postPost").then(() => {
         this.$store.dispatch("post/getPosts");
       });
-      this.setActive();
+      this.$store.commit("form/setActive");
     },
   },
 };

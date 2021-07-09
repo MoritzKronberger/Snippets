@@ -44,10 +44,11 @@ export default {
             password_confirm: 20,
           };
           // unique check min length for registration
-          obj.password.length < 5
-            ? this.errors.push("Password Minimum is 5 Characters")
-            : null;
-
+          if (obj.password != null) {
+            obj.password.length < 5
+              ? this.errors.push("Password Minimum is 5 Characters")
+              : null;
+          }
           // unique check pw confirm
           obj.password != obj.password_confirm
             ? this.errors.push(
@@ -64,7 +65,9 @@ export default {
           if (obj.categories !== null) {
             const split_categories = obj.categories.split(" ");
             split_categories.forEach((element) => {
-              element.length > cat_length ? error_categories.push(element) : null;
+              element.length > cat_length
+                ? error_categories.push(element)
+                : null;
             });
             if (error_categories.length > 0) {
               this.errors.push(
