@@ -42,7 +42,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'js'
+  WHERE  "name" = 'js'
  )
 ),
 ((SELECT "id"
@@ -52,7 +52,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'helloWorld'
+  WHERE  "name" = 'helloWorld'
  )
 ),
 ((SELECT "id"
@@ -62,17 +62,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'webProg'
- )
-),
-((SELECT "id"
-  FROM   post
-  WHERE  "title" = 'Hello World in Javascript'
-  FETCH FIRST ROW ONLY
- ),
- (SELECT "id"
-  FROM   e_category
-  WHERE  name = 'web'
+  WHERE  "name" = 'web'
  )
 ),
 ((SELECT "id"
@@ -82,7 +72,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'python'
+  WHERE  "name" = 'python'
  )
 ),
 ((SELECT "id"
@@ -92,7 +82,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'helloWorld'
+  WHERE  "name" = 'helloWorld'
  )
 ),
 ((SELECT "id"
@@ -102,7 +92,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'helloWorld'
+  WHERE  "name" = 'helloWorld'
  )
 ),
 ((SELECT "id"
@@ -112,7 +102,17 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'postgres'
+  WHERE  "name" = 'postgres'
+ )
+),
+((SELECT "id"
+  FROM   post
+  WHERE  "title" = 'Hello World in Postgres'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT "id"
+  FROM   e_category
+  WHERE  "name" = 'webProg'
  )
 ),
 ((SELECT "id"
@@ -122,7 +122,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'es6'
+  WHERE  "name" = 'es6'
  )
 ),
 ((SELECT "id"
@@ -132,7 +132,7 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
-  WHERE  name = 'code'
+  WHERE  "name" = 'code'
  )
 );
 
