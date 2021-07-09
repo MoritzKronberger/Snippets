@@ -8,7 +8,7 @@
       <div :class="setOverFlow">
         <Comments :comments="post" />
       </div>
-       <div>
+       <div v-if="isAuthorized">
       <textarea class="input" v-model="comment.content.input"/>
         <Validation
           :object="comment.content"
@@ -16,8 +16,10 @@
           btn_class="small"
           @click="addComment"
         />
-        <Button label="Like" btn_class="small" @click="addLike" />
-      </div>
+      </div>    
+    </div>
+    <div v-if="isAuthorized">
+    <Button label="Like" btn_class="small" @click="addLike" />
     </div>
   </div>
 </template>
