@@ -192,16 +192,20 @@ export default {
       const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);     
       commit('saveSessionInfo', res, { root: true });
      
-     /* if (res.status < 300) {
+      if (res.status < 300) {
         for (let post of state.posts) {
           if (post.id == state.active_id) {
             console.log("found");
             data.user_id = rootState.id;
-            data.username = state.auth.user.username;
-            data.post_id = 
+            data.username = rootState.auth.user.username;
+            data.post_id = state.active_id;
+            data.likedByCurrentUser = false;
+            let t = new Date(Date.now()).toISOString();
+            data.creation_time = t;
+            post.comments.push(data);
           }
         }
-      } */
+      }
 
       return res.status < 300;
     },
