@@ -52,13 +52,18 @@ export default createStore({
 
   actions: {
     async register({ state, commit, dispatch }) {
+      //after the postJson state.auth.new_user is emtpy
+      state.auth.user.username = state.auth.new_user.username;
+      state.auth.user.password = state.auth.new_user.password;
       const res = await postJson(null, paths.register, state.auth.new_user);
       commit('saveSessionInfo', res);
 
       if (res.status === 201) {
-        /*state.auth.user.username = state.auth.new_user.username;
-        state.auth.user.password = state.auth.new_user.password;*/
         await dispatch("login");
+      } else {
+        //dont save false data
+        state.auth.user.username = null;
+        state.auth.user.password = null;
       }
       return res.status < 300;
     },
@@ -69,6 +74,7 @@ export default createStore({
         username: user.username ? user.username.trim() : null,
         password: user.password ? user.password.trim() : "",
       };
+      console.log("data", data);
       const res = await postJson(state.token, paths.login, data);
       console.log("res", res);
 
@@ -77,7 +83,7 @@ export default createStore({
           payload = jwt_decode(token);
           state.token = token;
           state.id = payload.id;
-          user.password = null;
+          user.password = null; //delete password!
 
           await dispatch("auth/getProfile");
       } else {
