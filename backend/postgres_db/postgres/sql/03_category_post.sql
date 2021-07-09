@@ -1,5 +1,8 @@
 /*************************************************************************************
  * category: POST function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
+
+ * modified to not error out when posting duplicates
  *************************************************************************************/
 
 BEGIN;
@@ -50,6 +53,6 @@ COMMIT;
 
 /*
 SELECT * FROM e_category;
-SELECT * FROM post_category('{"name": "sql"}');
+SELECT * FROM post_category('{"name": "query"}');
 SELECT * FROM e_category;
 */

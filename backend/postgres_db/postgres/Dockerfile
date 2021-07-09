@@ -4,11 +4,11 @@ FROM postgres:latest AS builder
 
 ARG WEB_DB
 
-ENV POSTGRES_USER       postgres
-ENV POSTGRES_PASSWORD   postgres
-ENV POSTGRES_DB         postgres
-ENV WEB_DB              $WEB_DB
-ENV PGDATA              /var/lib/postgresql/custom
+ENV POSTGRES_USER     postgres
+ENV POSTGRES_PASSWORD postgres
+ENV POSTGRES_DB       postgres
+ENV WEB_DB            $WEB_DB
+ENV PGDATA            /var/lib/postgresql/custom
 
 USER postgres
 
@@ -32,10 +32,10 @@ CMD [ "-c", "max_locks_per_transaction=512" ]
 
 FROM postgres:latest
 
-ENV POSTGRES_USER       postgres
-ENV POSTGRES_PASSWORD   postgres
-ENV POSTGRES_DB         postgres
-ENV PGDATA              /var/lib/postgresql/data
+ENV POSTGRES_USER     postgres
+ENV POSTGRES_PASSWORD postgres
+ENV POSTGRES_DB       postgres
+ENV PGDATA            /var/lib/postgresql/data
 
 VOLUME /var/lib/postgresql/data
 

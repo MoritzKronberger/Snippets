@@ -1,5 +1,6 @@
 /*************************************************************************************
  * comment: POST function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
@@ -38,6 +39,7 @@ FROM post_comment
      ('{ "content": "This comment was created via the stored function!",
          "user_id": "copy_here",
          "post_id": "copy_here"
-       }');
+       }'
+     );
 SELECT * FROM comment;
 */

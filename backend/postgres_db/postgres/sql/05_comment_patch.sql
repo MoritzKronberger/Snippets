@@ -1,5 +1,6 @@
 /*************************************************************************************
  * comment: PATCH function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
@@ -32,16 +33,15 @@ COMMIT;
 SELECT * FROM comment;
 SELECT *
 FROM patch_comment
-     ((SELECT id FROM comment WHERE content = 'Nice code!'),
-       '{"content": "Update: Nice code!"}')
+     ((SELECT "id" FROM comment WHERE content = 'Nice code!'),
+      '{"content": "Update: Nice code!"}')
 ;
 SELECT * FROM comment;
 
-SELECT * FROM comment;
 SELECT *
 FROM patch_comment
-     ((SELECT id FROM comment WHERE content = 'Nice code!'),
-       '{}')
+     ((SELECT "id" FROM comment WHERE content = 'Update: Nice code!'),
+      '{}')
 ;
 SELECT * FROM comment;
 */

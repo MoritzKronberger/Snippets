@@ -9,4 +9,4 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;            
 EOSQL
 
-echo "------------> 00_template1.sh has finished sucessfully"
+echo "------------> 00_template1.sh has finished successfully"

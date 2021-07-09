@@ -11,7 +11,7 @@ DROP VIEW IF EXISTS get_language;
 CREATE VIEW get_language ("id", "name")
 AS
 SELECT "id", "name"
-FROM e_language
+FROM   e_language
 ;
 
 COMMIT;

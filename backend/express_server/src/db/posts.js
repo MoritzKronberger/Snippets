@@ -8,9 +8,7 @@ const getPostsAll = async () => {
       `);
     return { status: 200, result: result.rows };
   },
-  // TODO: weniger hacky implementieren?
   getPostSorted = async (key, query_string) => {
-    console.log("in methode", key, query_string);
     const view = await query(
       `SELECT "view_name"
        FROM get_sort_by_view_name
@@ -23,13 +21,24 @@ const getPostsAll = async () => {
     }
     let result = null;
     if(query_string){
-      console.log("get quer", query_string);
       result = await query(
+        // allows for search queries where category names matching "delete" in a "keep - delete"-query-string will be excluded
+        // regular expressions from:
+        // https://stackoverflow.com/questions/4058923/how-can-i-use-regex-to-get-all-the-characters-after-a-specific-character-e-g-c/4059018
         `SELECT DISTINCT "sort_rank", p."id", "creation_time", "title", "content", "language", "user_id", "username", "num_likes", "num_comments", "categories"
          FROM ${view.rows[0].view_name} p
-              JOIN has_category hc ON p."id" = hc."post_id"
-              JOIN e_category ct   ON hc."category_id" = ct."id"
-         WHERE "trigram_category" ILIKE '%' || $1::VARCHAR || '%' OR $1::VARCHAR <<% "trigram_category"
+              JOIN get_category_join_post cjp ON p."id" = cjp."post_id"
+         WHERE "trigram_category" ILIKE '%' || 
+                                        (SELECT ct."name" FROM e_category ct WHERE (SELECT TRIM(regexp_replace(($1::VARCHAR), '-.*$', ''))) <<% "trigram_category")
+                                        || '%'
+         
+         EXCEPT
+
+         SELECT DISTINCT "sort_rank", p."id", "creation_time", "title", "content", "language", "user_id", "username", "num_likes", "num_comments", "categories"
+         FROM ${view.rows[0].view_name} p
+              JOIN get_category_join_post cjp ON p."id" = cjp."post_id"
+         WHERE cjp."name" = (SELECT TRIM((regexp_matches(($1::VARCHAR), '[^-]*$'))[1]))
+         ;
         `, 
         [query_string]
       );
