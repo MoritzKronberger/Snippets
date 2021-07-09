@@ -69,7 +69,7 @@ CREATE TABLE e_category
     UNIQUE ("name"),
 
  CONSTRAINT category_name_length
-    CHECK (LENGTH("name")<11)
+    CHECK (LENGTH("name")<21)
 );
 
 CREATE TABLE post
@@ -93,7 +93,7 @@ CREATE TABLE post
     CHECK (LENGTH("title")<81),
 
   CONSTRAINT post_content_length
-    CHECK (LENGTH("content")<401)
+    CHECK (LENGTH("content")<1201)
 );
 
 CREATE TABLE has_category
