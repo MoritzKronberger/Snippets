@@ -22,14 +22,12 @@ const getPostsAll = async () => {
     let result = null;
     if(query_string){
       result = await query(
-        // allows for search queries where category names matching "delete" in a "keep - delete"-query-string will be excluded
-        // regular expressions from:
-        // https://stackoverflow.com/questions/4058923/how-can-i-use-regex-to-get-all-the-characters-after-a-specific-character-e-g-c/4059018
+        // allows for search queries where category names matching "delete" in a "keep - delete"-query_string will be excluded
         `SELECT DISTINCT "sort_rank", p."id", "creation_time", "title", "content", "language", "user_id", "username", "num_likes", "num_comments", "categories"
          FROM ${view.rows[0].view_name} p
               JOIN get_category_join_post cjp ON p."id" = cjp."post_id"
          WHERE "trigram_category" ILIKE '%' || 
-                                        (SELECT ct."name" FROM e_category ct WHERE (SELECT TRIM(regexp_replace(($1::VARCHAR), '-.*$', ''))) <<% "trigram_category")
+                                        (SELECT ct."name" FROM e_category ct WHERE (SELECT TRIM(SPLIT_PART(($1::VARCHAR), '-', 1))) <<% "trigram_category")
                                         || '%'
          
          EXCEPT
@@ -37,7 +35,7 @@ const getPostsAll = async () => {
          SELECT DISTINCT "sort_rank", p."id", "creation_time", "title", "content", "language", "user_id", "username", "num_likes", "num_comments", "categories"
          FROM ${view.rows[0].view_name} p
               JOIN get_category_join_post cjp ON p."id" = cjp."post_id"
-         WHERE cjp."name" = (SELECT TRIM((regexp_matches(($1::VARCHAR), '[^-]*$'))[1]))
+         WHERE cjp."name" = (SELECT TRIM(SPLIT_PART(($1::VARCHAR), '-', 2)))
          ;
         `, 
         [query_string]
