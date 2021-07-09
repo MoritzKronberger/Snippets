@@ -186,11 +186,23 @@ export default {
     },
 
     async postComment({ rootState, state, commit }) {
-      const data = {
+      let data = {
         content: state.comment.content.input,
       };
       const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);     
       commit('saveSessionInfo', res, { root: true });
+     
+     /* if (res.status < 300) {
+        for (let post of state.posts) {
+          if (post.id == state.active_id) {
+            console.log("found");
+            data.user_id = rootState.id;
+            data.username = state.auth.user.username;
+            data.post_id = 
+          }
+        }
+      } */
+
       return res.status < 300;
     },
 
@@ -259,8 +271,10 @@ export default {
       for (let p of state.posts) {
         if (p.id == state.active_id) {
           if (p.likedByCurrentUser) {
-            const data = { user_id: rootState.id, post_id: state.active_id }
-            res = await deleteJson(rootState.token, `${paths.likes}/${state.like}`, data);
+            console.log("is liked");
+            const data = { user_id: rootState.id, post_id: state.active_id };
+            console.log("DATAAAAAAAAAAAAA", data);
+            res = await deleteJson(rootState.token, `${paths.likes}`, data);
             if (res.status < 300) {
               commit('saveSessionInfo', res, { root: true });
               p.likedByCurrentUser = false;
@@ -294,7 +308,8 @@ export default {
         if (c.id == state.active_id) {
           if (c.likedByCurrentUser) {
             const data = { user_id: rootState.id, comment_id: state.active_id }
-            res = await deleteJson(rootState.token, `${paths.likes}/${state.like}`, data);
+            console.log("DATAAAAAA", data);
+            res = await deleteJson(rootState.token, `${paths.likes}`, data);
             if (res.status < 300) {
               commit('saveSessionInfo', res, { root: true });
               c.likedByCurrentUser = false;

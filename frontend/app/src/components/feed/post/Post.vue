@@ -18,7 +18,7 @@
           type="Comment"
         />
         <div v-if="post.likedByCurrentUser == true">
-          <Button label="Dislike" btn_class="small" @click="addLike" />
+          <Button label="Dislike" btn_class="small" @click="deleteLike" />
         </div>
         <div v-else>
           <Button label="Like" btn_class="small" @click="addLike" />

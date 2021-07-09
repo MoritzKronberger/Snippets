@@ -7,7 +7,7 @@
       <p>Likes: {{ comment.num_likes }}</p>
       <div v-if="isAuthorized">
         <div v-if="comment.likedByCurrentUser == true">
-          <Button label="Dislike" btn_class="small" @click="addLike" />
+          <Button label="Dislike" btn_class="small" @click="deleteLike" />
         </div>
         <div v-else>
           <Button label="Like" btn_class="small" @click="addLike" />
@@ -42,7 +42,7 @@ export default {
     },
     deleteLike() {
       this.active_id = this.comment.id;
-      this.$store.dispatch("post/postCommentLike");
+      this.$store.dispatch("post/deleteCommentLike");
     },
 
   },
