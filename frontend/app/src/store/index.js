@@ -96,5 +96,13 @@ export default createStore({
       commit('reset');
       return true;
     },
+
+    async reloadPostData({state, dispatch }, sorting_id, query_string) {
+      return dispatch("post/getPosts", sorting_id, query_string).then(() => {
+          return dispatch("post/getComments").then(() => {
+              return dispatch("post/getLikes");
+          });
+      });
+    }
   }
 });
