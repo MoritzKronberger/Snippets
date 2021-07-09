@@ -22,7 +22,8 @@ const { PORT = 3000, SERVER = `http://localhost:${PORT}` } = process.env;
 const c_app = express();
 const c_uuid = uuid.v4;
 
-c_app.use('/v1',          auth);
+c_app.use(express.json());
+
 c_app.use("/v1/accounts", accounts);
 c_app.use("/v1/posts", posts);
 c_app.use("/v1/comments", comments);
@@ -31,6 +32,7 @@ c_app.use("/v1/has-categories", hasCategories);
 c_app.use("/v1/languages", languages);
 c_app.use("/v1/user-likes", userLikes);
 c_app.use("/v1/sorting", sorting);
+c_app.use('/v1',          auth);
 
 c_app.get("/v1/uuid", (req, res) => res.status(200).json(c_uuid()));
 

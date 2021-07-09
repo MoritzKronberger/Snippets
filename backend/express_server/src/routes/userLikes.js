@@ -7,8 +7,7 @@ import { refreshToken } from "./auth.js";
 
 const userLikes = Router();
 
-userLikes.get("/", isAuthorized, refreshToken, async (req, res) => {
-// userLikes.get("/", async (req, res) => {
+userLikes.get("/", refreshToken, async (req, res) => {
   const { status, result } = await userLikesDB.getLikes(req.query.search);
   res.status(status).json(result);
 });
@@ -24,8 +23,7 @@ userLikes.post("/", isAuthorized, validate({ body: userLikeSchema }), refreshTok
     .json(result);
 });
 
-userLikes.get("/:id", isAuthorized, refreshToken, async (req, res) => {
-// userLikes.get("/:id", async (req, res) => {
+userLikes.get("/:id", refreshToken, async (req, res) => {
   const { status, result } = await userLikesDB.getLike(req.params.id);
 
   if (status === 200) {

@@ -3,7 +3,6 @@
 import { query } from "./index.js";
 
 const getAccountsAll = async () => {
-    console.log("getAccountsAll");
     const result = await query(
       `SELECT "id", "username" FROM get_account`
     );

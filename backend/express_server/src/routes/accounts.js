@@ -19,7 +19,6 @@ accounts.post("/", isAuthorized, validate({ body: accountSchema }), refreshToken
   proxy = req.headers["x-forwarded-host"],
   host = proxy ? proxy : req.headers.host;
   res
-    //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
     .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
     .status(result.status)
     .json(result);

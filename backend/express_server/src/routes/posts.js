@@ -9,8 +9,7 @@ import { refreshToken } from "./auth.js";
 
 const posts = Router();
 
-posts.get("/", isAuthorized, refreshToken, async (req, res) => {
-  // posts.get("/", async (req, res) => {
+posts.get("/", refreshToken, async (req, res) => {
   const { status, result } = await postsDB.getPosts(req.query.sorting_id);
   res.status(status).json(result);
 });
@@ -21,13 +20,7 @@ posts.get("/categories/", isAuthorized, refreshToken, async (req, res) => {
   res.status(status).json(result);
 });
 
-//TODO: add categories
-posts.post(
-  "/",
-  isAuthorized,
-  validate({ body: postSchema }),
-  refreshToken,
-  async (req, res) => {
+posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
     //add a new post
     const json = {
       title: req.body.title,
@@ -48,7 +41,6 @@ posts.post(
       .json(post.result);
 
     //look for the category
-    console.log("req.body", req.body.categories);
     let categoryArray = req.body.categories;
     let categoryIdArray = [];
 
@@ -60,23 +52,27 @@ posts.post(
       if (categoryJson.status === 200) {
         categoryIdArray.push(categoryJson.result[0].id);
       } else {
-        categoryJson = await categoriesDB.postCategory({ name: c });
-        categoryIdArray.push(categoryJson.result.id);
+        let newCategoryJson = { result:"" };
+        newCategoryJson = await categoriesDB.postCategory({ name: c });
+        categoryIdArray.push(newCategoryJson.result.id);
       }
     }
 
     for (const ca of categoryIdArray) {
       //connect post and category
-      let hasCat = { status: "", result: "" };
-      (hasCat = await hasCategoriesDB.postHasCategory(post.result.id, ca)),
-        (proxy = req.headers["x-forwarded-host"]),
-        (host = proxy ? proxy : req.headers.host);
+      let hasCat = { result: "" };
+      const jsonCat = {
+        post_id: post.result.id,
+        category_id: ca
+      }
+      hasCat = await hasCategoriesDB.postHasCategory(jsonCat),
+        proxy = req.headers["x-forwarded-host"],
+        host = proxy ? proxy : req.headers.host;
     }
   }
 );
 
-posts.get("/:id", isAuthorized, refreshToken, async (req, res) => {
-  //posts.get("/:id", async (req, res) => {
+posts.get("/:id", refreshToken, async (req, res) => {
   const { status, result } = await postsDB.getPost(req.params.id);
 
   if (status === 200) {
@@ -119,8 +115,12 @@ posts.patch("/:id", isAuthorized, validate({ body: postSchema }), refreshToken, 
     //foreach is not async
     for (const key of oldPostCategories.result) {
       if (oldCategories.includes(key.name)) {
-        let d = { status:"", result:"" };
-        d = await hasCategoriesDB.deleteHasCategory(req.params.id, key.category_id);
+        let d = { result:"" };
+        const jsonCat = {
+          post_id: req.params.id,
+          category_id: key.category_id
+        }
+        d = await hasCategoriesDB.deleteHasCategory(jsonCat);
       }
     }
     //only add new categories not in old
@@ -145,8 +145,12 @@ posts.patch("/:id", isAuthorized, validate({ body: postSchema }), refreshToken, 
   //post relation between post and new categories
   for (const ca of categoryIdArray) {
     //connect post and category
-    let hasCat = { status: "", result: "" };
-    hasCat = await hasCategoriesDB.postHasCategory(req.params.id, ca);
+    let hasCat = { result: "" };
+    const jsonCat = {
+      post_id: req.params.id,
+      category_id: ca
+    }
+    hasCat = await hasCategoriesDB.postHasCategory(jsonCat);
   }
 });
 

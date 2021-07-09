@@ -1,5 +1,4 @@
 import { query } from "./index.js";
-//TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
 const getLikesAll = async () => {
     const result = await query(`SELECT "id", "user_id", "subject_id" FROM get_like`);
