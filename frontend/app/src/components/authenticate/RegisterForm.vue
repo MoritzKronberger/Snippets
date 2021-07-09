@@ -12,6 +12,7 @@
         button_name="Register"
         @click= "register"
         btn_class="medium"
+        type="Register"
       />
     </div>
   </div>

@@ -14,8 +14,9 @@
         <Input :post="input_post" />
         <Validation
           :object="input_post"
-          button_name="Submit"
+          button_name="Create new Post"
           @click="submitPost"
+          type="Post"
         />
       </form>
     </div>

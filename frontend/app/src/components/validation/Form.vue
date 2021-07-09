@@ -8,10 +8,19 @@
 import Button from "../Button.vue";
 import Input from "../feed/form/Input.vue";
 import Validation from "./Valid.vue";
+import { mapFields } from "vuex-map-fields";
 export default {
   name: "Form",
   components: { Button, Validation, Input },
-  props: { button_name: String, object: Object, btn_class: String },
+  props: {
+    button_name: String,
+    object: Object,
+    btn_class: String,
+    type: String,
+  },
+  computed: {
+    ...mapFields("post", ["input_post"]),
+  },
   data: function() {
     return {
       errors: [],
@@ -27,13 +36,18 @@ export default {
       }
       this.errors = [];
 
-      switch (this.button_name) {
+      switch (this.type) {
         case "Register":
           this.valid_length = {
             username: 30,
             password: 20,
             password_confirm: 20,
           };
+          // unique check min length for registration
+          obj.password.length < 5
+            ? this.errors.push("Password Minimum is 5 Characters")
+            : null;
+
           // unique check pw confirm
           obj.password != obj.password_confirm
             ? this.errors.push(
@@ -42,16 +56,22 @@ export default {
             : null;
           break;
 
-        case "Submit": //Post Form
-          const arr_category = [];
+        case "Post": //Post Form
+          const error_categories = [];
+          const cat_length = 20;
           this.valid_length = { title: 80, content: 1000 };
           // unique categories split and validation
           if (obj.categories !== null) {
-            obj.categories.split(" ").forEach((element) => {
-              element.length > 20 ? arr_category.push(element) : null;
+            const split_categories = obj.categories.split(" ");
+            split_categories.forEach((element) => {
+              element.length > cat_length ? error_categories.push(element) : null;
             });
-            if (arr_category.length > 0) {
-              this.errors.push(arr_category + " only 10 characters allowed.");
+            if (error_categories.length > 0) {
+              this.errors.push(
+                error_categories + ` only ${cat_length} characters allowed.`
+              );
+            } else {
+              this.input_post.categories = split_categories;
             }
           }
           delete obj.categories;

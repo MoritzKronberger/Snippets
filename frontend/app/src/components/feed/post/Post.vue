@@ -15,6 +15,7 @@
           button_name="comment"
           btn_class="small"
           @click="addComment"
+          type="Comment"
         />
       </div>    
     </div>
