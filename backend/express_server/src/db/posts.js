@@ -22,6 +22,8 @@ const getPostsAll = async () => {
     let result = null;
     if(query_string){
       result = await query(
+        // TODO: use get_category_join_post instead of two joins
+        
         // allows for search queries where category names matching "delete" in a "keep - delete"-query-string will be excluded
         // regular expressions from:
         // https://stackoverflow.com/questions/4058923/how-can-i-use-regex-to-get-all-the-characters-after-a-specific-character-e-g-c/4059018

@@ -144,6 +144,16 @@ VALUES
  ),
  (SELECT "id"
   FROM   e_category
+  WHERE  "name" = 'js'
+ )
+),
+((SELECT "id"
+  FROM   post
+  WHERE  "title" = 'Fizz Buzz'
+  FETCH FIRST ROW ONLY
+ ),
+ (SELECT "id"
+  FROM   e_category
   WHERE  "name" = 'code'
  )
 );

@@ -53,6 +53,6 @@ COMMIT;
 
 /*
 SELECT * FROM e_category;
-SELECT * FROM post_category('{"name": "sql"}');
+SELECT * FROM post_category('{"name": "query"}');
 SELECT * FROM e_category;
 */

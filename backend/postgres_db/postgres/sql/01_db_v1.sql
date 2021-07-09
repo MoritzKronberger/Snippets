@@ -22,6 +22,8 @@ DROP TABLE IF EXISTS has_category CASCADE;
 CREATE DOMAIN D_UNTAINTED
 AS VARCHAR CHECK (value !~ '[<>"'';]|--|/\*');
 
+-- regular expression as in:
+-- https://stackoverflow.com/questions/1721602/regex-for-matching-a-z-a-z-0-9-and/1721637
 CREATE DOMAIN D_CATEGORY
 AS VARCHAR CHECK (value ~ '^[A-Za-z0-9]+$');
 
@@ -122,7 +124,7 @@ CREATE TABLE comment
     FOREIGN KEY ("user_id") REFERENCES account ("id") ON DELETE CASCADE,
 
  CONSTRAINT fk_post_id
-    FOREIGN KEY ("post_id") REFERENCES post ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("post_id") REFERENCES post ("id")    ON DELETE CASCADE,
 
  CONSTRAINT comment_content_length
     CHECK (LENGTH("content")<181)
@@ -205,6 +207,7 @@ FOR EACH ROW
 
 /* account and authentication triggers + functions */
 /* from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01a.git */
+/* modified to include a check for password length */
 CREATE FUNCTION hash_password_function() RETURNS TRIGGER AS
 $_plpgsql_$
     BEGIN
