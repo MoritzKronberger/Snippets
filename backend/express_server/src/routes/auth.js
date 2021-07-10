@@ -21,8 +21,7 @@ const auth = Router(),
         expiresIn: TOKEN_EXPIRES,
       });
       res.set("Authorization", `Bearer ${token}`);
-    }    
-    console.log("req.", req.headers['authorization'], req.id);*/
+    }    */
     next();
   };
 

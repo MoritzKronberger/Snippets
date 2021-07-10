@@ -1,20 +1,20 @@
 /* template form https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_vue_01/-/tree/debug */
 
 import { createStore } from "vuex";
-import { getField, updateField } from 'vuex-map-fields';
+import { getField, updateField } from "vuex-map-fields";
 import post from "./modules/post";
 import form from "./modules/form";
 import auth from "./modules/auth";
 import { postJson } from "/js/service/rest";
-import { paths } from '/json/config.json';
-import jwt_decode from 'jwt-decode';
+import { paths } from "/json/config.json";
+import jwt_decode from "jwt-decode";
 
 const defaultSession = () => {
   return {
     token: null,
-    id: null
-  }
-}
+    id: null,
+  };
+};
 
 export default createStore({
   modules: { post, form, auth },
@@ -24,29 +24,26 @@ export default createStore({
   getters: {
     getField,
 
-    isNotAuthorized: state => !state.token,
-    isAuthorized:    state => !!state.token,
+    isNotAuthorized: (state) => !state.token,
+    isAuthorized: (state) => !!state.token,
   },
 
   mutations: {
-    updateField, 
-  
+    updateField,
+
     reset(state) {
-      console.log("reset");
       Object.assign(state, defaultSession());
-      this.commit('auth/resetUser');
+      this.commit("auth/resetUser");
     },
 
     saveSessionInfo(state, res) {
       const c_token = state.token;
-      console.log("c_token", c_token);
-      state.token     = res.token;
-      console.log("res.token", res.token);
-     /* because of a problem sending the tokens between frontend and backend, this is not working as it should.
-     // auto logout if no new token was passed to the client    
-     if (c_token != null && state.token == null) {
-         this.commit('reset')
-      } */  
+      state.token = res.token;
+      /* because of a problem sending the tokens between frontend and backend, this is not working as it should.
+      // auto logout if no new token was passed to the client    
+      if (c_token != null && state.token == null) {
+          this.commit('reset')
+      } */
     },
   },
 
@@ -56,7 +53,7 @@ export default createStore({
       state.auth.user.username = state.auth.new_user.username;
       state.auth.user.password = state.auth.new_user.password;
       const res = await postJson(null, paths.register, state.auth.new_user);
-      commit('saveSessionInfo', res);
+      commit("saveSessionInfo", res);
 
       if (res.status === 201) {
         await dispatch("login");
@@ -74,35 +71,33 @@ export default createStore({
         username: user.username ? user.username.trim() : null,
         password: user.password ? user.password.trim() : "",
       };
-      console.log("data", data);
       const res = await postJson(state.token, paths.login, data);
-      console.log("res", res);
 
       if (res.status === 200) {
         const token = res.headers.authorization.substring(7), // remove "Bearer "
           payload = jwt_decode(token);
-          state.token = token;
-          state.id = payload.id;
-          user.password = null; //delete password!
+        state.token = token;
+        state.id = payload.id;
+        user.password = null; //delete password!
 
-          await dispatch("auth/getProfile");
+        await dispatch("auth/getProfile");
       } else {
-        commit('reset');
+        commit("reset");
       }
       return res.status;
     },
 
     logout({ state, commit }) {
-      commit('reset');
+      commit("reset");
       return true;
     },
 
-    async reloadPostData({state, dispatch }) {
+    async reloadPostData({ state, dispatch }) {
       return dispatch("post/getPosts").then(() => {
-          return dispatch("post/getComments").then(() => {
-              return dispatch("post/getLikes");
-          });
+        return dispatch("post/getComments").then(() => {
+          return dispatch("post/getLikes");
+        });
       });
-    }
-  }
+    },
+  },
 });

@@ -53,7 +53,6 @@ const getPostsAll = async () => {
       : { status: 200, result: result.rows };
   },
   getPosts = async (key, query_string) => {
-    console.log(key, query_string);
     return key ? getPostSorted(key, query_string) : getPostsAll();
   },
   getPost = async (id) => {
