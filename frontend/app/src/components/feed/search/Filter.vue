@@ -12,8 +12,8 @@ export default {
     methods: 
     {
       getSorting() {
-      this.$store.dispatch("post/getPosts", this.filter.id);
-    },
+        this.$store.dispatch("reloadPostData", this.filter.id);
+      },
     }
 };
 </script> 

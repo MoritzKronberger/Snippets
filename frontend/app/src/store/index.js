@@ -97,8 +97,8 @@ export default createStore({
       return true;
     },
 
-    async reloadPostData({state, dispatch }, sorting_id, query_string) {
-      return dispatch("post/getPosts", sorting_id, query_string).then(() => {
+    async reloadPostData({state, dispatch }, sorting_id) {
+      return dispatch("post/getPosts", sorting_id).then(() => {
           return dispatch("post/getComments").then(() => {
               return dispatch("post/getLikes");
           });

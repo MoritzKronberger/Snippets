@@ -16,7 +16,7 @@ export default {
       if (p_event.key === "Enter" && this.user_query != null) {
         p_event.preventDefault();
         p_event.stopPropagation();
-        this.$store.dispatch("post/getPosts");
+        this.$store.dispatch("reloadPostData");
         this.user_query = null;
       }
     },
