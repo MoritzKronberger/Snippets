@@ -2,7 +2,6 @@
 and https://gitlab.multimedia.hs-augsburg.de/kowa/wk_express_hello_world_01 */
 
 import express from "express";
-import cors from "cors";
 
 import * as uuid from "uuid";
 
@@ -32,11 +31,9 @@ c_app.use("/v1/has-categories", hasCategories);
 c_app.use("/v1/languages", languages);
 c_app.use("/v1/user-likes", userLikes);
 c_app.use("/v1/sorting", sorting);
-c_app.use('/v1',          auth);
+c_app.use("/v1", auth);
 
 c_app.get("/v1/uuid", (req, res) => res.status(200).json(c_uuid()));
-
-//c_app.get("/v1", (req, res) => res.status(200).json("hello world"));
 
 c_app.use((error, req, res, next) => {
   if (error instanceof ValidationError) {
@@ -48,7 +45,5 @@ c_app.use((error, req, res, next) => {
 });
 
 c_app.listen(PORT);
-
-//c_app.use(cors());
 
 console.log(`Running on ${SERVER}`);
