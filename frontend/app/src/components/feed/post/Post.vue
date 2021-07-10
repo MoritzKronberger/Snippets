@@ -79,4 +79,13 @@ export default {
   height: 300px;
   scrollbar-width: thin;
 }
+
+textarea {
+  width: 100%;
+  height: 50px;
+  padding: 10px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
 </style>

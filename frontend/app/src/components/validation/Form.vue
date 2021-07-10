@@ -63,7 +63,7 @@ export default {
           this.valid_length = { title: 81, content: 1201 };
           // unique categories split and validation
           if (obj.categories !== null) {
-            const split_categories = obj.categories.split(" ");
+            let split_categories = obj.categories.split(" ");
             split_categories.forEach((element) => {
               element.length > cat_length
                 ? error_categories.push(element)
@@ -74,9 +74,10 @@ export default {
                 error_categories + ` only ${cat_length} characters allowed.`
               );
             } else {
-              this.input_post.categories = split_categories;
+            //  this.input_post.categories = split_categories;
             }
           }
+          
           delete obj.categories;
           break;
 
@@ -98,15 +99,10 @@ export default {
           );
         }
       }
-      //Validation invalid? -> Reset input fields
-      if (this.errors.length != 0) {
-        for (let prop in obj) {
-          obj[prop] = null;
-        }
         /* Validation valid?
         -> Reset input fields
         -> Trigger given function */
-      } else {
+       if(this.errors.length == 0) {
         this.$emit("click");
         for (let prop in this.object) {
           this.object[prop] = null;

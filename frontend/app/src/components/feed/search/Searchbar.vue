@@ -17,6 +17,7 @@ export default {
         p_event.preventDefault();
         p_event.stopPropagation();
         this.$store.dispatch("post/getPosts");
+        this.user_query = null;
       }
     },
   },

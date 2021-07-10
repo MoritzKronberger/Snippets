@@ -5,7 +5,9 @@
       <p>Language: {{ post.language }}</p>
       <p>Date: {{ format_date }}</p>
       <p>Written by: {{ post.username }}</p>
+      <p>Tags: {{ post.categories }}</p>
     </div>
+
   </div>
 </template>
 

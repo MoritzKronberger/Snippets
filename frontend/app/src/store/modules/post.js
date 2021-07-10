@@ -99,7 +99,7 @@ export default {
   actions: {
     async postPost({ rootState, state, commit }) {
       const input_post = state.input_post;
-      let categories = input_post.categories;
+      let categories = input_post.categories.split(" ");
       const data = {
         language_id: input_post.language_id,
         content: input_post.content,
@@ -189,6 +189,7 @@ export default {
       let data = {
         content: state.comment.content.input,
       };
+      console.log("Data: " + data.content);
       const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);     
       commit('saveSessionInfo', res, { root: true });
      

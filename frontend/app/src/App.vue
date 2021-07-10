@@ -7,8 +7,17 @@
 </template>
 
 <script>
+import { mapFields } from "vuex-map-fields";
 export default {
   name: "App",
+    computed: {
+    ...mapFields("auth", ["report"]),
+  },
+  watch: {
+    $route (){
+        this.report = null;
+    }
+  }
 };
 </script>
 <style lang="scss">
