@@ -13,16 +13,15 @@ categories.get("/", refreshToken, async (req, res) => {
   res.status(status).json(result);
 });
 
-categories.post( "/", isAuthorized, validate({ body: categorySchema }), refreshToken, async (req, res) => {
-    const { result } = await categoryDB.postCategory(req.body),
-      proxy = req.headers["x-forwarded-host"],
-      host = proxy ? proxy : req.headers.host;
-    res
-      .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-      .status(result.status)
-      .json(result);
-  }
-);
+categories.post("/", isAuthorized, validate({ body: categorySchema }), refreshToken, async (req, res) => {
+  const { result } = await categoryDB.postCategory(req.body),
+    proxy = req.headers["x-forwarded-host"],
+    host = proxy ? proxy : req.headers.host;
+  res
+    .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
+    .status(result.status)
+    .json(result);
+});
 
 categories.get("/:id", refreshToken, async (req, res) => {
   const { status, result } = await categoryDB.getCategory(req.params.id);

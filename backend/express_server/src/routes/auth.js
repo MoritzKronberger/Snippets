@@ -16,7 +16,7 @@ const auth = Router(),
   } = process.env,
   refreshToken = (req, res, next) => {
     //no new refreshtoken, because otherwise the frontend gets a token without an id and thinks its logged in. changed during lecture on 06.07.2020 on advice of Prof. Kowarschick
-   /* if (req.id != null) {
+    /* if (req.id != null) {
       const token = jwt.sign({ id: req.id }, TOKEN_SECRET, {
         expiresIn: TOKEN_EXPIRES,
       });
@@ -26,7 +26,7 @@ const auth = Router(),
     next();
   };
 
-  auth.use(express.json());
+auth.use(express.json());
 
 auth.post("/login", isNotAuthorized, async (req, res) => {
   const { status, id } = await dbAuth.postLogin(req.body);
@@ -40,17 +40,16 @@ auth.post("/login", isNotAuthorized, async (req, res) => {
     res.status(status).json({ message: "not logged in" });
   }
 }),
-// Two phase registering is still missing!
+
 auth.post("/register", isNotAuthorized, validate({ body: accountSchema }), async (req, res) => {
-    const { result } = await accountsDB.postAccount(req.body),
+  const { result } = await accountsDB.postAccount(req.body),
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
-    res
-      .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-      .status(result.status)
-      .json(result.id);
-    }
-);
+  res
+    .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
+    .status(result.status)
+    .json(result.id);
+});
 
 export { auth, refreshToken };
 

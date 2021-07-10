@@ -16,8 +16,8 @@ accounts.get("/", isAuthorized, refreshToken, async (req, res) => {
 
 accounts.post("/", isAuthorized, validate({ body: accountSchema }), refreshToken, async (req, res) => {
   const { result } = await accountsDB.postAccount(req.body),
-  proxy = req.headers["x-forwarded-host"],
-  host = proxy ? proxy : req.headers.host;
+    proxy = req.headers["x-forwarded-host"],
+    host = proxy ? proxy : req.headers.host;
   res
     .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
     .status(result.status)
@@ -42,10 +42,7 @@ accounts.patch("/:id", isAuthorized, validate({ body: accountSchema }), refreshT
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
-  const { result } = await accountsDB.patchAccount(
-    req.params.id,
-    req.body
-  );
+  const { result } = await accountsDB.patchAccount(req.params.id, req.body);
   res.status(result.status).json(result);
 });
 
@@ -53,10 +50,7 @@ accounts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
   if (req.id !== req.params.id) {
     return res.sendStatus(401);
   }
-  const { result } = await accountsDB.deleteAccount(
-    req.params.id,
-    req.body
-  );
+  const { result } = await accountsDB.deleteAccount(req.params.id, req.body);
   res.status(result.status).json(result);
 });
 
