@@ -151,6 +151,7 @@ export default {
     async deletePost({ rootState, state, commit }) {
       const res = await deleteJson(rootState.token, `${paths.posts}/${state.active_id}`);
       commit('saveSessionInfo', res, { root: true });
+      state.posts = state.posts.filter( post => post.id !== state.active_id);
       return res.status < 300;
     },
 
