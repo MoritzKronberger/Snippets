@@ -35,16 +35,16 @@ COMMIT;
 SELECT * FROM post;
 SELECT * 
 FROM patch_post
-     ((SELECT id FROM post WHERE title='My first post'),
-      '{ "title":       "Not my first post anymore",
-         "content":     "Update: Hello World!"
+     ((SELECT "id" FROM post WHERE "title"='Hello World in Javascript'),
+      '{ "title":       "Update: Hello World in Javascript",
+         "content":     "Update: This is an update."
        }'
      );
 SELECT * FROM post;
 
 SELECT * 
 FROM patch_post
-     ((SELECT id FROM post WHERE title='Not my first post anymore'),
+     ((SELECT "id" FROM post WHERE "title"='Update: Hello World in Javascript'),
       '{}'
      );
 SELECT * FROM post;
