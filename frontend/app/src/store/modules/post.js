@@ -30,7 +30,7 @@ const post_empty = () => {
     return {
       id: null,
       creation_time: null,
-      content:[{input: null}],
+      content: [{ input: null }],
       user_id: null,
       username: null,
       post_id: null,
@@ -71,9 +71,6 @@ const post_empty = () => {
 
       //sorting info
       sortings: [],
-
-      //TODO: add constraints
-      //constraint: constraints[null],
     };
   };
 
@@ -82,7 +79,7 @@ export default {
   state: state_default(),
 
   getters: {
-    getField
+    getField,
   },
 
   mutations: {
@@ -108,11 +105,12 @@ export default {
         categories: categories,
       };
       const res = await postJson(rootState.token, `${paths.posts}`, data);
+
       //only save the current data into post if it got sent to db
       if (res.status === 200) {
         Object.assign(state.post, data);
       }
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
@@ -124,34 +122,20 @@ export default {
       } else {
         res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}&query_string=${state.user_query}`);
       }
+
       if (res.status === 200) {
         state.posts = res.data;
         //not working: Object.assign(state.posts, res.data);
       }
-      console.log("posts:", state.posts);
       state.user_query = null;
-      commit('saveSessionInfo', res, { root: true });
-      return res.status < 300;
-    },
-
-    async patchPost({ rootState, state, commit }) {
-      const post = state.post;
-      let categories = post.categories.split(" ");
-      const data = {
-        title: post.title ? post.title.trim() : null,
-        content: post.content ? post.content.trim() : null,
-        language_id: post.language ? post.language : null,
-        categories: categories ? categories : null,
-      };
-      const res = await patchJson(rootState.token, `${paths.posts}/${state.active_id}`, data);
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
     async deletePost({ rootState, state, commit }) {
       const res = await deleteJson(rootState.token, `${paths.posts}/${state.active_id}`);
-      commit('saveSessionInfo', res, { root: true });
-      state.posts = state.posts.filter( post => post.id !== state.active_id);
+      commit("saveSessionInfo", res, { root: true });
+      state.posts = state.posts.filter((post) => post.id !== state.active_id);
       return res.status < 300;
     },
 
@@ -160,8 +144,7 @@ export default {
       if (res.status === 200) {
         Object.assign(state.languages, res.data);
       }
-      console.log("lang:", state.languages);
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
@@ -172,7 +155,7 @@ export default {
       if (res.status === 200) {
         Object.assign(state.comments, res.data);
       }
-      
+
       for (let p of posts) {
         let commentArray = [];
         for (let c of comments) {
@@ -182,8 +165,7 @@ export default {
         }
         p.comments = commentArray;
       }
-      console.log("posts with comments:", posts);
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
@@ -191,14 +173,12 @@ export default {
       let data = {
         content: state.comment.content[0].input,
       };
-      console.log("Data: " + data.content);
-      const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);     
-      commit('saveSessionInfo', res, { root: true });
-     
+      const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);
+      commit("saveSessionInfo", res, { root: true });
+
       if (res.status < 300) {
         for (let post of state.posts) {
           if (post.id == state.active_id) {
-            console.log("found");
             data.user_id = rootState.id;
             data.username = rootState.auth.user.username;
             data.post_id = state.active_id;
@@ -213,29 +193,22 @@ export default {
       return res.status < 300;
     },
 
-    async deleteComment({ rootState, state, commit }) {
-      const res = await deleteJson(rootState.token, `${paths.comments}/${state.active_id}`);
-      commit('saveSessionInfo', res, { root: true });
-      return res.status < 300;
-    },
-
     async getLikes({ rootState, state, commit }) {
-      console.log("state getLikes:", state);
       let likes = state.likes;
       let posts = state.posts;
       let comments = state.comments;
       const res = await getJson(rootState.token, `${paths.likes}`);
+
       if (res.status === 200) {
         Object.assign(state.likes, res.data);
       }
-      console.log("likes:", state.likes);
-      
+
       for (let l of likes) {
         if (l.user_id == rootState.id) {
           let found = false;
           for (let p of posts) {
             if (l.subject_id == p.id) {
-              p.likedByCurrentUser =  true;
+              p.likedByCurrentUser = true;
               found = true;
               break;
             }
@@ -243,22 +216,22 @@ export default {
           if (!found) {
             for (let c of comments) {
               if (l.subject_id == c.id) {
-                c.likedByCurrentUser =  true;
+                c.likedByCurrentUser = true;
                 found = true;
                 break;
               }
-            };
+            }
           }
         }
       }
-      console.log(state.posts);
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
     async postPostLike({ rootState, state, commit }) {
       const data = { post_id: state.active_id };
       const res = await postJson(rootState.token, `${paths.likes}`, data);
+
       if (res.status === 200 || res.status === 201) {
         Object.assign(state.like, res.data);
         for (let p of state.posts) {
@@ -268,8 +241,7 @@ export default {
           }
         }
       }
-      console.log("posts:", state.posts);
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
@@ -278,12 +250,11 @@ export default {
       for (let p of state.posts) {
         if (p.id == state.active_id) {
           if (p.likedByCurrentUser) {
-            console.log("is liked");
             const data = { user_id: rootState.id, post_id: state.active_id };
-            console.log("DATAAAAAAAAAAAAA", data);
             res = await deleteJson(rootState.token, `${paths.likes}`, data);
+
             if (res.status < 300) {
-              commit('saveSessionInfo', res, { root: true });
+              commit("saveSessionInfo", res, { root: true });
               p.likedByCurrentUser = false;
               p.num_likes--;
             }
@@ -294,7 +265,7 @@ export default {
     },
 
     async postCommentLike({ rootState, state, commit }, id) {
-      const data = { comment_id: id};
+      const data = { comment_id: id };
       const res = await postJson(rootState.token, `${paths.likes}`, data);
       if (res.status === 200 || res.status === 201) {
         Object.assign(state.like, res.data);
@@ -305,7 +276,7 @@ export default {
           }
         }
       }
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
 
@@ -314,11 +285,11 @@ export default {
       for (let c of state.comments) {
         if (c.id == id) {
           if (c.likedByCurrentUser) {
-            const data = { user_id: rootState.id, comment_id: id}
-            console.log("DATAAAAAA", data);
+            const data = { user_id: rootState.id, comment_id: id };
             res = await deleteJson(rootState.token, `${paths.likes}`, data);
+
             if (res.status < 300) {
-              commit('saveSessionInfo', res, { root: true });
+              commit("saveSessionInfo", res, { root: true });
               c.likedByCurrentUser = false;
               c.num_likes--;
             }
@@ -333,11 +304,8 @@ export default {
       if (res.status === 200) {
         Object.assign(state.sortings, res.data);
       }
-      commit('saveSessionInfo', res, { root: true });
+      commit("saveSessionInfo", res, { root: true });
       return res.status < 300;
     },
   },
-  /* modules: 
-  {
-  }*/
 };
