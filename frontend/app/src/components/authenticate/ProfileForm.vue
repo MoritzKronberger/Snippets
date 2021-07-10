@@ -11,7 +11,7 @@
       <Validation
         :object="new_user"
         button_name="Confirm"
-        @click="patchProfile"
+        @click="update"
         btn_class="medium"
         type="Register"
       />
@@ -38,7 +38,11 @@ export default {
     ...mapState("auth", ["success"]),
   },
   methods: {
-    ...mapActions("auth", ["patchProfile"]),
+    update() {
+      this.$store.dispatch("auth/patchProfile").then(() => {
+        this.$store.dispatch("auth/getProfile");
+      });
+    },
   },
   watch: {
     success(p_new) {

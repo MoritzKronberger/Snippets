@@ -50,6 +50,7 @@ const post_empty = () => {
     return {
       section: false,
       active_id: null,
+      filter_id: null,
       user_query: null,
       //post info
       input_post: input_post_empty(),
@@ -115,8 +116,8 @@ export default {
       return res.status < 300;
     },
 
-    async getPosts({ rootState, state, commit }, sorting_id) {
-      let s_id = sorting_id || state.sortings[0].id;
+    async getPosts({ rootState, state, commit }) {
+      let s_id = state.filter_id || state.sortings[0].id;
       let res;
       if (state.user_query == undefined) {
         res = await getJson(rootState.token, `${paths.posts}/?sorting_id=${s_id}`);
