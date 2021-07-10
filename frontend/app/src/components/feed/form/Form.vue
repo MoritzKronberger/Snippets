@@ -47,7 +47,7 @@ export default {
     },
     submitPost() {
       this.$store.dispatch("post/postPost").then(() => {
-        this.$store.dispatch("post/getPosts");
+        this.$store.dispatch("reloadPostData");
       });
       this.$store.commit("form/setActive");
     },
