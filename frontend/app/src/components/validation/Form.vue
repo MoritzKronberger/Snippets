@@ -85,7 +85,7 @@ export default {
           this.len = { comment: 181 };
           break;
       }
-
+      console.log(obj);
       for (const [key, value] of Object.entries(obj)) {
         if (value === null) {
           this.errors.push(key + " required!");

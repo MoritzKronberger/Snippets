@@ -9,9 +9,9 @@
         <Comments :comments="post" />
       </div>
       <div v-if="isAuthorized">
-        <textarea class="input" v-model="comment.content.input" />
+        <textarea class="input" v-model="comment.content[0].input" />
         <Validation
-          :object="comment.content"
+          :object="comment.content[0]"
           button_name="comment"
           btn_class="small"
           @click="addComment"
@@ -82,10 +82,10 @@ export default {
 
 textarea {
   width: 100%;
-  height: 50px;
   padding: 10px 20px;
   margin: 8px 0;
   box-sizing: border-box;
+  resize: none;
 }
 
 </style>

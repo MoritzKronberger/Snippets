@@ -187,7 +187,7 @@ export default {
 
     async postComment({ rootState, state, commit }) {
       let data = {
-        content: state.comment.content.input,
+        content: state.comment.content[0].input,
       };
       console.log("Data: " + data.content);
       const res = await postJson(rootState.token, `${paths.comments}/${state.active_id}`, data);     
