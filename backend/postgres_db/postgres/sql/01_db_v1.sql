@@ -104,7 +104,7 @@ CREATE TABLE has_category
     PRIMARY KEY ("post_id", "category_id"),
 
  CONSTRAINT fk_post_id
-    FOREIGN KEY ("post_id")     REFERENCES post ("id")      ON DELETE CASCADE,
+    FOREIGN KEY ("post_id")     REFERENCES post ("id") ON DELETE CASCADE,
 
  CONSTRAINT fk_category_id
     FOREIGN KEY ("category_id") REFERENCES e_category ("id")

@@ -30,6 +30,6 @@ COMMIT;
 
 /*
 SELECT * FROM post;
-SELECT * FROM delete_post((SELECT "id" FROM post WHERE "title" = 'My first post'));
+SELECT * FROM delete_post((SELECT "id" FROM post WHERE "title" = 'Hello World in Javascript'));
 SELECT * FROM post;
 */
