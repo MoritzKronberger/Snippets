@@ -5,7 +5,7 @@
       <p>Language: {{ post.language }}</p>
       <p>Date: {{ format_date }}</p>
       <p>Written by: {{ post.username }}</p>
-      <p v-if="post.categories != null">Tags: {{ post.categories }}</p>
+      <p>Tags: {{ customCategories }}</p>
     </div>
   </div>
 </template>
@@ -26,6 +26,14 @@ export default {
   },
   computed: {
     ...mapState("post", ["lang_object"]),
+
+    customCategories() {
+      if (this.post.categories == "{NULL}") {
+        return "{}";
+      } else {
+        return this.post.categories;
+      }
+    },
   },
 };
 </script>
