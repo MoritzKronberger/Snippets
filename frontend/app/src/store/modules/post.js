@@ -34,6 +34,7 @@ const post_empty = () => {
       user_id: null,
       username: null,
       post_id: null,
+      num_likes: null,
       likedByCurrentUser: false,
     };
   },
@@ -180,15 +181,18 @@ export default {
       if (res.status < 300) {
         for (let post of state.posts) {
           if (post.id == state.active_id) {
+            data.id = res.data.id;
             data.user_id = rootState.id;
             data.username = rootState.auth.user.username;
             data.post_id = state.active_id;
             data.likedByCurrentUser = false;
+            data.num_likes = null;
             let t = new Date(Date.now()).toISOString();
             data.creation_time = t;
             post.comments.push(data);
           }
         }
+        state.comments.push(data);
       }
 
       return res.status < 300;

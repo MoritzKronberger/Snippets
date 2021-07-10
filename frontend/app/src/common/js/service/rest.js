@@ -2,7 +2,6 @@
 import axios from "axios";
 
 const options = (method, token, url, data = null) => {
-    console.log("********************", token, method, url, data);
       return {
       method: method,
       url: url,
@@ -16,7 +15,6 @@ const options = (method, token, url, data = null) => {
   },
   json = async (method, token, url, data = null) => {
     const res = await axios(options(method, token, url, data));
-    console.log("===============", res.headers.authorization);
     return {
       status: res.status,
       headers: res.headers,
