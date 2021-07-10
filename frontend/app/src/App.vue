@@ -10,14 +10,14 @@
 import { mapFields } from "vuex-map-fields";
 export default {
   name: "App",
-    computed: {
+  computed: {
     ...mapFields("auth", ["report"]),
   },
   watch: {
-    $route (){
-        this.report = null;
-    }
-  }
+    $route() {
+      this.report = null;
+    },
+  },
 };
 </script>
 <style lang="scss">

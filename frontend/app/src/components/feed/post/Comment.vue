@@ -42,7 +42,6 @@ export default {
     deleteLike() {
       this.$store.dispatch("post/deleteCommentLike", this.comment.id);
     },
-
   },
 };
 </script>

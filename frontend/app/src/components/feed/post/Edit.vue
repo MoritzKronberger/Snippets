@@ -1,8 +1,8 @@
 <template>
   <div v-if="id == post.user_id">
-    <Button label="Edit" btn_class="small discard" @click="edit()" />
+    <Button label="Edit" btn_class="small discard" @click="edit" />
     <div :class="visEdit">
-      <Button label="Delete" btn_class="small delete" @click="deletePost()" />
+      <Button label="Delete" btn_class="small delete" @click="deletePost" />
     </div>
   </div>
 </template>

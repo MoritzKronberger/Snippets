@@ -97,7 +97,8 @@ export default {
   actions: {
     async postPost({ rootState, state, commit }) {
       const input_post = state.input_post;
-      let categories = input_post.categories.split(" ");
+      let categories; 
+      input_post.categories != null ? categories = input_post.categories.split(" ") : null;
       const data = {
         language_id: input_post.language_id,
         content: input_post.content,

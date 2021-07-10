@@ -2,7 +2,7 @@
   <div class="header">
     <Searchbar />
     <div v-for="sort in sortings" :key="sort.id">
-      <Filter :filter="sort"/>
+      <Filter :filter="sort" />
     </div>
   </div>
 </template>

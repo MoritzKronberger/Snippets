@@ -1,4 +1,4 @@
-# app
+# Frontend - Martin Kohnle
 
 ## Project setup
 ```

@@ -20,12 +20,10 @@
 </template>
 <script>
 import { mapFields } from "vuex-map-fields";
-import { mapActions, mapState } from "vuex";
-import router from "/router";
+import { mapState } from "vuex";
 import Form from "./Form.vue";
 import Button from "../Button.vue";
 import Validation from "../validation/Form.vue";
-
 export default {
   name: "Profile",
   components: {
@@ -42,13 +40,6 @@ export default {
       this.$store.dispatch("auth/patchProfile").then(() => {
         this.$store.dispatch("auth/getProfile");
       });
-    },
-  },
-  watch: {
-    success(p_new) {
-      if (p_new === true) {
-        router.push("/");
-      }
     },
   },
 };

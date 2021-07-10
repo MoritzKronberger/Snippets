@@ -74,10 +74,10 @@ export default {
                 error_categories + ` only ${cat_length} characters allowed.`
               );
             } else {
-            //  this.input_post.categories = split_categories;
+              //  this.input_post.categories = split_categories;
             }
           }
-          
+
           delete obj.categories;
           break;
 
@@ -85,7 +85,6 @@ export default {
           this.len = { comment: 181 };
           break;
       }
-      console.log(obj);
       for (const [key, value] of Object.entries(obj)) {
         if (value === null) {
           this.errors.push(key + " required!");
@@ -99,10 +98,10 @@ export default {
           );
         }
       }
-        /* Validation valid?
+      /* Validation valid?
         -> Reset input fields
         -> Trigger given function */
-       if(this.errors.length == 0) {
+      if (this.errors.length == 0) {
         this.$emit("click");
         for (let prop in this.object) {
           this.object[prop] = null;

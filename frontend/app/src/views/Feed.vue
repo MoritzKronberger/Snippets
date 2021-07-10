@@ -48,9 +48,9 @@ export default {
 
   beforeMount: function() {
     return this.$store.dispatch("post/getLanguages").then(() => {
-        return this.$store.dispatch("post/getSortings",).then(() => {
-          this.$store.dispatch("reloadPostData");
-        });
+      return this.$store.dispatch("post/getSortings").then(() => {
+        this.$store.dispatch("reloadPostData");
+      });
     });
   },
 };
