@@ -45,9 +45,10 @@ const getAccountsAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postAccount = async (data) => {
-    const result = await query(`SELECT "result" FROM post_account($1)`, [
-      data,
-    ]);
+    const result = await query(
+      `SELECT "result" FROM post_account($1)`, 
+      [data,]
+    );
     return result.rows[0];
   },
   patchAccount = async (id, data) => {

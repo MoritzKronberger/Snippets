@@ -1,7 +1,9 @@
 import { query } from "./index.js";
 
 const getLikesAll = async () => {
-    const result = await query(`SELECT "id", "user_id", "subject_id" FROM get_like`);
+    const result = await query(
+      `SELECT "id", "user_id", "subject_id" FROM get_like`
+    );
     return { status: 200, result: result.rows };
   },
   getLikeSearch = async (key) => {
@@ -42,15 +44,26 @@ const getLikesAll = async () => {
       : { status: 200, result: result.rows[0] };
   },
   postLike = async (data) => {
-    const result = await query(`SELECT "result" FROM post_like($1)`, [data]);
+    const result = await query(
+      `SELECT "result" FROM post_like($1)`, 
+      [data]
+    );
     return result.rows[0];
   },
   deleteLike = async (data) => {
-    const result = await query(`SELECT "result" FROM delete_like($1)`, [data]);
+    const result = await query(
+      `SELECT "result" FROM delete_like($1)`, 
+      [data]
+    );
     return result.rows[0];
   };
 
-export { getLikes, getLike, postLike, deleteLike };
+export {
+  getLikes, 
+  getLike, 
+  postLike, 
+  deleteLike 
+};
 
 export default {
   getLikes,

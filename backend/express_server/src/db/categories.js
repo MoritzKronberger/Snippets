@@ -36,13 +36,18 @@ const getCategoriesAll = async () => {
       `SELECT "id", "name"
        FROM   get_category
        WHERE  "id" = $1::UUID
-      `, [id]);
+      `, 
+      [id]
+    );
     return result.rows.length === 0
       ? { status: 404, result: {} }
       : { status: 200, result: result.rows[0] };
   },
   postCategory = async (data) => {
-    const result = await query(`SELECT "result" FROM post_category($1)`, [data]);
+    const result = await query(
+      `SELECT "result" FROM post_category($1)`, 
+      [data]
+    );
     return result.rows[0];
   };
 
