@@ -34,7 +34,7 @@ const post_empty = () => {
       user_id: null,
       username: null,
       post_id: null,
-      num_likes: null,
+      num_likes: 0,
       likedByCurrentUser: false,
     };
   },
@@ -186,7 +186,7 @@ export default {
             data.username = rootState.auth.user.username;
             data.post_id = state.active_id;
             data.likedByCurrentUser = false;
-            data.num_likes = null;
+            data.num_likes = 0;
             let t = new Date(Date.now()).toISOString();
             data.creation_time = t;
             post.comments.push(data);

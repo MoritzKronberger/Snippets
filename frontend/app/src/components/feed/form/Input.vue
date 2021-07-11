@@ -24,3 +24,8 @@ export default {
   props: {post: Object},
 };
 </script>
+<style lang="scss" scoped>
+textarea {
+  resize: none;
+}
+</style>
