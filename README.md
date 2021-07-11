@@ -2,6 +2,10 @@
 
 ## Start Vue-Server
 
+```bash
+npm run serve
+```
+
 ### Project setup
 
 ```bash
