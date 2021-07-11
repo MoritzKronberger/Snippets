@@ -20,12 +20,12 @@ const getPostsAll = async () => {
        `, 
       [key]
     );
-    if(view.rows.length===0){
+    if (view.rows.length===0) {
       return { status: 404, result: {} }
     }
     let result = null;
-    if(query_string){
-      result = await query(
+    if (query_string) {
+      result = await query (
         // allows for search queries where category names matching "delete" in a "keep - delete"-query_string will be excluded
         `SELECT DISTINCT "sort_rank", 
                          p."id", "creation_time", "title", "content", 
@@ -122,8 +122,8 @@ const getPostsAll = async () => {
   },
   deletePost = async (id) => {
     const result = await query(`SELECT "result" FROM delete_post($1)`, 
-    [id]
-  );
+      [id]
+    );
     return result.rows[0];
   };
 

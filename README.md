@@ -1,5 +1,9 @@
 # Gruppenprojekt Webprogrammierung
 
+This is a SNS, where users can share short code snippets and like and comment different posts. They can also like the comments. The displayed posts can be sorted (most liked, newest, mostliked in 24h, mostliked in last 7 days), and filtered for categories.
+While writing a post, the user chooses a programming language to add syntax highlighting to his code and adds categories, split by spaces. A user can also adjust his username and password.
+The application consists of a Vue-Server, an Express Server and a Postgres Database.
+
 ## Start Vue-Server
 
 ```bash

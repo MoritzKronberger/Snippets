@@ -1,7 +1,9 @@
 import { query } from "./index.js";
 
 const getLanguagesAll = async () => {
-    const result = await query(`SELECT "id", "name" FROM get_language`);
+    const result = await query(
+      `SELECT "id", "name" FROM get_language`
+    );
     return { status: 200, result: result.rows };
   },
   getLanguageSearch = async (key) => {

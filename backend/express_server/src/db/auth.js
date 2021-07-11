@@ -13,7 +13,9 @@ const postLogin = async ({ username, password }) => {
       [username, password]
     )
   ).rows[0];
-  return result ? { status: result.authorized ? 200 : 401, id: result.id } : { status: 401, id: "" };
+  return result 
+    ? { status: result.authorized ? 200 : 401, id: result.id } 
+    : { status: 401, id: "" };
 };
 
 export default { postLogin };
