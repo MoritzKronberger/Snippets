@@ -35,6 +35,10 @@ cd backend/postgres_db
 ### Build and run containers
 
 ```bash
+npm run build 
+
+# or:
+
 docker compose up --build
 ```
 
@@ -42,11 +46,9 @@ docker compose up --build
 
 ```bash
 npm run serve
-```
 
-Or:
+# or:
 
-```bash
 docker compose up
 ```
 
@@ -54,11 +56,9 @@ docker compose up
 
 ```bash
 npm run stop
-```
 
-Or:
+# or: 
 
-```bash
 docker compose down
 ```
 
@@ -79,15 +79,13 @@ Or pre-filled via:
 
 <http://localhost:11000/?pgsql=PostgreSQL&username=web&db=db_v1&ns=public>
 
-### Reset Docker Container and Volumes after changes to the SQL commands
+### Reset Docker Container and Volumes after changes to SQL commands
 
 ```bash
 npm run reset
-```
 
-Or:
+# or:
 
-```bash
 docker compose down
 docker stop `docker ps -a -q` && docker rm `docker ps -a -q`; docker volume prune 
 docker compose up --build
