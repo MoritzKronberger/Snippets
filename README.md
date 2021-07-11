@@ -1,13 +1,15 @@
 # Gruppenprojekt Webprogrammierung
 
-This is a SNS, where users can share short code snippets and like and comment different posts. They can also like the comments. The displayed posts can be sorted (most liked, newest, mostliked in 24h, mostliked in last 7 days), and filtered for categories.
-While writing a post, the user chooses a programming language to add syntax highlighting to his code and adds categories, split by spaces. A user can also adjust his username and password.
+This is a SNS, where users can share short code snippets and like and comment different posts. They can also like the comments. The displayed posts can be sorted (most liked, newest, most liked in the last 24h, most liked in the last 7 days), and filtered for categories.
+While writing a post, the user chooses a programming language to add syntax highlighting to their code and adds categories, split by spaces. A user can also adjust their username and password.
 The application consists of a Vue-Server, an Express Server and a Postgres Database.
 
 ## Start Vue-Server
 
+### Change into app directory
+
 ```bash
-npm run serve
+cd frontend/app
 ```
 
 ### Project setup
@@ -32,7 +34,7 @@ npm run build
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-## Docker for Postgres
+## Start Postgres with Docker
 
 ### Change into postgres directory
 
@@ -101,6 +103,12 @@ docker compose up --build
 
 ## Start Express-Server
 
+### Change into express directory
+
+```bash
+npm run serve
+```
+
 ### Create dotenv-file
 
 ```bash
@@ -118,13 +126,11 @@ echo TOKEN_SECRET=... >> .env
 On: <http://localhost:3000>
 
 ```bash
-cd backend/express_server
 npm run serve
 ```
 
 For development:
 
 ```bash
-cd backend/express_server
 npm run dev
 ```
