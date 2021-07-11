@@ -4,22 +4,21 @@ const getLikesAll = async () => {
     const result = await query(`SELECT "id", "user_id", "subject_id" FROM get_like`);
     return { status: 200, result: result.rows };
   },
-  // TODO: suche nach user_id AND subject_id? (return true/false?)
   getLikeSearch = async (key) => {
     const uuid_regex =
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       result = key.match(uuid_regex)
         ? await query(
             `SELECT "id", "user_id", "subject_id"
-             FROM get_like
-             WHERE id = $1::UUID
+             FROM   get_like
+             WHERE  id = $1::UUID
             `,
             [key]
           )
         : await query(
             `SELECT "id", "user_id", "subject_id"
-             FROM get_like
-             WHERE "user_id" = $1::UUID OR "subject_id" = $1::UUID
+             FROM   get_like
+             WHERE  "user_id" = $1::UUID OR "subject_id" = $1::UUID
             `,
             [key]
           );
@@ -33,8 +32,8 @@ const getLikesAll = async () => {
   getLike = async (id) => {
     const result = await query(
       `SELECT "id", "user_id", "subject_id"
-       FROM get_like
-       WHERE "id" = $1::UUID
+       FROM   get_like
+       WHERE  "id" = $1::UUID
       `,
       [id]
     );
