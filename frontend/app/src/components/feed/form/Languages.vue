@@ -1,26 +1,20 @@
 <template>
   <div class="flex-container">
     <div v-for="lang in languages" :key="lang.id">
-      <Button :label="lang.name" btn_class="small" @click="addLang(lang.id)" />
+        <Language :language="lang" />
     </div>
   </div>
 </template>
 
 <script>
 import Button from "../../Button.vue";
+import Language from "./Language.vue";
 import { mapState } from "vuex";
-import { mapFields } from "vuex-map-fields";
 export default {
   name: "Languages",
-  components: { Button },
+  components: { Button, Language },
   computed: {
     ...mapState("post", ["languages"]),
-    ...mapFields("post", ["input_post"]),
-  },
-  methods: {
-    addLang(lang_id) {
-      this.input_post.language_id = lang_id;
-    },
   },
 };
 </script>
