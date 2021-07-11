@@ -40,6 +40,7 @@ const getPostsAll = async () => {
                                          (SELECT ct."name" 
                                           FROM   e_category ct 
                                           WHERE  (SELECT TRIM(SPLIT_PART($1::VARCHAR, '-', 1))) <<% "trigram_category"
+                                          FETCH FIRST ROW ONLY
                                          ),
                                          (SELECT TRIM(SPLIT_PART($1::VARCHAR, '-', 1)))
                                         )
@@ -56,6 +57,7 @@ const getPostsAll = async () => {
          FROM  ${view.rows[0].view_name} p
                JOIN get_category_join_post cjp ON p."id" = cjp."post_id"
          WHERE cjp."name" = (SELECT TRIM(SPLIT_PART($1::VARCHAR, '-', 2)))
+         ORDER BY sort_rank
          ;
         `, 
         [query_string]
