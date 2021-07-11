@@ -1,15 +1,19 @@
 {
   "name": "express_server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express Server for interaction between Postgres and Vuex",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
     "serve": "nodemon -r dotenv/config src/server.js",
     "prod": "node -r dotenv/config src/server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Express",
+    "JSON",
+    "REST"
+  ],
+  "author": "Lea Jell",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",

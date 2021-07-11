@@ -1,4 +1,3 @@
-# from https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
 #!/usr/bin/env bash
 set -e
 
@@ -9,4 +8,4 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;            
 EOSQL
 
-echo "------------> 00_template1.sh has finished sucessfully"
+echo "------------> 00_template1.sh has finished successfully"

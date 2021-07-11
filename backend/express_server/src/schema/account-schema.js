@@ -6,8 +6,6 @@ const accountSchema = {
     id: { type: "string", format: "uuid" },
     username: { type: ["string", "null"] },
     password: { type: ["string", "null"] },
-    //TODO: Add Type restriction for profile picture here
-    profile_picture: { type: ["null"] },
   },
 };
 

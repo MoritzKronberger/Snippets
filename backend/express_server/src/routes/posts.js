@@ -9,54 +9,77 @@ import { refreshToken } from "./auth.js";
 
 const posts = Router();
 
-posts.get("/", async (req, res) => {
-  const { status, result } = await postsDB.getPosts();
+//query looks like this http://localhost:3000/v1/posts/?sorting_id=e8a86be5-aff1-426b-843f-2cb0a6a5699d&query_string=web
+posts.get("/", refreshToken, async (req, res) => {
+  let response = { status: "", result: "" };
+  if (req.query.query_string == undefined) {
+    response = await postsDB.getPosts(req.query.sorting_id);
+  } else {
+    response = await postsDB.getPosts(
+      req.query.sorting_id,
+      req.query.query_string
+    );
+  }
+  res.status(response.status).json(response.result);
+});
+
+posts.get("/categories/", isAuthorized, refreshToken, async (req, res) => {
+  const { status, result } = await postsDB.getPostsWithCategories(req.body.id);
   res.status(status).json(result);
 });
 
-//TODO: add categories
 posts.post("/", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
-    //add a new post
-    const json = {
-      title: req.body.title,
-      content: req.body.content,
-      language_id: req.body.language_id,
-      user_id: req.id,
-    };
-    let post = { status: "", result: "" },
-      proxy = req.headers["x-forwarded-host"],
-      host = proxy ? proxy : req.headers.host;
-    post = await postsDB.postPost(json);
-    res
-      .set(
-        "Location",
-        `${req.protocol}://${host}${req.baseUrl}/${post.status.id}`
-      )
-      .status(post.status)
-      .json(post.result);
+  //add a new post
+  const json = {
+    title: req.body.title,
+    content: req.body.content,
+    language_id: req.body.language_id,
+    user_id: req.id,
+  };
+  let post = { result: "" },
+    proxy = req.headers["x-forwarded-host"],
+    host = proxy ? proxy : req.headers.host;
+  post = await postsDB.postPost(json);
+  res
+    .set(
+      "Location",
+      `${req.protocol}://${host}${req.baseUrl}/${post.result.id}`
+    )
+    .status(post.result.status)
+    .json(post.result);
 
-    //look for the category
-    let category = { status: "", result: "" };
-    category = await categoriesDB.getCategories(req.body.category);
-    let category_id;
+  //look for the category
+  let categoryArray = req.body.categories;
+  let categoryIdArray = [];
+
+  for (const key in categoryArray) {
+    let c = categoryArray[key];
+    let categoryJson = { status: "", result: "" };
+    categoryJson = await categoriesDB.getCategories(c);
     //200: category already existing, use id
-    if (category.status === 200) {
-      category_id = category.result[0].id;
+    if (categoryJson.status === 200) {
+      categoryIdArray.push(categoryJson.result[0].id);
     } else {
-      category = await categoriesDB.postCategory({ name: req.body.category });
-      category_id = category.result.id;
+      let newCategoryJson = { result: "" };
+      newCategoryJson = await categoriesDB.postCategory({ name: c });
+      categoryIdArray.push(newCategoryJson.result.id);
     }
+  }
+
+  for (const ca of categoryIdArray) {
     //connect post and category
-    let hasCat = { status: "", result: "" };
-    (hasCat = await hasCategoriesDB.postHasCategory(
-      post.result.id,
-      category_id
-    )),
+    let hasCat = { result: "" };
+    const jsonCat = {
+      post_id: post.result.id,
+      category_id: ca,
+    };
+    (hasCat = await hasCategoriesDB.postHasCategory(jsonCat)),
       (proxy = req.headers["x-forwarded-host"]),
       (host = proxy ? proxy : req.headers.host);
+  }
 });
 
-posts.get("/:id", async (req, res) => {
+posts.get("/:id", refreshToken, async (req, res) => {
   const { status, result } = await postsDB.getPost(req.params.id);
 
   if (status === 200) {
@@ -66,43 +89,87 @@ posts.get("/:id", async (req, res) => {
   }
 });
 
-posts.put( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
-    let post = { status: "", result: "" };
-    post = await postsDB.getPost(req.params.id);
-    if (req.id !== post.result.user_id) {
-      return res.sendStatus(401);
-    }
-
-    post = await postsDB.putPost(req.params.id, req.body);
-    res.status(post.status).json(post.result);
+posts.patch("/:id", isAuthorized, validate({ body: postSchema }), refreshToken, async (req, res) => {
+  let oldPost = { result: "" };
+  oldPost = await postsDB.getPost(req.params.id);
+  if (oldPost.result.status === 404) {
+    return res.sendStatus(oldPost.result.status);
   }
-);
-
-posts.patch( "/:id", isAuthorized, validate({ body: postSchema }), refreshToken,
-  async (req, res) => {
-    let post = { status: "", result: "" };
-    post = await postsDB.getPost(req.params.id);
-    if (post.status === 404) {
-      return res.sendStatus(post.status);
-    }
-    if (req.id !== post.result.user_id) {
-      return res.sendStatus(401);
-    }
-
-    post = await postsDB.patchPost(req.params.id, req.body);
-    res.status(post.status).json(post.result);
+  if (req.id !== oldPost.result.user_id) {
+    return res.sendStatus(401);
   }
-);
+
+  //change post attributes first
+  let newPost = { result: "" };
+  newPost = await postsDB.patchPost(req.params.id, req.body);
+  res.status(newPost.result.status).json(newPost.result);
+
+  //then change the categories as well
+  let oldPostCategories = { status: "", result: "" };
+  //get categories of old post
+  oldPostCategories = await postsDB.getPostsWithCategories(req.params.id);
+  let oldCategories = [];
+  let newCategories = req.body.categories;
+  let categoryIdArray = [];
+
+  //response means, there are categories in the post
+  if (oldPostCategories.status != 404) {
+    for (const key of oldPostCategories.result) {
+      oldCategories.push(key.name);
+    }
+    //delete old categories not in new
+    oldCategories = oldCategories.filter((x) => !newCategories.includes(x));
+    //foreach is not async
+    for (const key of oldPostCategories.result) {
+      if (oldCategories.includes(key.name)) {
+        let d = { result: "" };
+        const jsonCat = {
+          post_id: req.params.id,
+          category_id: key.category_id,
+        };
+        d = await hasCategoriesDB.deleteHasCategory(jsonCat);
+      }
+    }
+    //only add new categories not in old
+    newCategories = newCategories.filter((x) => !oldCategories.includes(x));
+  }
+
+  //get ids of new categories
+  for (const key in newCategories) {
+    let c = newCategories[key];
+    let categoryJson = { status: "", result: "" };
+    categoryJson = await categoriesDB.getCategories(c);
+    //200: category already existing, use id
+    if (categoryJson.status === 200) {
+      categoryIdArray.push(categoryJson.result[0].id);
+    } else {
+      //post new category and get id
+      categoryJson = await categoriesDB.postCategory({ name: c });
+      categoryIdArray.push(categoryJson.result.id);
+    }
+  }
+
+  //post relation between post and new categories
+  for (const ca of categoryIdArray) {
+    //connect post and category
+    let hasCat = { result: "" };
+    const jsonCat = {
+      post_id: req.params.id,
+      category_id: ca,
+    };
+    hasCat = await hasCategoriesDB.postHasCategory(jsonCat);
+  }
+});
 
 posts.delete("/:id", isAuthorized, refreshToken, async (req, res) => {
-  let post = { status:"", result:"" };
+  let post = { status: "", result: "" };
   post = await postsDB.getPost(req.params.id);
   if (req.id !== post.result.user_id) {
     return res.sendStatus(401);
   }
 
-  post = await postsDB.deletePost(req.params.id, req.body);
-  res.status(post.status).json(post.result);
+  const { result } = await postsDB.deletePost(req.params.id, req.body);
+  res.status(result.status).json(result);
 });
 
 export { posts, postSchema };

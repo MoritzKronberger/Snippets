@@ -1,12 +1,20 @@
 {
-  "name": "app",
-  "version": "0.1.0",
-  "private": true,
+  "name": "snippets",
+  "version": "1.0.0",
+  "author": "Martin Kohnle",
+  "license": "MIT",
+  "description": "Vue Frontend with Prism.js Highlighting",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.multimedia.hs-augsburg.de/mokro/gruppenprojekt-webprogrammierung"
+    },
   "dependencies": {
+    "axios": "^0.21.1",
+    "jwt-decode": "^3.1.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",

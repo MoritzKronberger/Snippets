@@ -6,43 +6,23 @@
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS post_account (data JSONB);
+DROP FUNCTION IF EXISTS post_account (_data JSONB);
 
 /* Function */
-CREATE FUNCTION post_account (data JSONB)
-    RETURNS TABLE (status INTEGER, result JSONB)
+CREATE FUNCTION post_account (_data JSONB)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
-    DECLARE
-        _id      UUID;
-        _state   TEXT;
-        _cname   TEXT;
-        _message TEXT;
     BEGIN
-        INSERT INTO account (username, password, profile_picture)
-        VALUES(($1->>'username')::D_UNTAINTED,
-               ($1->>'password')::VARCHAR,
-               NULL
-              )
-        RETURNING id INTO _id;
-
-        RETURN QUERY
-        SELECT 201, JSONB_BUILD_OBJECT('id', _id);
-
-        EXCEPTION WHEN OTHERS THEN
-            GET STACKED DIAGNOSTICS 
-                _state   := RETURNED_SQLSTATE,
-                _cname   := CONSTRAINT_NAME,
-                _message := MESSAGE_TEXT;
-            RETURN QUERY
-            SELECT 400, 
-                 JSONB_BUILD_OBJECT
-                 ('state',      _state,
-                  'constraint', _cname, 
-                  'message',    _message,
-                  'data',       $1
-                 );
+        RETURN QUERY 
+        SELECT rest_helper
+               ('INSERT INTO account ("username", "password")
+                 VALUES (json_attr_value_d_untainted($2, ''username'', NULL),
+                         ($2->>''password'')::VARCHAR
+                        )',
+                 _data => _data, _http_status => 201
+               );
     END;
 $$
 ;
@@ -55,8 +35,7 @@ SELECT *
 FROM   post_account
        ( '{ "username": "bigfish593",
             "password": "whiplash"
-          }
-         '
+          }'
         );
 SELECT * FROM account;
 */

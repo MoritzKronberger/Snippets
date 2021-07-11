@@ -1,15 +1,23 @@
 <template>
   <div>
-    <div :class="vis_Add(false)">
+    <div v-if="isAuthorized" :class="vis_Add(false)">
       <Button label="add Post" btn_class="addButton" @click="setActive" />
+    </div>
+    <div v-else class="content form">
+      <h2>Hello! Login to post, comment and like!</h2>
     </div>
     <div :class="vis_Form(true)">
       <form>
         <Button label="DISCARD" btn_class="small discard" @click="setActive" />
         <p>Select Language</p>
         <Languages />
-        <Input :post="post" />
-        <Validation :object="post" button_name="Submit" @click="submitPost"/>
+        <Input :post="input_post" />
+        <Validation
+          :object="input_post"
+          button_name="Create new Post"
+          @click="submitPost"
+          type="Post"
+        />
       </form>
     </div>
   </div>
@@ -26,15 +34,21 @@ export default {
   components: { Button, Languages, Validation, Input },
   computed: {
     ...mapGetters("form", ["vis_Add", "vis_Form"]),
-    ...mapFields("post", ["post"]),
+    ...mapGetters(["isAuthorized"]),
+    ...mapFields("post", ["input_post"]),
     ...mapFields("form", ["section"]),
   },
   methods: {
     setActive() {
+      for (let prop in this.input_post) {
+        this.input_post[prop] = null;
+      }
       this.$store.commit("form/setActive");
     },
     submitPost() {
-      this.$store.commit("post/newPost");
+      this.$store.dispatch("post/postPost").then(() => {
+        this.$store.dispatch("reloadPostData");
+      });
       this.$store.commit("form/setActive");
     },
   },

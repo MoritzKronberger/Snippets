@@ -7,8 +7,17 @@
 </template>
 
 <script>
+import { mapFields } from "vuex-map-fields";
 export default {
   name: "App",
+  computed: {
+    ...mapFields("auth", ["report"]),
+  },
+  watch: {
+    $route() {
+      this.report = null;
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -82,15 +91,22 @@ body {
   &.small {
     font-size: 14px;
     float: left;
+    &.select{
+      background-color: rgb(149, 247, 217);
+    }
     &.discard {
       background-color: orange;
       float: right;
     }
-      &.delete {
+    &.delete {
       background-color: red;
       float: right;
     }
   }
+}
+
+.button:hover {
+  background-color: #6c99ac;
 }
 
 .input {

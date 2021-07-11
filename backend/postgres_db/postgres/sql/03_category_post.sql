@@ -1,58 +1,50 @@
 /*************************************************************************************
  * category: POST function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
+
+ * modified to not error out when posting duplicates
  *************************************************************************************/
 
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS post_category (data JSONB);
+DROP FUNCTION IF EXISTS post_category (_data JSONB);
 
 /* Function */
-CREATE FUNCTION post_category (data JSONB)
-    RETURNS TABLE (status INTEGER, result JSONB)
+-- returns the matching id and status 301 if the category name already exists
+-- otherwise a new category is created and the new id and status 201 are returned
+CREATE FUNCTION post_category (_data JSONB)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
     DECLARE
-        _id      UUID;
-        _state   TEXT;
-        _cname   TEXT;
-        _message TEXT;
+        _id UUID;
     BEGIN
-        IF(EXISTS (SELECT id FROM e_category WHERE name = ($1->>'name')::D_UNTAINTED))
-        THEN
-            RETURN QUERY
-            SELECT 303,
-                   JSONB_BUILD_OBJECT
-                   ('name', $1->>'name',
-                    'id', ca.id,
-                    'constraint', 'category_unique',
-                    'message',    'The submitted category already exists.'
-                   )
-            FROM e_category ca
-            WHERE ca.name = ($1->>'name')::D_UNTAINTED;
-        ELSE
-            INSERT INTO e_category (name)
-            VALUES (($1->>'name')::D_UNTAINTED)
-            RETURNING id INTO _id;
-
-            RETURN QUERY
-            SELECT 201, JSONB_BUILD_OBJECT('id', _id);
-        END IF;
-
-        EXCEPTION WHEN OTHERS THEN
-            GET STACKED DIAGNOSTICS 
-                _state   := RETURNED_SQLSTATE,
-                _cname   := CONSTRAINT_NAME,
-                _message := MESSAGE_TEXT;
-            RETURN QUERY
-            SELECT 400, 
-                 JSONB_BUILD_OBJECT
-                 ('state',      _state,
-                  'constraint', _cname, 
-                  'message',    _message,
-                  'data',       $1
-                 );
+        BEGIN
+            _id = (SELECT "id" FROM e_category WHERE "name" = (_data->>'name')::D_CATEGORY);
+            EXCEPTION WHEN OTHERS THEN
+                _id = NULL;
+        END;
+        BEGIN
+            IF(_id IS NOT NULL)
+            THEN
+                RETURN QUERY
+                SELECT json_status(301,
+                                   _id,
+                                   '23505',
+                                   'e_category_unique_name',
+                                   'a category with the submitted name already exists',
+                                   _data);
+            ELSE
+                RETURN QUERY
+                SELECT rest_helper
+                ('INSERT INTO e_category ("name")
+                  VALUES (($2->>''name'')::D_CATEGORY)',
+                 _data => _data, _http_status => 201
+                );
+            END IF;
+        END;
     END;
 $$
 ;
@@ -61,6 +53,6 @@ COMMIT;
 
 /*
 SELECT * FROM e_category;
-SELECT * FROM post_category('{"name": "sql"}');
+SELECT * FROM post_category('{"name": "query"}');
 SELECT * FROM e_category;
 */

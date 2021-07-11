@@ -1,37 +1,62 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import store from "../store";
 import Feed from "../views/Feed.vue";
-const routes = [
-  {
-    path: "/",
-    name: "feed",
-    component: Feed,
+const 
+  ifNotAuthorized = (to, from, next) => {
+    if (store.getters["isNotAuthorized"]) {
+      next();
+    } else {
+      next("/");
+    }
   },
-  {
-    path: "/login",
-    name: "Login",
-    component: function() {
-      return import("../views/Login.vue");
+  ifAuthorized = (to, from, next) => {
+    if (store.getters["isAuthorized"]) {
+      next();
+    } else {
+      next("/login");
+    }
+  },
+  routes = [
+    {
+      path: "/",
+      name: "feed",
+      component: Feed,
     },
-  },
-  {
-    path: "/register",
-    name: "Register",
-    component: function() {
-      return import("../views/Register.vue");
+    {
+      //beforeEnter: ifNotAuthorized,
+      path: "/login",
+      name: "Login",
+      component: function() {
+        return import("../views/Login.vue");
+      },
     },
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: function() {
-      return import("../views/Profile.vue");
+    {
+      //beforeEnter: ifNotAuthorized,
+      path: "/register",
+      name: "Register",
+      component: function() {
+        return import("../views/Register.vue");
+      },
     },
-  },
-];
+    {
+      //beforeEnter: ifAuthorized,
+      path: "/profile",
+      name: "Profile",
+      component: function() {
+        return import("../views/Profile.vue");
+      },
+    },
+  ];
 
-const router = createRouter({
-  history: createWebHashHistory(),
-  routes,
-});
+const 
+  router = createRouter({
+    history: createWebHashHistory(),
+    routes,
+  });
+
+  router.beforeEach((to, from, next) => {
+    store.state.auth.success = null;
+    next();
+  });
 
 export default router;

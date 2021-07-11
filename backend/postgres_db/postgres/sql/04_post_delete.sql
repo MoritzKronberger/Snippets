@@ -1,29 +1,27 @@
 /*************************************************************************************
  * post: DELETE function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS delete_post (id UUID);
+DROP FUNCTION IF EXISTS delete_post(_id UUID);
 
 /* Function */
-CREATE FUNCTION delete_post (id UUID)
-    RETURNS TABLE (status INTEGER, result JSONB)
+CREATE FUNCTION delete_post(_id UUID)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
-    DECLARE 
-        _id UUID;
     BEGIN
-        DELETE 
-        FROM post p
-        WHERE p.id = $1
-        RETURNING p.id INTO _id;
-
         RETURN QUERY
-        SELECT CASE WHEN _id IS NOT NULL THEN 200 ELSE 404 END,
-            JSONB_BUILD_OBJECT('id', $1);
+        SELECT rest_helper
+        ('DELETE 
+          FROM  post p
+          WHERE p."id" = $1',
+          _id => _id, _constraint => 'post_exists'
+        );
     END
 $$
 ;
@@ -32,6 +30,6 @@ COMMIT;
 
 /*
 SELECT * FROM post;
-SELECT * FROM delete_post((SELECT id FROM post WHERE title = 'My first post'));
+SELECT * FROM delete_post((SELECT "id" FROM post WHERE "title" = 'Hello World in Javascript'));
 SELECT * FROM post;
 */

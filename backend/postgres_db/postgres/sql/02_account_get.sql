@@ -8,10 +8,10 @@ BEGIN;
 DROP VIEW IF EXISTS get_account;
 
 /* View */
-CREATE VIEW get_account (id, username, profile_picture)
+CREATE VIEW get_account ("id", "username")
 AS
-SELECT id, username, profile_picture
-FROM account
+SELECT "id", "username"
+FROM   account
 ;
 
 COMMIT;

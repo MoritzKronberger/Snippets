@@ -1,11 +1,14 @@
 <template>
   <div class="header">
     <Searchbar />
-    <Filter />
+    <div v-for="sort in sortings" :key="sort.id">
+      <Filter :filter="sort" />
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Searchbar from "./Searchbar.vue";
 import Filter from "./Filter.vue";
 export default {
@@ -14,6 +17,7 @@ export default {
     Searchbar,
     Filter,
   },
+  computed: { ...mapState("post", ["sortings"]) },
 };
 </script>
 <style lang="scss">

@@ -1,29 +1,27 @@
 /*************************************************************************************
  * comment: DELETE function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS delete_comment (id UUID);
+DROP FUNCTION IF EXISTS delete_comment (_id UUID);
 
 /* Function */
-CREATE FUNCTION delete_comment (id UUID)
-    RETURNS TABLE (status INTEGER, result JSONB)
+CREATE FUNCTION delete_comment (_id UUID)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
-    DECLARE 
-        _id UUID;
     BEGIN 
-        DELETE
-        FROM comment c
-        WHERE c.id = $1
-        RETURNING c.id INTO _id;
-
         RETURN QUERY
-        SELECT CASE WHEN _id IS NOT NULL THEN 200 ELSE 404 END,
-            JSONB_BUILD_OBJECT('id', $1);
+        SELECT rest_helper
+        ('DELETE
+          FROM  comment c
+          WHERE c."id" = $1',
+         _id => _id, _constraint => 'comment_exists'
+        );
     END
 $$
 ;
@@ -32,6 +30,6 @@ COMMIT;
 
 /*
 SELECT * FROM comment;
-SELECT * FROM delete_comment((SELECT id FROM comment WHERE content = 'Nice code!'));
+SELECT * FROM delete_comment((SELECT "id" FROM comment WHERE "content" = 'Nice code!'));
 SELECT * FROM comment;
 */

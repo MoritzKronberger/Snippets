@@ -12,17 +12,20 @@ import dbAuth from "../db/auth.js";
 const auth = Router(),
   {
     TOKEN_SECRET = "Please set the secret value in .env: TOKEN_SECRET=...",
-    TOKEN_EXPIRES = 1800,
+    TOKEN_EXPIRES = 3600,
   } = process.env,
   refreshToken = (req, res, next) => {
-    const token = jwt.sign({ id: req.id }, TOKEN_SECRET, {
-      expiresIn: TOKEN_EXPIRES,
-    });
-    res.set("Authorization", `Bearer ${token}`);
+    //no new refreshtoken, because otherwise the frontend gets a token without an id and thinks its logged in. changed during lecture on 06.07.2020 on advice of Prof. Kowarschick
+    /* if (req.id != null) {
+      const token = jwt.sign({ id: req.id }, TOKEN_SECRET, {
+        expiresIn: TOKEN_EXPIRES,
+      });
+      res.set("Authorization", `Bearer ${token}`);
+    }    */
     next();
   };
 
-  auth.use(express.json());
+auth.use(express.json());
 
 auth.post("/login", isNotAuthorized, async (req, res) => {
   const { status, id } = await dbAuth.postLogin(req.body);
@@ -36,18 +39,16 @@ auth.post("/login", isNotAuthorized, async (req, res) => {
     res.status(status).json({ message: "not logged in" });
   }
 }),
-// Two phase registering is still missing!
+
 auth.post("/register", isNotAuthorized, validate({ body: accountSchema }), async (req, res) => {
-    const { status, result } = await accountsDB.postAccount(req.body),
+  const { result } = await accountsDB.postAccount(req.body),
     proxy = req.headers["x-forwarded-host"],
     host = proxy ? proxy : req.headers.host;
-    //TODO: statt ${result} lieber ${result.id} ? hier id anzeigen lassen!
-    res
-      //.set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
-      .status(status)
-      .json(result);
-    }
-);
+  res
+    .set("Location", `${req.protocol}://${host}${req.baseUrl}/${result.id}`)
+    .status(result.status)
+    .json(result.id);
+});
 
 export { auth, refreshToken };
 

@@ -6,25 +6,22 @@
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS delete_account (id UUID);
+DROP FUNCTION IF EXISTS delete_account(_id UUID);
 
 /* Function */
-CREATE FUNCTION delete_account (id UUID)
-    RETURNS TABLE (status INTEGER, result JSONB)
+CREATE FUNCTION delete_account(_id UUID)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
-    DECLARE 
-        _id UUID;
-    BEGIN   
-        DELETE
-        FROM account a
-        WHERE a.id = $1
-        RETURNING a.id INTO _id;
-
+    BEGIN  
         RETURN QUERY
-        SELECT CASE WHEN _id IS NOT NULL THEN 200 ELSE 404 END,
-            JSONB_BUILD_OBJECT('id', $1);
+        SELECT rest_helper
+        ('DELETE
+          FROM  account a
+          WHERE a."id" = $1',
+         _id => _id, _constraint => 'account_exists'
+        );
     END
 $$
 ;
@@ -33,6 +30,6 @@ COMMIT;
 
 /*
 SELECT * FROM account;
-SELECT * FROM delete_account((SELECT id FROM account WHERE username = 'tinykoala648'));
+SELECT * FROM delete_account((SELECT "id" FROM account WHERE "username" = 'tinykoala648'));
 SELECT * FROM account;
 */

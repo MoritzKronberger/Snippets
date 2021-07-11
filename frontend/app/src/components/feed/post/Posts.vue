@@ -1,9 +1,9 @@
 <template>
-    <div class="flex-container">
-      <div v-for="post in posts" :key="post.id">
-        <Post :post="post" />
-      </div>
+  <div class="flex-container">
+    <div v-for="post in posts" :key="post.id">
+      <Post :post="post" />
     </div>
+  </div>
 </template>
 
 <script>

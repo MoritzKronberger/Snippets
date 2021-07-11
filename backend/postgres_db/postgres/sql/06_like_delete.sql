@@ -1,37 +1,45 @@
 /*************************************************************************************
  * like: DELETE function
+ * as in https://gitlab.multimedia.hs-augsburg.de/kowa/wk_account_postgres_01
  *************************************************************************************/
 
 BEGIN;
 
 /* Cleanup */
-DROP FUNCTION IF EXISTS delete_like (id UUID);
+DROP FUNCTION IF EXISTS delete_like (_data JSONB);
 
 /* Function */
-CREATE FUNCTION delete_like (id UUID)
-    RETURNS TABLE (status INTEGER, result JSONB)
+-- allows for post_id or comment_id to just be specified as subject_id
+CREATE FUNCTION delete_like (_data JSONB)
+    RETURNS TABLE (result JSONB)
 LANGUAGE plpgsql
 AS
 $$
-    DECLARE 
-        _id UUID;
     BEGIN
-        DELETE
-        FROM user_like l
-        WHERE l.id = $1
-        RETURNING l.id INTO _id;
-
         RETURN QUERY
-        SELECT CASE WHEN _id IS NOT NULL THEN 200 ELSE 404 END,
-            JSONB_BUILD_OBJECT('id', $1);
-    END
+        SELECT rest_helper
+        ('DELETE
+          FROM  user_like
+          WHERE "user_id" = ($2->>''user_id'')::UUID
+                AND (("post_id" = ($2->>''subject_id'')::UUID OR "comment_id" = ($2->>''subject_id'')::UUID))',
+         _data => _data, _constraint => 'like_exists'
+        );
+    END;
 $$
 ;
 
 COMMIT;
 
 /*
+SELECT * FROM get_account;
+SELECT * FROM get_post;
+SELECT * FROM get_comment;
 SELECT * FROM user_like;
-SELECT * FROM delete_like('copy_here');
+SELECT * 
+FROM delete_like
+     ('{"user_id":    "copy_here",
+        "subject_id": "copy_here"
+       }'
+     );
 SELECT * FROM user_like;
 */

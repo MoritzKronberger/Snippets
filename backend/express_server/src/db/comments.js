@@ -1,20 +1,19 @@
 import { query } from "./index.js";
-//TODO: SQL Anfragen entsprechend der Methoden anpassen?
 
 // TODO: limit für returned rows?
 const getCommentsAll = async () => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, profile_picture, num_likes
-       FROM get_full_comment
+      `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
+       FROM   get_full_comment
       `
     );
     return { status: 200, result: result.rows };
   },
   getCommentSearch = async (key) => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, profile_picture, num_likes
-       FROM get_full_comment
-       WHERE id = $1::UUID OR user_id = $1::UUID
+      `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
+       FROM   get_full_comment
+       WHERE  "id" = $1::UUID OR "user_id" = $1::UUID
       `, 
       [key]
     );
@@ -27,9 +26,9 @@ const getCommentsAll = async () => {
   },
   getComment = async (id) => {
     const result = await query(
-      `SELECT id, creation_time, content, post_id, user_id, profile_picture, num_likes
-       FROM get_full_comment
-       WHERE id = $1::UUID
+      `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
+       FROM   get_full_comment
+       WHERE  "id" = $1::UUID
       `, 
       [id]
     );
@@ -39,28 +38,21 @@ const getCommentsAll = async () => {
   },
   postComment = async (data) => {
     const result = await query(
-      `SELECT status, result FROM post_comment($1)`, 
+      `SELECT "result" FROM post_comment($1)`, 
       [data]
-    );
-    return result.rows[0];
-  },
-  putComment = async (id, data) => {
-    const result = await query(
-      `SELECT status, result FROM put_comment($1, $2)`, 
-      [id, data]
     );
     return result.rows[0];
   },
   patchComment = async (id, data) => {
     const result = await query(
-      `SELECT status, result FROM patch_comment($1, $2)`,
+      `SELECT "result" FROM patch_comment($1, $2)`,
       [id, data]
     );
     return result.rows[0];
   },
   deleteComment = async (id) => {
     const result = await query(
-      `SELECT status, result FROM delete_comment($1)`, 
+      `SELECT "result" FROM delete_comment($1)`, 
       [id]
     );
     return result.rows[0];
@@ -70,7 +62,6 @@ export {
   getComments,
   getComment,
   postComment,
-  putComment,
   patchComment,
   deleteComment,
 };
@@ -79,7 +70,6 @@ export default {
   getComments,
   getComment,
   postComment,
-  putComment,
   patchComment,
   deleteComment,
 };
