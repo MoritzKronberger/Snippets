@@ -62,6 +62,9 @@ export default {
   methods: {
     addComment() {
       this.$store.dispatch("post/postComment");
+      let num = parseInt(this.post.num_comments);
+      num++;
+      this.post.num_comments = num;
     },
     addLike() {
       this.$store.dispatch("post/postPostLike");
