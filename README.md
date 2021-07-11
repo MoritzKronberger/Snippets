@@ -106,7 +106,8 @@ docker compose up --build
 ### Change into express directory
 
 ```bash
-npm run serve
+cd backend/express_server
+npm install
 ```
 
 ### Create dotenv-file
