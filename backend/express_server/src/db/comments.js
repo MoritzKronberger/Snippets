@@ -4,7 +4,7 @@ import { query } from "./index.js";
 const getCommentsAll = async () => {
     const result = await query(
       `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
-       FROM get_full_comment
+       FROM   get_full_comment
       `
     );
     return { status: 200, result: result.rows };
@@ -12,8 +12,8 @@ const getCommentsAll = async () => {
   getCommentSearch = async (key) => {
     const result = await query(
       `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
-       FROM get_full_comment
-       WHERE "id" = $1::UUID OR "user_id" = $1::UUID
+       FROM   get_full_comment
+       WHERE  "id" = $1::UUID OR "user_id" = $1::UUID
       `, 
       [key]
     );
@@ -27,8 +27,8 @@ const getCommentsAll = async () => {
   getComment = async (id) => {
     const result = await query(
       `SELECT "id", "creation_time", "content", "post_id", "user_id", "username", "num_likes"
-       FROM get_full_comment
-       WHERE "id" = $1::UUID
+       FROM   get_full_comment
+       WHERE  "id" = $1::UUID
       `, 
       [id]
     );

@@ -26,18 +26,40 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Docker for Postgres
 
-### Build and run containers
+### Change into postgres directory
 
 ```bash
 cd backend/postgres_db
+```
+
+### Build and run containers
+
+```bash
 docker compose up --build
 ```
 
 ### If db-container is built and up-to-date
 
 ```bash
-cd backend/postgres_db
+npm run serve
+```
+
+Or:
+
+```bash
 docker compose up
+```
+
+### Stop docker containers
+
+```bash
+npm run stop
+```
+
+Or:
+
+```bash
+docker compose down
 ```
 
 ### Access Adminer
@@ -58,6 +80,12 @@ Or pre-filled via:
 <http://localhost:11000/?pgsql=PostgreSQL&username=web&db=db_v1&ns=public>
 
 ### Reset Docker Container and Volumes after changes to the SQL commands
+
+```bash
+npm run reset
+```
+
+Or:
 
 ```bash
 docker compose down

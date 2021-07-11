@@ -7,8 +7,8 @@ const getSortings = async () => {
   getSorting = async (id) => {
     const result = await query(
       `SELECT "id", "sort_by" 
-       FROM get_sort_by
-       WHERE "id" = $1::UUID
+       FROM   get_sort_by
+       WHERE  "id" = $1::UUID
       `,
       [id]
     );

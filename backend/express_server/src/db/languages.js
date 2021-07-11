@@ -10,15 +10,15 @@ const getLanguagesAll = async () => {
       result = key.match(uuid_regex)
         ? await query(
             `SELECT "id", "name" 
-             FROM get_language
-             WHERE "id" = $1::UUID
+             FROM   get_language
+             WHERE  "id" = $1::UUID
             `,
             [key]
           )
         : await query(
             `SELECT "id", "name" 
-             FROM get_language
-             WHERE "name" = $1::D_UNTAINTED
+             FROM   get_language
+             WHERE  "name" = $1::D_UNTAINTED
             `,
             [key]
           );
@@ -32,8 +32,8 @@ const getLanguagesAll = async () => {
   getLanguage = async (id) => {
     const result = await query(
       `SELECT "id", "name" 
-       FROM get_language
-       WHERE "id" = $1::UUID
+       FROM   get_language
+       WHERE  "id" = $1::UUID
       `,
       [id]
     );

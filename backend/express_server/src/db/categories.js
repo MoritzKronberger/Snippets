@@ -34,8 +34,8 @@ const getCategoriesAll = async () => {
   getCategory = async (id) => {
     const result = await query(
       `SELECT "id", "name"
-       FROM get_category
-       WHERE "id" = $1::UUID
+       FROM   get_category
+       WHERE  "id" = $1::UUID
       `, [id]);
     return result.rows.length === 0
       ? { status: 404, result: {} }

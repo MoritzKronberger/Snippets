@@ -4,7 +4,9 @@
   "license": "MIT",
   "description": "Postgres: Database for Web-Prog Group Project",
   "scripts": {
-    "serve": "docker compose up"
+    "serve": "docker compose up",
+    "stop": "docker compose down",
+    "reset": "docker compose down && docker stop `docker ps -a -q` && docker rm `docker ps -a -q`; docker volume prune && docker compose up --build"
   },
   "repository": {
       "type": "git",
