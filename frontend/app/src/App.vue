@@ -91,6 +91,9 @@ body {
   &.small {
     font-size: 14px;
     float: left;
+    &.select{
+      background-color: rgb(149, 247, 217);
+    }
     &.discard {
       background-color: orange;
       float: right;

@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    <Button :label="filter.sort_by" btn_class="small" @click="getSorting" />
+    <Button :label="filter.sort_by" :btn_class="select" @click="getSorting" />
   </div>
 </template>
 <script>
@@ -12,6 +12,10 @@ export default {
   components: { Button },
   computed: {
     ...mapFields("post", ["filter_id"]),
+
+    select: function() {
+      return this.filter_id == this.filter.id ? "small select" : "small";
+    },
   },
   methods: {
     getSorting() {
